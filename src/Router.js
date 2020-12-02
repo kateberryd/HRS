@@ -164,6 +164,8 @@ const userList = lazy(() => import("./views/apps/user/list/List"))
 const userEdit = lazy(() => import("./views/apps/user/edit/Edit"))
 const userAdd = lazy(() => import("./views/apps/user/add/Add"))
 const userView = lazy(() => import("./views/apps/user/view/View"))
+
+const roleAdd = lazy(() => import("./views/apps/role/add/Add"));
 const Login = lazy(() => import("./views/pages/authentication/login/Login"))
 const forgotPassword = lazy(() =>
   import("./views/pages/authentication/ForgotPassword")
@@ -375,6 +377,7 @@ class AppRouter extends React.Component {
           <AppRoute path="/edit-user" component={userEdit} />
           <AppRoute path="/add-user" component={userAdd} />
           <AppRoute path="/app/user/view" component={userView} />
+          <AppRoute path="/add-roles" component={roleAdd} />
           <AppRoute path="/charts/apex" component={apex} />
           <AppRoute path="/charts/chartjs" component={chartjs} />
           <AppRoute path="/charts/recharts" component={extreme} />

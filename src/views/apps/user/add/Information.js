@@ -1,8 +1,7 @@
 import React from "react"
 import { Row, Col, Button, Form, Input, Label, FormGroup } from "reactstrap"
-import Checkbox from "../../../../components/@vuexy/checkbox/CheckboxesVuexy"
 import Radio from "../../../../components/@vuexy/radio/RadioVuexy"
-import { Check, User, MapPin } from "react-feather"
+import {  User, MapPin } from "react-feather"
 import Select from "react-select"
 import chroma from "chroma-js"
 import Flatpickr from "react-flatpickr";
@@ -12,11 +11,11 @@ import "../../../../assets/scss/plugins/forms/flatpickr/flatpickr.scss"
 
 
 const languages = [
-  { value: "english", label: "English", color: "#7367f0" },
-  { value: "french", label: "French", color: "#7367f0" },
-  { value: "spanish", label: "Spanish", color: "#7367f0" },
-  { value: "russian", label: "Russian", color: "#7367f0" },
-  { value: "italian", label: "Italian", color: "#7367f0" }
+  { value: "usher", label: "Usher", color: "#7367f0" },
+  { value: "french", label: "Choir", color: "#7367f0" },
+  { value: "spanish", label: "Prayer Band", color: "#7367f0" },
+  { value: "russian", label: "Counciling", color: "#7367f0" },
+  { value: "italian", label: "Marriage", color: "#7367f0" }
 ]
 
 const colourStyles = {
@@ -106,11 +105,20 @@ class UserInfoTab extends React.Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="website">Website</Label>
-              <Input type="url" id="website" placeholder="Web Address" />
+              <Label for="languages">Department</Label>
+              <Select
+                isMulti
+                defaultValue={[languages[0], languages[1], languages[2]]}
+                isClearable={true}
+                styles={colourStyles}
+                options={languages}
+                className="React"
+                classNamePrefix="select"
+                id="languages"
+              />
             </FormGroup>
             <FormGroup>
-              <Label for="languages">Languages</Label>
+              <Label for="languages">Designations</Label>
               <Select
                 isMulti
                 defaultValue={[languages[0], languages[1], languages[2]]}
@@ -150,34 +158,24 @@ class UserInfoTab extends React.Component {
               </div>
             </FormGroup>
             <FormGroup>
-              <Label className="d-block mb-50" for="communication">
-                Communication
-              </Label>
-              <div className="d-inline-block mr-1">
-                <Checkbox
-                  color="primary"
-                  icon={<Check className="vx-icon" size={16} />}
-                  label="Email"
-                  defaultChecked={false}
-                />
-              </div>
-              <div className="d-inline-block mr-1">
-                <Checkbox
-                  color="primary"
-                  icon={<Check className="vx-icon" size={16} />}
-                  label="SMS"
-                  defaultChecked={false}
-                />
-              </div>
-              <div className="d-inline-block">
-                <Checkbox
-                  color="primary"
-                  icon={<Check className="vx-icon" size={16} />}
-                  label="Phone"
-                  defaultChecked={false}
-                />
-              </div>
+                  <Label for="campus">Campus</Label>
+                  <Input type="select" name="campus" id="campus">
+                    <option>Admin</option>
+                    <option>Usher</option>
+                    <option>Group Lead</option>
+                    <option>Pastor</option>
+                    <option>Overseer</option>
+                    <option>Memeber</option>
+                  </Input>
             </FormGroup>
+            <FormGroup>
+                  <Label for="branch">Branch</Label>
+                  <Input type="select" name="branch" id="branch">
+                    <option>Jos Branch</option>
+                    <option>Abuja Branch</option>
+                    <option>UK Branch</option>
+                  </Input>
+                </FormGroup>
           </Col>
           <Col className="mt-1" md="6" sm="12">
             <h5 className="mb-1">

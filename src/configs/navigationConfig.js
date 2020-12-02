@@ -1,6 +1,9 @@
 import React from "react"
 import * as Icon from "react-feather"
 const navigationConfig = [
+  
+  
+  
   {
     id: "dashboard",
     title: "Dashboard",
@@ -15,6 +18,35 @@ const navigationConfig = [
         icon: <Icon.Circle size={12} />,
         permissions: ["admin", "editor"],
         navLink: "/"
+      },
+      
+    ]
+  },
+  
+  
+  {
+    id: "role",
+    title: "Roles",
+    icon: <Icon.Layers size={20} />,
+    type: "collapse",
+    children: [
+      {
+        id: "addRoles",
+        title: "Add Role",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/add-roles",
+
+      },
+      
+      {
+        id: "allRoles",
+        title: "All Roles",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/all-roles"
       },
       
     ]
@@ -84,58 +116,32 @@ const navigationConfig = [
       
       
       {
-        id: "Campuses",
+        id: "Campus",
         title: "Campuses",
         type: "collapse",
         children: [
           {
-            id: "addDepartment",
-            title: "Add Deparment",
+            id: "addCompus",
+            title: "Add Campus",
             type: "item",
             icon: <Icon.Circle size={12} />,
             permissions: ["admin", "editor"],
-            navLink: "/maps/leaflet",
+            navLink: "/add-campus",
 
           },
           
           {
-            id: "allDepartment",
-            title: "All Department",
+            id: "allCampuses",
+            title: "All Campuses",
             type: "item",
             icon: <Icon.Circle size={12} />,
             permissions: ["admin", "editor"],
-            navLink: "/"
+            navLink: "/all-campus"
           },
           
         ]
       },
       
-      {
-        id: "groups",
-        title: "Groups",
-        type: "collapse",
-        children: [
-          {
-            id: "addDepartment",
-            title: "Add Deparment",
-            type: "item",
-            icon: <Icon.Circle size={12} />,
-            permissions: ["admin", "editor"],
-            navLink: "/maps/leaflet",
-
-          },
-          
-          {
-            id: "allDepartment",
-            title: "All Department",
-            type: "item",
-            icon: <Icon.Circle size={12} />,
-            permissions: ["admin", "editor"],
-            navLink: "/"
-          },
-          
-        ]
-      },
       
       {
         id: "designations",
@@ -143,22 +149,22 @@ const navigationConfig = [
         type: "collapse",
         children: [
           {
-            id: "addDepartment",
-            title: "Add Deparment",
+            id: "addDesignation",
+            title: "Add Designation",
             type: "item",
             icon: <Icon.Circle size={12} />,
             permissions: ["admin", "editor"],
-            navLink: "/maps/leaflet",
+            navLink: "/add-designation",
 
           },
           
           {
-            id: "allDepartment",
-            title: "All Department",
+            id: "allDesignation",
+            title: "All Designations",
             type: "item",
             icon: <Icon.Circle size={12} />,
             permissions: ["admin", "editor"],
-            navLink: "/"
+            navLink: "/all-designation"
           },
           
         ]
@@ -170,22 +176,22 @@ const navigationConfig = [
         type: "collapse",
         children: [
           {
-            id: "addDepartment",
-            title: "Add Deparment",
+            id: "addGroup",
+            title: "Add Group",
             type: "item",
             icon: <Icon.Circle size={12} />,
             permissions: ["admin", "editor"],
-            navLink: "/maps/leaflet",
+            navLink: "/add-group",
 
           },
           
           {
-            id: "allDepartment",
-            title: "All Department",
+            id: "allGroups",
+            title: "All Groups",
             type: "item",
             icon: <Icon.Circle size={12} />,
             permissions: ["admin", "editor"],
-            navLink: "/"
+            navLink: "/all-groups"
           },
           
         ]
@@ -207,35 +213,6 @@ const navigationConfig = [
   },
   
   
-  {
-    id: "role",
-    title: "Roles",
-    icon: <Icon.Box size={20} />,
-    type: "collapse",
-    children: [
-      {
-        id: "addRoles",
-        title: "Add Role",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/maps/leaflet",
-
-      },
-      
-      {
-        id: "allRoles",
-        title: "All Roles",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/"
-      },
-      
-    ]
-  },
-  
-    
    
 ]
 
