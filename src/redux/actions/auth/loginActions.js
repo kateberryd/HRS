@@ -2,8 +2,17 @@ import * as firebase from "firebase/app"
 import { history } from "../../../history"
 import "firebase/auth"
 import "firebase/database"
-import axios from "axios"
+import axios from "../../../utility/axios"
+import {errorActionCreator} from "../error/errorActionCreator"
 import { config } from "../../../authServices/firebase/firebaseConfig"
+import jwt_decode from 'jwt-decode';
+import {
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED,
+} from '../../constants/auth/constants';
+
+import {setAuthToken} from "../../../utility/setAuthToken";
 
 // Init firebase if not already initialized
 if (!firebase.apps.length) {
@@ -179,30 +188,54 @@ export const loginWithGithub = () => {
   }
 }
 
-export const loginWithJWT = user => {
-  return dispatch => {
-    axios
-      .post("/api/authenticate/login/user", {
-        email: user.email,
+
+export const loginWithJWT = user => async dispatch => {
+  dispatch(loginLoading());
+    await axios
+      .post("auth/login", {
+        id: user.username,
         password: user.password
       })
       .then(response => {
-        var loggedInUser
-
         if (response.data) {
-          loggedInUser = response.data.user
-
+          const {token} = response.data.data
+          console.log(token);
+          localStorage.setItem('jwtToken', token);
+          setAuthToken(token);
+          const decoded = jwt_decode(token);
+          dispatch(setCurrentUser(decoded.user))
           dispatch({
-            type: "LOGIN_WITH_JWT",
-            payload: { loggedInUser, loggedInWith: "jwt" }
+            type: LOGIN_SUCCESS,
+            payload: decoded.user
           })
-
-          history.push("/")
+         if(localStorage.jwtToken){
+           history.push("/")
+         }
         }
       })
-      .catch(err => console.log(err))
+    .catch(err => dispatch(errorActionCreator(LOGIN_FAILED, err.response)))
+}
+
+export const loginLoading = () => {
+  return{
+      type: LOGIN,
   }
 }
+
+export const setCurrentUser = data => {
+  return{
+      type: LOGIN_SUCCESS,
+      payload: data
+  }
+}
+
+export const logout = () => dispatch => {
+  localStorage.removeItem('jwtToken');
+  setAuthToken(false);
+  dispatch(setCurrentUser({}))
+  history.push("/login")
+};
+
 
 export const logoutWithJWT = () => {
   return dispatch => {

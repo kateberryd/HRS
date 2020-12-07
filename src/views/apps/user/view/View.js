@@ -8,15 +8,23 @@ import {
   Row,
   Col,
   Button,
-  Table
 } from "reactstrap"
-import { Edit, Trash, Lock, Check } from "react-feather"
+import { Edit, Trash,} from "react-feather"
 import { Link } from "react-router-dom"
-import Checkbox from "../../../../components/@vuexy/checkbox/CheckboxesVuexy"
+import { connect } from "react-redux"
+import {getSingleUser} from "../../../.././redux/actions/user/singleUserAction"
 import userImg from "../../../../assets/img/portrait/small/avatar-s-18.jpg"
 import "../../../../assets/scss/pages/users.scss"
+
 class UserView extends React.Component {
+  
+ async componentDidMount(){
+    const { match: { params } } = this.props;
+    await this.props.getSingleUser(params.userId)
+    console.log(this.props);
+  }
   render() {
+    const {user} = this.props
     return (
       <React.Fragment>
         <Row>
@@ -47,7 +55,7 @@ class UserView extends React.Component {
                                 <div className="user-info-title font-weight-bold">
                                   Username
                                 </div>
-                                <div>crystal</div>
+                                 <div>{user.username}</div>
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -60,7 +68,7 @@ class UserView extends React.Component {
                                   Email
                                 </div>
                                 <div className="text-truncate">
-                                  <span>crystalhamilton@gmail.com</span>
+                                  <span>{user.email}</span>
                                 </div>
                               </div>
                             </div>
@@ -71,20 +79,20 @@ class UserView extends React.Component {
                                 <div className="user-info-title font-weight-bold">
                                   Status
                                 </div>
-                                <div>active</div>
+                                <div>{user.active ? user.active : "false"}</div>
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
                                   Role
                                 </div>
-                                <div>admin</div>
+                                <div>{user.role}</div>
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                  Company
+                                  Sex
                                 </div>
                                 <div>
-                                  <span>North Star Aviation Pvt Ltd</span>
+                                  <span>{user.sex}</span>
                                 </div>
                               </div>
                             </div>
@@ -100,9 +108,19 @@ class UserView extends React.Component {
                         <span className="align-middle ml-50">Edit</span>
                       </Link>
                     </Button.Ripple>
-                    <Button.Ripple color="danger" outline>
+                    <Button.Ripple className="mr-1" color="danger" outline>
                       <Trash size={15} />
                       <span className="align-middle ml-50">Delete</span>
+                    </Button.Ripple>
+                    
+                    <Button.Ripple className="mr-1" color="danger" outline>
+                      <Trash size={15} />
+                      <span className="align-middle ml-50">Suspend</span>
+                    </Button.Ripple>
+                    
+                    <Button.Ripple className="mr-1" color="danger" outline>
+                      <Trash size={15} />
+                      <span className="align-middle ml-50">Activate</span>
                     </Button.Ripple>
                   </Col>
                 </Row>
@@ -120,28 +138,28 @@ class UserView extends React.Component {
                     <div className="user-info-title font-weight-bold">
                       Birth Date
                     </div>
-                    <div> 28 January 1998</div>
+                    <div> {user.dateOfBirthday}</div>
                   </div>
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
                       Mobile
                     </div>
-                    <div>+65958951757</div>
+                    <div>{user.phoneNumber}</div>
                   </div>
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Website
+                      Profile Status
                     </div>
                     <div className="text-truncate">
-                      <span>https://rowboat.com/insititious/Crystal</span>
+                      <span>{user.profileStatus}</span>
                     </div>
                   </div>
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Languages
+                     Department
                     </div>
                     <div className="text-truncate">
-                      <span>English, French</span>
+                      <span>{user.department}</span>
                     </div>
                   </div>
                   <div className="d-flex user-info">
@@ -149,15 +167,15 @@ class UserView extends React.Component {
                       Gender
                     </div>
                     <div className="text-truncate">
-                      <span>Female</span>
+                      <span>{user.sex}</span>
                     </div>
                   </div>
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Contact
+                      Marital Status
                     </div>
                     <div className="text-truncate">
-                      <span>email, message, phone</span>
+                      <span>{user.maritalStatus}</span>
                     </div>
                   </div>
                 </div>
@@ -223,155 +241,15 @@ class UserView extends React.Component {
               </CardBody>
             </Card>
           </Col>
-          <Col sm="12">
-            <Card>
-              <CardHeader className="border-bottom pb-1 mx-2 px-0">
-                <CardTitle>
-                  <Lock size={18} />
-                  <span className="align-middle ml-50">Permissions</span>
-                </CardTitle>
-              </CardHeader>
-              <CardBody>
-                {" "}
-                <Table className="permissions-table" borderless responsive>
-                  <thead>
-                    <tr>
-                      <th>Module</th>
-                      <th>Read</th>
-                      <th>Write</th>
-                      <th>Create</th>
-                      <th>Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Users</td>
-                      <td>
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={true}
-                        />
-                      </td>
-                      <td>
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={false}
-                        />
-                      </td>
-                      <td>
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={false}
-                        />
-                      </td>
-                      <td>
-                        {" "}
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={true}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Articles</td>
-                      <td>
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={false}
-                        />
-                      </td>
-                      <td>
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={true}
-                        />
-                      </td>
-                      <td>
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={false}
-                        />
-                      </td>
-                      <td>
-                        {" "}
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={true}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Staff</td>
-                      <td>
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={true}
-                        />
-                      </td>
-                      <td>
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={true}
-                        />
-                      </td>
-                      <td>
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={false}
-                        />
-                      </td>
-                      <td>
-                        {" "}
-                        <Checkbox
-                          disabled
-                          color="primary"
-                          icon={<Check className="vx-icon" size={16} />}
-                          label=""
-                          defaultChecked={false}
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col>
         </Row>
       </React.Fragment>
     )
   }
 }
-export default UserView
+const mapStateToProps = state => {
+  return {
+    auth: state.auth.login,
+    user: state.userList.user
+  }
+}
+export default connect(mapStateToProps, { getSingleUser })(UserView)

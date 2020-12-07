@@ -17,8 +17,9 @@ import {
   Collapse,
   Spinner
 } from "reactstrap"
-import axios from "axios"
-import { ContextLayout } from "../../../../utility/context/Layout"
+import { ContextLayout } from "../../../../utility/context/Layout";
+import { connect } from "react-redux"
+import {getUserList} from "../../../.././redux/actions/user/userListActions"
 import { AgGridReact } from "ag-grid-react"
 import {
   Edit,
@@ -53,7 +54,7 @@ class UsersList extends React.Component {
     columnDefs: [
       {
         headerName: "ID",
-        field: "id",
+        field: "_id",
         width: 150,
         filter: true,
         checkboxSelection: true,
@@ -61,27 +62,10 @@ class UsersList extends React.Component {
         headerCheckboxSelection: true
       },
       {
-        headerName: "Name",
-        field: "name",
+        headerName: "username",
+        field: "username",
         filter: true,
         width: 250,
-        cellRendererFramework: params => {
-          return (
-            <div
-              className="d-flex align-items-center cursor-pointer"
-              onClick={() => history.push("/app/user/edit")}
-            >
-              <img
-                className="rounded-circle mr-50"
-                src={params.data.avatar}
-                alt="user avatar"
-                height="30"
-                width="30"
-              />
-              <span>{params.data.name}</span>
-            </div>
-          )
-        }
       },
       {
         headerName: "Email",
@@ -90,68 +74,37 @@ class UsersList extends React.Component {
         width: 250
       },
       
-      {
-        headerName: "Department",
-        field: "department",
-        filter: true,
-        width: 160
-      },
+      // {
+      //   headerName: "Department",
+      //   field: "department",
+      //   filter: true,
+      //   width: 160
+      // },
       {
         headerName: "Phone Number",
         field: "phoneNumber",
         filter: true,
         width: 200
       },
-      {
-        headerName: "Country",
-        field: "country",
-        filter: true,
-        width: 200
-      },
+   
       {
         headerName: "Role",
-        field: "role",
+        field: "role.name",
         filter: true,
         width: 150
       },
       {
         headerName: "Status",
-        field: "status",
+        field: "active",
         filter: true,
         width: 150,
-        cellRendererFramework: params => {
-          return params.value === "active" ? (
-            <div className="badge badge-pill badge-light-success">
-              {params.value}
-            </div>
-          ) : params.value === "blocked" ? (
-            <div className="badge badge-pill badge-light-danger">
-              {params.value}
-            </div>
-          ) : params.value === "deactivated" ? (
-            <div className="badge badge-pill badge-light-warning">
-              {params.value}
-            </div>
-          ) : null
-        }
+        
       },
-      {
-        headerName: "Verified",
-        field: "is_verified",
-        filter: true,
-        width: 125,
-        cellRendererFramework: params => {
-          return params.value === true ? (
-            <div className="bullet bullet-sm bullet-primary"></div>
-          ) : params.value === false ? (
-            <div className="bullet bullet-sm bullet-secondary"></div>
-          ) : null
-        }
-      },
+     
 
       {
         headerName: "Actions",
-        field: "transactions",
+        field: "_id",
         width: 150,
         cellRendererFramework: params => {
           return (
@@ -159,7 +112,7 @@ class UsersList extends React.Component {
               <Edit
                 className="mr-50"
                 size={15}
-                onClick={() => history.push("/app/user/edit")}
+                onClick={() => history.push(`/users/${params.value}`)}
               />
               <Trash2
                 size={15}
@@ -176,10 +129,10 @@ class UsersList extends React.Component {
   }
 
   async componentDidMount() {
-    await axios.get("api/users/list").then(response => {
-      let rowData = response.data
+    await this.props.getUserList();
+    console.log(this.props.users.userList)
+    let rowData = this.props.users.userList
       this.setState({ rowData })
-    })
   }
 
   onGridReady = params => {
@@ -520,4 +473,10 @@ class UsersList extends React.Component {
   }
 }
 
-export default UsersList
+const mapStateToProps = state => {
+  return {
+    auth: state.auth.login,
+    users: state.userList
+  }
+}
+export default connect(mapStateToProps, { getUserList })(UsersList)

@@ -1,32 +1,49 @@
-export const login = (state = { userRole: "admin" }, action) => {
-  switch (action.type) {
-    case "LOGIN_WITH_EMAIL": {
-      return { ...state, values: action.payload }
+import {
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED,
+} from '../../constants/auth/constants';
+
+import {errorReducer} from "../error/index";
+
+const INIT_STATE = {
+  token: localStorage.getItem('token'),
+  isAuthenticated: false,
+  loading: false,
+  user: {},
+  forgotPassword: null,
+  resetPassword: null,
+  error: false,
+  userRole: 'admin'
+}
+
+
+export const login = (state = INIT_STATE, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case LOGIN: {
+      return { ...state, loading:true }
     }
-    case "LOGIN_WITH_FB": {
-      return { ...state, values: action.payload }
+    
+    case LOGIN_SUCCESS: {
+      return {
+        ...state,
+        user: payload,
+        isAuthenticated: true,
+        loading: false,
+      }
     }
-    case "LOGIN_WITH_TWITTER": {
-      return { ...state, values: action.payload }
-    }
-    case "LOGIN_WITH_GOOGLE": {
-      return { ...state, values: action.payload }
-    }
-    case "LOGIN_WITH_GITHUB": {
-      return { ...state, values: action.payload }
-    }
-    case "LOGIN_WITH_JWT": {
-      return { ...state, values: action.payload }
-    }
-    case "LOGOUT_WITH_JWT": {
-      return { ...state, values: action.payload }
-    }
-    case "LOGOUT_WITH_FIREBASE": {
-      return { ...state, values: action.payload }
-    }
-    case "CHANGE_ROLE": {
-      return { ...state, userRole: action.userRole }
-    }
+    
+    case LOGIN_FAILED:
+          return {
+            ...errorReducer(state, action),
+              token: null,
+              isAuthenticated: false,
+              loading: false,
+              user: null,
+              message: true
+        }
+   
     default: {
       return state
     }

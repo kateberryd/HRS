@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react"
 import { Router, Switch, Route } from "react-router-dom"
 import { history } from "./history"
 import { connect } from "react-redux"
+import {withRouter} from 'react-router-dom';
 import { Redirect } from "react-router-dom"
 import Spinner from "./components/@vuexy/spinner/Loading-spinner"
 import knowledgeBaseCategory from "./views/pages/knowledge-base/Category"
@@ -195,83 +196,120 @@ const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
                 ? context.horizontalLayout
                 : context.VerticalLayout
             return (
-              <LayoutTag {...props} permission={props.user}>
+              <LayoutTag {...props} permission={"admin"}>
                 <Suspense fallback={<Spinner />}>
                   <Component {...props} />
                 </Suspense>
               </LayoutTag>
-            )
+              )
           }}
         </ContextLayout.Consumer>
+         
       )
     }}
   />
 )
-const mapStateToProps = state => {
-  return {
-    user: state.auth.login.userRole
-  }
-}
 
-const AppRoute = connect(mapStateToProps)(RouteConfig)
+const mapStateToProps = state => ({
+  user: state.auth.login
+})
+
+const AppRoute = connect(mapStateToProps)(withRouter(RouteConfig))
+
+
+const PrivateRouteConfig = ({component: Component, fullLayout, user, ...rest}) => (
+  <Route
+      {...rest}
+      render = { props =>
+          user.isAuthenticated === true ? (
+            <ContextLayout.Consumer>
+            {context => {
+              console.log(rest)
+              let LayoutTag =
+                fullLayout === true
+                  ? context.fullLayout
+                  : context.state.activeLayout === "horizontal"
+                  ? context.horizontalLayout
+                  : context.VerticalLayout
+              return (
+                <LayoutTag {...props} permission={"admin"}>
+                  <Suspense fallback={<Spinner />}>
+                    <Component {...props} />
+                  </Suspense>
+                </LayoutTag>
+                )
+            }}
+          </ContextLayout.Consumer>
+          )
+          :(
+              <Redirect to="/login" />
+          )
+      }
+  />
+)
+
+
+ const PrivateRoute = connect(mapStateToProps)(withRouter(PrivateRouteConfig));
 
 class AppRouter extends React.Component {
   render() {
     return (
+    
       // Set the directory path if you are deploying in sub-folder
       <Router history={history}>
         <Switch>
-          <AppRoute exact path="/" component={analyticsDashboard} />
-          <AppRoute
+        
+          <PrivateRoute exact path="/" component={analyticsDashboard} />
+          <PrivateRoute
             path="/ecommerce-dashboard"
             component={ecommerceDashboard}
           />
-          <AppRoute
+          <PrivateRoute
             path="/email"
             exact
             component={() => <Redirect to="/email/inbox" />}
           />
-          <AppRoute path="/email/:filter" component={email} />
-          <AppRoute path="/chat" component={chat} />
-          <AppRoute
+          <PrivateRoute path="/email/:filter" component={email} />
+          <PrivateRoute path="/chat" component={chat} />
+          <PrivateRoute
             path="/todo"
             exact
             component={() => <Redirect to="/todo/all" />}
           />
-          <AppRoute path="/todo/:filter" component={todo} />
-          <AppRoute path="/calendar" component={calendar} />
-          <AppRoute path="/ecommerce/shop" component={shop} />
-          <AppRoute path="/ecommerce/wishlist" component={wishlist} />
-          <AppRoute
+          <PrivateRoute path="/todo/:filter" component={todo} />
+          <PrivateRoute path="/calendar" component={calendar} />
+          <PrivateRoute path="/ecommerce/shop" component={shop} />
+          <PrivateRoute path="/ecommerce/wishlist" component={wishlist} />
+          <PrivateRoute
             path="/ecommerce/product-detail"
             component={productDetail}
           />
-          <AppRoute
+          <PrivateRoute
             path="/ecommerce/checkout"
             component={checkout}
             permission="admin"
           />
-          <AppRoute path="/data-list/list-view" component={listView} />
-          <AppRoute path="/data-list/thumb-view" component={thumbView} />
-          <AppRoute path="/ui-element/grid" component={grid} />
-          <AppRoute path="/ui-element/typography" component={typography} />
-          <AppRoute
+          <PrivateRoute path="/data-list/list-view" component={listView} />
+          <PrivateRoute path="/data-list/thumb-view" component={thumbView} />
+          <PrivateRoute path="/ui-element/grid" component={grid} />
+          <PrivateRoute path="/ui-element/typography" component={typography} />
+          <PrivateRoute
             path="/ui-element/textutilities"
             component={textutilities}
           />
-          <AppRoute
+          <PrivateRoute
             path="/ui-element/syntaxhighlighter"
             component={syntaxhighlighter}
           />
-          <AppRoute path="/colors/colors" component={colors} />
-          <AppRoute path="/icons/reactfeather" component={reactfeather} />
-          <AppRoute path="/cards/basic" component={basicCards} />
-          <AppRoute path="/cards/statistics" component={statisticsCards} />
-          <AppRoute path="/cards/analytics" component={analyticsCards} />
-          <AppRoute path="/cards/action" component={actionCards} />
-          <AppRoute path="/components/alerts" component={Alerts} />
-          <AppRoute path="/components/buttons" component={Buttons} />
-          <AppRoute path="/components/breadcrumbs" component={Breadcrumbs} />
+          <PrivateRoute path="/colors/colors" component={colors} />
+          <PrivateRoute path="/icons/reactfeather" component={reactfeather} />
+          <PrivateRoute path="/cards/basic" component={basicCards} />
+          <PrivateRoute path="/cards/statistics" component={statisticsCards} />
+          <PrivateRoute path="/cards/analytics" component={analyticsCards} />
+          <PrivateRoute path="/cards/action" component={actionCards} />
+          <PrivateRoute path="/components/alerts" component={Alerts} />
+          <PrivateRoute path="/components/buttons" component={Buttons} />
+          <PrivateRoute path="/components/breadcrumbs" component={Breadcrumbs} />
           <AppRoute path="/components/carousel" component={Carousel} />
           <AppRoute path="/components/collapse" component={Collapse} />
           <AppRoute path="/components/dropdowns" component={Dropdowns} />
@@ -344,15 +382,15 @@ class AppRouter extends React.Component {
             component={comingSoon}
             fullLayout
           />
-          <AppRoute path="/misc/error/404" component={error404} fullLayout />
-          <AppRoute path="/pages/login" component={Login} fullLayout />
+          <PrivateRoute path="/misc/error/404" component={error404} fullLayout />
+          <AppRoute path="/login" component={Login} fullLayout />
           <AppRoute path="/pages/register" component={register} fullLayout />
           <AppRoute
             path="/pages/forgot-password"
             component={forgotPassword}
             fullLayout
           />
-          <AppRoute
+          <PrivateRoute
             path="/pages/lock-screen"
             component={lockScreen}
             fullLayout
@@ -373,43 +411,48 @@ class AppRouter extends React.Component {
             component={maintenance}
             fullLayout
           />
-          <AppRoute path="/all-users" component={userList} />
-          <AppRoute path="/edit-user" component={userEdit} />
-          <AppRoute path="/add-user" component={userAdd} />
-          <AppRoute path="/app/user/view" component={userView} />
-          <AppRoute path="/add-roles" component={roleAdd} />
-          <AppRoute path="/charts/apex" component={apex} />
-          <AppRoute path="/charts/chartjs" component={chartjs} />
-          <AppRoute path="/charts/recharts" component={extreme} />
-          <AppRoute path="/maps/leaflet" component={leafletMaps} />
-          <AppRoute path="/extensions/sweet-alert" component={sweetAlert} />
-          <AppRoute path="/extensions/toastr" component={toastr} />
-          <AppRoute path="/extensions/slider" component={rcSlider} />
-          <AppRoute path="/extensions/file-uploader" component={uploader} />
-          <AppRoute path="/extensions/wysiwyg-editor" component={editor} />
-          <AppRoute path="/extensions/drag-and-drop" component={drop} />
-          <AppRoute path="/extensions/tour" component={tour} />
-          <AppRoute path="/extensions/clipboard" component={clipboard} />
-          <AppRoute path="/extensions/context-menu" component={menu} />
-          <AppRoute path="/extensions/swiper" component={swiper} />
-          <AppRoute
+          <PrivateRoute path="/all-users" component={userList} />
+          <PrivateRoute path="/edit-user" component={userEdit} />
+          <PrivateRoute path="/add-user" component={userAdd} />
+          <PrivateRoute path="/users/:userId" component={userView} />
+          <PrivateRoute path="/add-roles" component={roleAdd} />
+          <PrivateRoute path="/charts/apex" component={apex} />
+          <PrivateRoute path="/charts/chartjs" component={chartjs} />
+          <PrivateRoute path="/charts/recharts" component={extreme} />
+          <PrivateRoute path="/maps/leaflet" component={leafletMaps} />
+          <PrivateRoute path="/extensions/sweet-alert" component={sweetAlert} />
+          <PrivateRoute path="/extensions/toastr" component={toastr} />
+          <PrivateRoute path="/extensions/slider" component={rcSlider} />
+          <PrivateRoute path="/extensions/file-uploader" component={uploader} />
+          <PrivateRoute path="/extensions/wysiwyg-editor" component={editor} />
+          <PrivateRoute path="/extensions/drag-and-drop" component={drop} />
+          <PrivateRoute path="/extensions/tour" component={tour} />
+          <PrivateRoute path="/extensions/clipboard" component={clipboard} />
+          <PrivateRoute path="/extensions/context-menu" component={menu} />
+          <PrivateRoute path="/extensions/swiper" component={swiper} />
+          <PrivateRoute
             path="/extensions/access-control"
             component={accessControl}
           />
-          <AppRoute path="/extensions/i18n" component={i18n} />
-          <AppRoute path="/extensions/tree" component={tree} />
-          <AppRoute path="/extensions/import" component={Import} />
-          <AppRoute path="/extensions/export" component={Export} />
-          <AppRoute
+          <PrivateRoute path="/extensions/i18n" component={i18n} />
+          <PrivateRoute path="/extensions/tree" component={tree} />
+          <PrivateRoute path="/extensions/import" component={Import} />
+          <PrivateRoute path="/extensions/export" component={Export} />
+          <PrivateRoute
             path="/extensions/export-selected"
             component={ExportSelected}
           />
-          <AppRoute path="/extensions/pagination" component={reactPaginate} />
-          <AppRoute component={error404} fullLayout />
+          <PrivateRoute path="/extensions/pagination" component={reactPaginate} />
+          <PrivateRoute component={error404} fullLayout />
+         
+
         </Switch>
       </Router>
     )
   }
 }
 
-export default AppRouter
+
+
+
+export default connect(mapStateToProps)(AppRouter);

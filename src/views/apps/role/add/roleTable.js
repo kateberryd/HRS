@@ -12,7 +12,7 @@ import {
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
 import { ChevronDown } from "react-feather"
-import axios from "axios"
+import axios from "axios";
 
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 

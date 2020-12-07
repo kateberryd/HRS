@@ -1,0 +1,10 @@
+export const LOGIN = "lOGIN";
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const CLEAR_AUTH = 'CLEAR_AUTH';
+export const LOGOUT = 'LOGOUT';
+export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
+export const FORGOT_ERROR = 'FORGOT_ERROR';
+export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const RESET_ERROR = 'RESET_ERROR';
