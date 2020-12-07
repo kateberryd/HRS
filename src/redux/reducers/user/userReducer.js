@@ -5,6 +5,14 @@ import {
   GET_SINGLE_USER,
   GET_SINGLE_USER_SUCCESS,
   GET_SINGLE_USER_FAILED,
+  SUSPEND_USER,
+  SUSPEND_USER_SUCCESS,
+  SUSPEND_USER_FAILED,
+  ACTIVATE_USER,
+  ACTIVATE_USER_SUCCESS,
+  ACTIVATE_USER_FAILED,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAILED
 } from '../../constants/user/index';
 
 const INIT_STATE = {
@@ -39,6 +47,35 @@ export const userList = (state = INIT_STATE, action) => {
   
     case GET_SINGLE_USER_FAILED:
     return { ...state,  error: payload }
+    
+    case SUSPEND_USER: {
+      return { ...state }
+    }
+    
+    case SUSPEND_USER_SUCCESS: 
+      return { ...state, user: payload};
+    
+  
+    case SUSPEND_USER_FAILED:
+    return { ...state,  error: payload }
+    
+    case ACTIVATE_USER: {
+      return { ...state }
+    }
+    
+    case ACTIVATE_USER_SUCCESS: 
+      return { ...state, user: payload};
+    
+  
+    case ACTIVATE_USER_FAILED:
+    return { ...state,  error: payload }
+    
+    case DELETE_USER_SUCCESS: 
+    return { ...state, user: {}};
+  
+
+  case DELETE_USER_FAILED:
+  return { ...state,  error: payload }
     default: {
       return state
     }

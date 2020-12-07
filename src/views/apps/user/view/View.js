@@ -1,5 +1,9 @@
 import React from "react"
 import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Card,
   CardHeader,
   CardTitle,
@@ -13,10 +17,64 @@ import { Edit, Trash,} from "react-feather"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import {getSingleUser} from "../../../.././redux/actions/user/singleUserAction"
+import {suspendUser} from "../../../.././redux/actions/user/singleUserAction"
+import {activateUser} from "../../../.././redux/actions/user/singleUserAction"
+import {deleteUser} from "../../../.././redux/actions/user/singleUserAction"
 import userImg from "../../../../assets/img/portrait/small/avatar-s-18.jpg"
 import "../../../../assets/scss/pages/users.scss"
 
 class UserView extends React.Component {
+  state = {
+    activeTab: "1",
+    modal: false,
+    modal2: false,
+    modal3: false,
+  }
+
+  toggleTab = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({ activeTab: tab })
+    }
+  }
+
+  toggleModal = () => {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }))
+  }
+  
+  toggleModalTwo = () => {
+    this.setState(prevState => ({
+      modal2: !prevState.modal2
+    }))
+  }
+  
+  
+  suspendUser = async () => {
+   await this.toggleModal();
+   const { match: { params } } = this.props;
+    this.props.suspendUser(params.userId)
+  }
+  
+  activateUser = async () => {
+    await this.toggleModalTwo();
+    const { match: { params } } = this.props;
+     this.props.activateUser(params.userId)
+ }
+  
+  
+ toggleModalThree = () => {
+  this.setState(prevState => ({
+    modal3: !prevState.modal3
+  }))
+}
+ 
+ 
+deleteUser = async () => {
+  await this.toggleModalThree();
+  const { match: { params } } = this.props;
+   this.props.deleteUser(params.userId)
+ }
   
  async componentDidMount(){
     const { match: { params } } = this.props;
@@ -79,7 +137,7 @@ class UserView extends React.Component {
                                 <div className="user-info-title font-weight-bold">
                                   Status
                                 </div>
-                                <div>{user.active ? user.active : "false"}</div>
+                                <div>{user.active ? "Active" : "Inactive"}</div>
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -108,17 +166,23 @@ class UserView extends React.Component {
                         <span className="align-middle ml-50">Edit</span>
                       </Link>
                     </Button.Ripple>
-                    <Button.Ripple className="mr-1" color="danger" outline>
+                    <Button.Ripple className="mr-1" color="danger" outline
+                        onClick={this.toggleModalThree}
+                    >
                       <Trash size={15} />
                       <span className="align-middle ml-50">Delete</span>
                     </Button.Ripple>
                     
-                    <Button.Ripple className="mr-1" color="danger" outline>
-                      <Trash size={15} />
+                    <Button.Ripple className="mr-1" color="danger" outline
+                     onClick={this.toggleModal}
+                    >
+                      <Edit size={15} />
                       <span className="align-middle ml-50">Suspend</span>
                     </Button.Ripple>
                     
-                    <Button.Ripple className="mr-1" color="danger" outline>
+                    <Button.Ripple className="mr-1" color="danger" outline 
+                       onClick={this.toggleModalTwo}
+                    >
                       <Trash size={15} />
                       <span className="align-middle ml-50">Activate</span>
                     </Button.Ripple>
@@ -240,6 +304,64 @@ class UserView extends React.Component {
                 </div>
               </CardBody>
             </Card>
+            
+          </Col>
+          <Col>
+              <Modal
+                  isOpen={this.state.modal}
+                  toggle={this.toggleModal}
+                  className={this.props.className}
+                >
+                  <ModalHeader toggle={this.toggleModal}>
+                    Suspend
+                  </ModalHeader>
+                  <ModalBody>
+                    <h5>Are you sure you want to suspend this user?</h5>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary"onClick={this.suspendUser} >
+                      Accept
+                    </Button>{" "}
+                  </ModalFooter>
+                </Modal>
+                
+                
+                <Modal
+                  isOpen={this.state.modal2}
+                  toggle={this.toggleModalTwo}
+                  className={this.props.className}
+                >
+                  <ModalHeader toggle={this.toggleModalTwo}>
+                    Activate
+                  </ModalHeader>
+                  <ModalBody>
+                    <h5>Are you sure you want to active this user?</h5>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary"onClick={this.activateUser} >
+                      Accept
+                    </Button>{" "}
+                  </ModalFooter>
+                </Modal>
+                
+                
+                <Modal
+                  isOpen={this.state.modal3}
+                  toggle={this.toggleModalThree}
+                  className={this.props.className}
+                >
+                  <ModalHeader toggle={this.toggleModalThree}>
+                    Delete
+                  </ModalHeader>
+                  <ModalBody>
+                    <h5>Are you sure you want to delete this user?</h5>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary"onClick={this.deleteUser} >
+                      Accept
+                    </Button>{" "}
+                  </ModalFooter>
+                </Modal>
           </Col>
         </Row>
       </React.Fragment>
@@ -252,4 +374,4 @@ const mapStateToProps = state => {
     user: state.userList.user
   }
 }
-export default connect(mapStateToProps, { getSingleUser })(UserView)
+export default connect(mapStateToProps, { getSingleUser, suspendUser, activateUser, deleteUser })(UserView)
