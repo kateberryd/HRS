@@ -24,7 +24,6 @@ const INIT_STATE = {
 
 export const userList = (state = INIT_STATE, action) => {
   const { type, payload } = action;
-  console.log(action);
   switch (type) {
     case GET_USER_LIST: {
       return { ...state }

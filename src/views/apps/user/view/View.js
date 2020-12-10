@@ -16,10 +16,9 @@ import {
 import { Edit, Trash,} from "react-feather"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
-import {getSingleUser} from "../../../.././redux/actions/user/singleUserAction"
-import {suspendUser} from "../../../.././redux/actions/user/singleUserAction"
-import {activateUser} from "../../../.././redux/actions/user/singleUserAction"
-import {deleteUser} from "../../../.././redux/actions/user/singleUserAction"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+import {getSingleUser, suspendUser, activateUser, deleteUser} from "../../../.././redux/actions/user/singleUserAction"
 import userImg from "../../../../assets/img/portrait/small/avatar-s-18.jpg"
 import "../../../../assets/scss/pages/users.scss"
 
@@ -83,6 +82,7 @@ deleteUser = async () => {
   }
   render() {
     const {user} = this.props
+    console.log(user)
     return (
       <React.Fragment>
         <Row>
@@ -147,10 +147,10 @@ deleteUser = async () => {
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                  Sex
+                                  isOnline
                                 </div>
                                 <div>
-                                  <span>{user.sex}</span>
+                                  <span>{user.isOnline ? "Yes" : "No"}</span>
                                 </div>
                               </div>
                             </div>
@@ -200,7 +200,7 @@ deleteUser = async () => {
                 <div className="users-page-view-table">
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Birth Date
+                      Date of Birth
                     </div>
                     <div> {user.dateOfBirthday}</div>
                   </div>
@@ -210,14 +210,7 @@ deleteUser = async () => {
                     </div>
                     <div>{user.phoneNumber}</div>
                   </div>
-                  <div className="d-flex user-info">
-                    <div className="user-info-title font-weight-bold">
-                      Profile Status
-                    </div>
-                    <div className="text-truncate">
-                      <span>{user.profileStatus}</span>
-                    </div>
-                  </div>
+                 
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
                      Department
@@ -242,6 +235,14 @@ deleteUser = async () => {
                       <span>{user.maritalStatus}</span>
                     </div>
                   </div>
+                  <div className="d-flex user-info">
+                    <div className="user-info-title font-weight-bold">
+                      Notification counter
+                    </div>
+                    <div className="text-truncate">
+                      <span>{user.notificationCounter}</span>
+                    </div>
+                  </div>
                 </div>
               </CardBody>
             </Card>
@@ -249,48 +250,48 @@ deleteUser = async () => {
           <Col sm="12" md="6">
             <Card>
               <CardHeader>
-                <CardTitle>Social Links</CardTitle>
+                <CardTitle>Information</CardTitle>
               </CardHeader>
               <CardBody>
                 <div className="users-page-view-table">
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Twitter
+                      Secret Token
                     </div>
                     <div className="text-truncate">
-                      <span>https://twitter.com/crystal</span>
+                      <span>{user.secretToken}</span>
                     </div>
                   </div>
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Facebook
+                      Device Token
                     </div>
                     <div className="text-truncate">
-                      <span>https://www.facebook.com/crystal</span>
+                        <span>{user.deviceToken}</span>
                     </div>
                   </div>
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Instagram
+                        Device Registered
                     </div>
                     <div className="text-truncate">
-                      <span>https://www.instagram.com/crystal</span>
+                      <span>{user.deviceRegistered}</span>
                     </div>
                   </div>
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Github
+                        Profile Status
                     </div>
                     <div className="text-truncate">
-                      <span>https://github.com/crystal</span>
+                        <span>{user.profileStatus}</span>
                     </div>
                   </div>
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      CodePen
+                        Registration Date
                     </div>
                     <div className="text-truncate">
-                      <span>https://codepen.io/crystal</span>
+                      <span>{user.date}</span>
                     </div>
                   </div>
                   <div className="d-flex user-info">
@@ -302,6 +303,7 @@ deleteUser = async () => {
                     </div>
                   </div>
                 </div>
+                <ToastContainer />
               </CardBody>
             </Card>
             

@@ -1,4 +1,5 @@
 import axios from "../../../utility/axios"
+import { toast } from 'react-toastify';
 import { history } from "../../../history"
 import {
     GET_SINGLE_USER,
@@ -64,6 +65,7 @@ import {
              type:SUSPEND_USER_SUCCESS,
              payload: res.data.data
          })
+         toast.success("user suspended successfully")
         }
        })
        .catch(err => {
@@ -94,6 +96,7 @@ export const activateUser = (id) => async dispatch => {
              type:ACTIVATE_USER_SUCCESS,
              payload: res.data.data
          })
+         toast.success("user activated successfully")
         }
        })
        .catch(err => {
@@ -116,7 +119,9 @@ export const deleteUser = (id) => async dispatch => {
              type:DELETE_USER_SUCCESS,
              payload: res.data.data
          })
-         history.push("/all-users")
+         history.push("/all-users")        
+        toast.error("user deleted successfully")
+
         }
        })
        .catch(err => {

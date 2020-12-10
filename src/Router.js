@@ -137,7 +137,6 @@ const error404 = lazy(() => import("./views/pages/misc/error/404"))
 const error500 = lazy(() => import("./views/pages/misc/error/500"))
 const authorized = lazy(() => import("./views/pages/misc/NotAuthorized"))
 const maintenance = lazy(() => import("./views/pages/misc/Maintenance"))
-const apex = lazy(() => import("./views/charts/apex/ApexCharts"))
 const chartjs = lazy(() => import("./views/charts/chart-js/ChartJS"))
 const extreme = lazy(() => import("./views/charts/recharts/Recharts"))
 const leafletMaps = lazy(() => import("./views/maps/Maps"))
@@ -165,6 +164,16 @@ const userList = lazy(() => import("./views/apps/user/list/List"))
 const userEdit = lazy(() => import("./views/apps/user/edit/Edit"))
 const userAdd = lazy(() => import("./views/apps/user/add/Add"))
 const userView = lazy(() => import("./views/apps/user/view/View"))
+
+const campusAdd = lazy(() => import("./views/apps/campus/add/Add"))
+const campusEdit = lazy(() => import("./views/apps/campus/edit/Edit"))
+
+const departmentAdd = lazy(() => import("./views/apps/department/add/Add"))
+const departmentEdit = lazy(() => import("./views/apps/department/edit/Edit"))
+
+const groupAdd = lazy(() => import("./views/apps/group/add/Add"))
+const groupEdit = lazy(() => import("./views/apps/group/edit/Edit"))
+
 
 const roleAdd = lazy(() => import("./views/apps/role/add/Add"));
 const Login = lazy(() => import("./views/pages/authentication/login/Login"))
@@ -224,7 +233,6 @@ const PrivateRouteConfig = ({component: Component, fullLayout, user, ...rest}) =
           user.isAuthenticated === true ? (
             <ContextLayout.Consumer>
             {context => {
-              console.log(rest)
               let LayoutTag =
                 fullLayout === true
                   ? context.fullLayout
@@ -355,7 +363,7 @@ class AppRouter extends React.Component {
           <AppRoute path="/tables/react-tables" component={ReactTables} />
           <AppRoute path="/tables/agGrid" component={Aggrid} />
           <AppRoute path="/tables/data-tables" component={DataTable} />
-          <AppRoute path="/pages/profile" component={profile} />
+          <AppRoute path="/pagescampu/profile" component={profile} />
           <AppRoute path="/pages/faq" component={faq} />
           <AppRoute
             path="/pages/knowledge-base"
@@ -416,7 +424,12 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/add-user" component={userAdd} />
           <PrivateRoute path="/users/:userId" component={userView} />
           <PrivateRoute path="/add-roles" component={roleAdd} />
-          <PrivateRoute path="/charts/apex" component={apex} />
+          <PrivateRoute path="/add-campus" component={campusAdd} />
+          <PrivateRoute path="/edit-campus/:campusId" component={campusEdit} />
+          <PrivateRoute path="/add-department" component={departmentAdd} />
+          <PrivateRoute path="/edit-department/:departmentId" component={departmentEdit} />
+          <PrivateRoute path="/add-group" component={groupAdd} />
+          <PrivateRoute path="/edit-group/:groupId" component={groupEdit} />
           <PrivateRoute path="/charts/chartjs" component={chartjs} />
           <PrivateRoute path="/charts/recharts" component={extreme} />
           <PrivateRoute path="/maps/leaflet" component={leafletMaps} />

@@ -7,7 +7,10 @@ import customizer from "./customizer/"
 import auth from "./auth/"
 import navbar from "./navbar/Index"
 import dataList from "./data-list/"
-import {userList} from "./user/userReducer";
+import {userList} from "./user/userReducer"
+import {campusReducer} from "./campus/campusReducer"
+import {departmentReducer} from "./department/departmentReducer"
+import {groupReducer} from "./group/groupReducer"
 
 const rootReducer = combineReducers({
   calendar: calenderReducer,
@@ -18,7 +21,10 @@ const rootReducer = combineReducers({
   auth: auth,
   navbar: navbar,
   dataList: dataList,
-  userList: userList
+  userList: userList,
+  campus: campusReducer,
+  department: departmentReducer,
+  group: groupReducer
 })
 
 export default rootReducer

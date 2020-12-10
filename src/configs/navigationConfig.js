@@ -76,7 +76,7 @@ const navigationConfig = [
           
           {
             id: "allUser",
-            title: "All User",
+            title: "All Users",
             type: "item",
             icon: <Icon.Circle size={12} />,
             permissions: ["admin", "editor"],
@@ -98,77 +98,12 @@ const navigationConfig = [
             type: "item",
             icon: <Icon.Circle size={12} />,
             permissions: ["admin", "editor"],
-            navLink: "/maps/leaflet",
+            navLink: "/add-department",
 
-          },
-          
-          {
-            id: "allDepartment",
-            title: "All Department",
-            type: "item",
-            icon: <Icon.Circle size={12} />,
-            permissions: ["admin", "editor"],
-            navLink: "/"
           },
           
         ]
       },
-      
-      
-      {
-        id: "Campus",
-        title: "Campuses",
-        type: "collapse",
-        children: [
-          {
-            id: "addCompus",
-            title: "Add Campus",
-            type: "item",
-            icon: <Icon.Circle size={12} />,
-            permissions: ["admin", "editor"],
-            navLink: "/add-campus",
-
-          },
-          
-          {
-            id: "allCampuses",
-            title: "All Campuses",
-            type: "item",
-            icon: <Icon.Circle size={12} />,
-            permissions: ["admin", "editor"],
-            navLink: "/all-campus"
-          },
-          
-        ]
-      },
-      
-      
-      {
-        id: "designations",
-        title: "Designations",
-        type: "collapse",
-        children: [
-          {
-            id: "addDesignation",
-            title: "Add Designation",
-            type: "item",
-            icon: <Icon.Circle size={12} />,
-            permissions: ["admin", "editor"],
-            navLink: "/add-designation",
-
-          },
-          
-          {
-            id: "allDesignation",
-            title: "All Designations",
-            type: "item",
-            icon: <Icon.Circle size={12} />,
-            permissions: ["admin", "editor"],
-            navLink: "/all-designation"
-          },
-          
-        ]
-      }, 
       
       {
         id: "groups",
@@ -199,13 +134,64 @@ const navigationConfig = [
       
       
       {
-        id: "support",
-        title: "Support",
-        type: "item",
-        permissions: ["admin", "editor"],
-        navLink: "/maps/leaflet",
+        id: "Campus",
+        title: "Campus",
+        type: "collapse",
+        children: [
+          {
+            id: "addCompus",
+            title: "Add Campus",
+            type: "item",
+            icon: <Icon.Circle size={12} />,
+            permissions: ["admin", "editor"],
+            navLink: "/add-campus",
 
+          },
+          
+          
+          
+        ]
       },
+      
+      
+      // {
+      //   id: "designations",
+      //   title: "Designations",
+      //   type: "collapse",
+      //   children: [
+      //     {
+      //       id: "addDesignation",
+      //       title: "Add Designation",
+      //       type: "item",
+      //       icon: <Icon.Circle size={12} />,
+      //       permissions: ["admin", "editor"],
+      //       navLink: "/add-designation",
+
+      //     },
+          
+      //     {
+      //       id: "allDesignation",
+      //       title: "All Designations",
+      //       type: "item",
+      //       icon: <Icon.Circle size={12} />,
+      //       permissions: ["admin", "editor"],
+      //       navLink: "/all-designation"
+      //     },
+          
+      //   ]
+      // }, 
+      
+
+      
+      
+      // {
+      //   id: "support",
+      //   title: "Support",
+      //   type: "item",
+      //   permissions: ["admin", "editor"],
+      //   navLink: "/maps/leaflet",
+
+      // },
       
     ],
     
