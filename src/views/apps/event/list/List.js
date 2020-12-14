@@ -15,26 +15,25 @@ import {
   ModalFooter,
 } from "reactstrap"
 import {
-  Edit,
-  Eye,
   Trash2,
 } from "react-feather"
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
 import { history } from "../../../../history"
-import { ChevronDown } from "react-feather"
-import {store} from "../../../../redux/storeConfig/store"
 import { connect } from "react-redux"
-import {getCampusList, deleteCampus} from "../../../../redux/actions/campus/campusActions"
+import { getEventList, deleteEvent } from "../../../../redux/actions/event/eventActions"
+import { ChevronDown } from "react-feather"
+
+
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 
-class CampusTable extends React.Component {
+class EventList extends React.Component {
   state = {
     rowData: null,
-    deleteCampusId: null,
     paginationPageSize: 20,
-    currenPageSize: "",
     modal: false,
+    deleteEventId: null,
+    currenPageSize: "",
     getPageSize: "",
     defaultColDef: {
       sortable: true,
@@ -45,74 +44,76 @@ class CampusTable extends React.Component {
     columnDefs: [
       
       {
-        headerName: "Campus",
-        field: "name",
+        headerName: "Title",
+        field: "title",
         width: 300
       },
       
-      // {
-      //   headerName: "Global senior pastor",
-      //   field: "firstname",
-      //   filter: true,
-      //   width: 200
-      // },
-      
-      // {
-      //   headerName: "SPM",
-      //   field: "firstname",
-      //   filter: true,
-      //   width: 150
-      // },
-      
-      // {
-      //   headerName: "Campus Pastor",
-      //   field: "firstname",
-      //   filter: true,
-      //   width: 150
-      // },
-      
       {
-        headerName: "Campus Coordinator",
-        field: "firstname",
+        headerName: "Date",
+        field: "date",
         width: 200
       },
+      
+      {
+        headerName: "Time",
+        field: "time",
+        width: 200
+      },
+      
+      
+      {
+        headerName: "Loacation",
+        field: "location",
+        width: 150
+      },
+     
+      {
+        headerName: "Description",
+        field: "description",
+        width: 150
+      },
+     
      
       {
         headerName: "Actions",
         field: "_id",
-        width: 300,
+        width: 400,
         cellRendererFramework: params => {
-          return (
-            <div className="actions cursor-pointer">
-            <Eye
-                className="mr-50"
-                size={15}
-                onClick={() => history.push(`/edit-campus/${params.value}`)}
-              />
-              <Edit
-                className="mr-50"
-                size={15}
-                onClick={() => history.push(`/edit-campus/${params.value}`)}
-              />
-              <Trash2
-                size={15}
-                 onClick={() => this.toggleModal(params.value)}
-              />
-            </div>
-          )
+            return (
+                <div className="actions cursor-pointer">
+                <Button.Ripple className="mr-1" color="primary" 
+                   onClick={() => history.push(`/event/${params.value}`)}
+                  >
+                     <span className="align-middle ml-50">View More</span>
+                  </Button.Ripple>
+                 
+                  <Button.Ripple color="danger"
+                    onClick={ () => this.toggleModal(params.value)}
+                  >
+                  <Trash2
+                    className="mr-50"
+                    size={15}
+                  />
+                     <span className="align-middle ml-50">Delete</span>
+                  </Button.Ripple>
+                 
+                </div>
+              )
         }
       }
     
     ]
   }
-
-  async componentDidMount() {
-    await this.props.getCampusList();
-    const data = this.props.campusList.campusList
-    this.setState({rowData: data})
-  }
   
 
+ async componentDidMount() {
+    await this.props.getEventList();
+    let rowData = this.props.events
+    console.log(this.props)
+    this.setState({ rowData })
+  }
+ 
 
   onGridReady = params => {
     this.gridApi = params.api
@@ -123,6 +124,8 @@ class CampusTable extends React.Component {
       totalPages: this.gridApi.paginationGetTotalPages()
     })
   }
+  
+  
 
   updateSearchQuery = val => {
     this.gridApi.setQuickFilter(val)
@@ -138,35 +141,25 @@ class CampusTable extends React.Component {
     }
   }
   
-  async componentWillReceiveProps(nextProps){ 
-    if(nextProps.campus != null){
-      await this.props.getCampusList();
-      this.setState({rowData: this.props.campusList})
-      store.dispatch({
-        type:"CREATE_CAMPUS_SUCCESS",
-        payload: null
-    })
-    }
-  }
-  
-  toggleModal = (id) => {
+  toggleModal = id => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      deleteCampusId: id
+      deleteEventId: id
     }))
   }
   
-  
-  
-  deleteCampus = async () => {
-    const {deleteCampusId} = this.state
-    const {deleteCampus} = this.props
-    await deleteCampus(deleteCampusId)
-    await this.props.getCampusList()
-    const data = this.props.campusList.campusList
-    this.setState({rowData: data})
+
+  deleteEvent = async () => {
+    
+    const {deleteEventId} = this.state;
+    const {deleteEvent} = this.props;
+    await deleteEvent(deleteEventId);
+    await this.props.getEventList();
+    console.log(this.props.events);
+    this.setState({rowData: this.props.events})
     this.toggleModal();
   }
+  
 
   render() {
     const { rowData, columnDefs, defaultColDef } = this.state
@@ -175,7 +168,7 @@ class CampusTable extends React.Component {
        
         <Card className="overflow-hidden agGrid-card">
           <CardBody className="py-0">
-            {this.state.rowData === null ? null : (
+            {this.state.rowData !== null ? (
               <div className="ag-theme-material w-100 my-2 ag-grid-table">
                 <div className="d-flex flex-wrap justify-content-between align-items-center">
                   <div className="mb-1">
@@ -260,7 +253,11 @@ class CampusTable extends React.Component {
                   )}
                 </ContextLayout.Consumer>
               </div>
-            )}
+            ): (
+              <div>
+                  Data loading
+              </div>
+            ) }
           </CardBody>
           <Col>
             <Modal
@@ -272,15 +269,15 @@ class CampusTable extends React.Component {
                 Delete
               </ModalHeader>
               <ModalBody>
-                <h5>Are you sure you want to delete this campus?</h5>
+                <h5>Are you sure you want to delete this event?</h5>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger"onClick={this.deleteCampus} >
+                <Button color="danger"onClick={this.deleteEvent} >
                   Accept
                 </Button>{" "}
               </ModalFooter>
             </Modal>
-          </Col>
+            </Col>
         </Card>
       </React.Fragment>
     )
@@ -290,9 +287,11 @@ class CampusTable extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth.login,
-    campus: state.campus.campus,
-    campusList: state.campus
+    error: state.event.error,
+    event: state.event.event,
+    events: state.event.eventList,
+    loading: state.event.loading,
   }
 }
-export default connect(mapStateToProps, { getCampusList, deleteCampus })(CampusTable)
+export default connect(mapStateToProps, { getEventList, deleteEvent })(EventList)
 

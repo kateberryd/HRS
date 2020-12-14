@@ -10,6 +10,13 @@ import {
     SUSPEND_USER_SUCCESS,
     SUSPEND_USER_FAILED,
     
+    GET_UNAPROVE_USER_LIST,
+    GET_UNAPROVE_USER_LIST_SUCCESS,
+    GET_UNAPROVE_USER_LIST_FAILED,
+    
+    APPROVE_USER,
+    APPROVE_USER_SUCCESS,
+    APPROVE_USER_FAILED,
     
     ACTIVATE_USER,
     ACTIVATE_USER_SUCCESS,
@@ -42,18 +49,51 @@ import {
          })
    }
    
+
    export const getSingleUserLoading = () => {
        return{
            type: GET_SINGLE_USER,
        }
    }
    
+   
       
-   export const suspendUserLoading = () => {
+   export const getUnapproveUsers = (id) => async dispatch => {
+    dispatch(getUnapproveUsersLoading());
+    await axios.get(`/profile/index`)
+       .then(res => {
+        if(res.data){
+            console.log(res.data.data)
+         dispatch({
+             type:GET_UNAPROVE_USER_LIST_SUCCESS,
+             payload: res.data.data
+         })
+        }
+       })
+       .catch(err => {
+           console.log(err.response)
+          if(err){
+           dispatch({
+               type: GET_UNAPROVE_USER_LIST_FAILED,
+               payload: err.response
+           })
+          }
+      })
+    }
+   
+export const getUnapproveUsersLoading = () => {
     return{
-        type: SUSPEND_USER,
+        type: GET_UNAPROVE_USER_LIST,
     }
 }
+   
+   
+      
+   export const suspendUserLoading = () => {
+        return{
+            type: SUSPEND_USER,
+        }
+    }
    
    export const suspendUser = (id) => async dispatch => {
     dispatch(suspendUserLoading());
@@ -79,6 +119,37 @@ import {
       })
 }
    
+   
+   
+export const setApproveUserLoading = () => {
+    return{
+        type: APPROVE_USER,
+    }
+}
+
+export const approveUser = (id) => async dispatch => {
+dispatch(setApproveUserLoading());
+console.log(id)
+await axios.get(`/profile/approve-profile?id=${id}`)
+   .then(res => {
+    if(res.data){
+     dispatch({
+         type:APPROVE_USER_SUCCESS,
+     })
+     toast.success("user approved successfully")
+    }
+   })
+   .catch(err => {
+       console.log(err.response)
+      if(err){
+       dispatch({
+           type: APPROVE_USER_FAILED,
+           payload: err.response
+       })
+      }
+  })
+}
+
    
 export const activateUserLoading = () => {
     return{

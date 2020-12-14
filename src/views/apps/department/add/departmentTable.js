@@ -22,6 +22,7 @@ import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
 import { history } from "../../../../history"
 import { connect } from "react-redux"
+import {store} from "../../../../redux/storeConfig/store"
 import { getDepartmentList, deleteDepartment } from "../../../../redux/actions/department/departmenentActions"
 import { ChevronDown } from "react-feather"
 
@@ -98,10 +99,8 @@ class departmentTable extends React.Component {
 
  async componentDidMount() {
     await this.props.getDepartmentList();
-    console.log(this.props)
     let rowData = this.props.departments
     this.setState({ rowData })
-    console.log(this.state.rowData)
   }
  
 
@@ -116,7 +115,17 @@ class departmentTable extends React.Component {
       totalPages: this.gridApi.paginationGetTotalPages()
     })
   }
-  
+ 
+async componentWillReceiveProps(nextProps){ 
+  if(nextProps.department != null){
+    await this.props.getDepartmentList();
+    this.setState({rowData: this.props.departments})
+    store.dispatch({
+      type:"CREATE_DEPARTMENT_SUCCESS",
+      payload: null
+  })
+  }
+}
   
 
   updateSearchQuery = val => {
@@ -145,15 +154,12 @@ class departmentTable extends React.Component {
     const {deleteDepartmentId} = this.state;
     const {deleteDepartment} = this.props;
     await deleteDepartment(deleteDepartmentId);
-     this.toggleModal();
+    await this.props.getDepartmentList();
+    this.setState({rowData: this.props.departments})
+    this.toggleModal();
   }
   
-  async componentDidUpdate(nextProps){
-  
-  console.log(nextProps)
-    // await this.props.getDepartmentList();
-    // console.log(this.props)
-  }
+
 
   render() {
     const { rowData, columnDefs, defaultColDef } = this.state
@@ -283,6 +289,7 @@ const mapStateToProps = state => {
     auth: state.auth.login,
     error: state.department.error,
     departments: state.department.departmentList,
+    department: state.department.department,
     loading: state.department.loading,
   }
 }

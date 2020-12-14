@@ -164,6 +164,8 @@ const userList = lazy(() => import("./views/apps/user/list/List"))
 const userEdit = lazy(() => import("./views/apps/user/edit/Edit"))
 const userAdd = lazy(() => import("./views/apps/user/add/Add"))
 const userView = lazy(() => import("./views/apps/user/view/View"))
+const unApproveUsersList = lazy(() => import("./views/apps/user/unapprove-users/List"))
+
 
 const campusAdd = lazy(() => import("./views/apps/campus/add/Add"))
 const campusEdit = lazy(() => import("./views/apps/campus/edit/Edit"))
@@ -173,6 +175,10 @@ const departmentEdit = lazy(() => import("./views/apps/department/edit/Edit"))
 
 const groupAdd = lazy(() => import("./views/apps/group/add/Add"))
 const groupEdit = lazy(() => import("./views/apps/group/edit/Edit"))
+
+const eventAdd = lazy(() => import("./views/apps/event/add/Add"))
+const eventList = lazy(() => import("./views/apps/event/list/List"))
+const eventView = lazy(() => import("./views/apps/event/view/View"))
 
 
 const roleAdd = lazy(() => import("./views/apps/role/add/Add"));
@@ -422,6 +428,7 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/all-users" component={userList} />
           <PrivateRoute path="/edit-user" component={userEdit} />
           <PrivateRoute path="/add-user" component={userAdd} />
+          <PrivateRoute path="/unapprove-users" component={unApproveUsersList} />
           <PrivateRoute path="/users/:userId" component={userView} />
           <PrivateRoute path="/add-roles" component={roleAdd} />
           <PrivateRoute path="/add-campus" component={campusAdd} />
@@ -430,6 +437,9 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/edit-department/:departmentId" component={departmentEdit} />
           <PrivateRoute path="/add-group" component={groupAdd} />
           <PrivateRoute path="/edit-group/:groupId" component={groupEdit} />
+          <PrivateRoute path="/add-event" component={eventAdd} />
+          <PrivateRoute path="/events" component={eventList} />
+          <PrivateRoute path="/event/:eventId" component={eventView} />
           <PrivateRoute path="/charts/chartjs" component={chartjs} />
           <PrivateRoute path="/charts/recharts" component={extreme} />
           <PrivateRoute path="/maps/leaflet" component={leafletMaps} />

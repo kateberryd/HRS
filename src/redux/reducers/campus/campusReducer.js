@@ -16,7 +16,7 @@ import {
   } from '../../constants/campus/index';
   
   const INIT_STATE = {
-    campus: {},
+    campus: null,
     campusList: {},
     error: false,
     loading: false,

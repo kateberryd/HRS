@@ -17,7 +17,7 @@ import {
   } from '../../constants/group/index';
   
   const INIT_STATE = {
-    group: {},
+    group: null,
     groupList: {},
     error: false,
     loading: false,

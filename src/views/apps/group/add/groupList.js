@@ -22,6 +22,7 @@ import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
 import { history } from "../../../../history"
 import { connect } from "react-redux"
+import {store} from "../../../../redux/storeConfig/store"
 import { getGroupList, deleteGroup } from "../../../../redux/actions/group/groupActions"
 import { ChevronDown } from "react-feather"
 
@@ -52,7 +53,7 @@ class GroupList extends React.Component {
       
       {
         headerName: "Departmen",
-        field: "department",
+        field: "department.name",
         width: 150
       },
       
@@ -105,7 +106,16 @@ class GroupList extends React.Component {
     ]
   }
   
-
+  async componentWillReceiveProps(nextProps){ 
+    if(nextProps.group != null){
+      await this.props.getGroupList();
+      this.setState({rowData: this.props.groups})
+      store.dispatch({
+        type:"CREATE_GROUP_SUCCESS",
+        payload: null
+    })
+    }
+  }
 
  async componentDidMount() {
     await this.props.getGroupList();
@@ -154,7 +164,10 @@ class GroupList extends React.Component {
     const {deleteGroupId} = this.state;
     const {deleteGroup} = this.props;
     await deleteGroup(deleteGroupId);
-     this.toggleModal();
+    await this.props.getGroupList();
+    console.log(this.props.groups);
+    this.setState({rowData: this.props.groups})
+    this.toggleModal();
   }
   
 
@@ -285,6 +298,7 @@ const mapStateToProps = state => {
   return {
     auth: state.auth.login,
     error: state.group.error,
+    group: state.group.group,
     groups: state.group.groupList,
     loading: state.group.loading,
   }

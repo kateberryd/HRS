@@ -17,7 +17,7 @@ import {
   } from '../../constants/department/index';
   
   const INIT_STATE = {
-    department: {},
+    department: null,
     departmentList: {},
     error: false,
     loading: false,
@@ -28,7 +28,7 @@ import {
     const { type, payload } = action;
     switch (type) {
       case GET_DEPARTMENT_LIST: {
-        return { ...state, loading: true }
+        return { ...state, loading: false }
       }
       
     case GET_DEPARTMENT_LIST_SUCCESS: 

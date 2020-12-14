@@ -24,8 +24,7 @@ import {
 } from "reactstrap"
 import { ContextLayout } from "../../../../utility/context/Layout";
 import { connect } from "react-redux"
-import {getUserList} from "../../../.././redux/actions/user/userListActions"
-import {deleteUser} from "../../../.././redux/actions/user/singleUserAction"
+import {getUnapproveUsers, approveUser} from "../../../.././redux/actions/user/singleUserAction"
 import { AgGridReact } from "ag-grid-react"
 import {
   Trash2,
@@ -37,10 +36,9 @@ import {
   X
 } from "react-feather"
 import classnames from "classnames"
-import { history } from "../../../../history"
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 import "../../../../assets/scss/pages/users.scss"
-class UsersList extends React.Component {
+class UnapproveUsersList extends React.Component {
   state = {
     rowData: null,
     pageSize: 20,
@@ -62,17 +60,22 @@ class UsersList extends React.Component {
         headerName: "ID",
         field: "_id",
         width: 150,
-      
+        filter: true,
+        checkboxSelection: true,
+        headerCheckboxSelectionFilteredOnly: true,
+        headerCheckboxSelection: true
       },
       {
-        headerName: "username",
-        field: "username",
+        headerName: "Full Name",
+        field: "fullName",
+        filter: true,
         width: 200,
       },
       {
-        headerName: "Email",
-        field: "email",
-        width: 250
+        headerName: "State Of Origin",
+        field: "stateOfOrigin",
+        filter: true,
+        width: 350
       },
       
       // {
@@ -83,13 +86,15 @@ class UsersList extends React.Component {
       // },
   
       {
-        headerName: "Role",
-        field: "role.name",
+        headerName: "Branch",
+        field: "branch",
+        filter: true,
         width: 250
       },
       {
-        headerName: "Status",
-        field: "active",
+        headerName: "Designation",
+        field: "designation",
+        filter: true,
         width: 150,
         
       },
@@ -98,26 +103,16 @@ class UsersList extends React.Component {
       {
         headerName: "Actions",
         field: "_id",
-        width: 400,
+        width: 300,
         cellRendererFramework: params => {
           return (
             <div className="actions cursor-pointer">
             <Button.Ripple className="mr-1" color="primary" 
-               onClick={() => history.push(`/users/${params.value}`)}
+               onClick={() => this.approveUser(params.value)}
               >
-                 <span className="align-middle ml-50">View More</span>
+                 <span className="align-middle ml-50">Approve Profile</span>
               </Button.Ripple>
-             
-              <Button.Ripple color="danger"
-                onClick={this.toggleModal}
-              >
-              <Trash2
-                className="mr-50"
-                size={15}
-              />
-                 <span className="align-middle ml-50">Delete</span>
-              </Button.Ripple>
-             
+            
             </div>
           )
         }
@@ -137,13 +132,18 @@ class UsersList extends React.Component {
     const { match: { params } } = this.props;
      this.props.deleteUser(params.userId)
    }
+  
+  
+  approveUser = async (id) => {
+    this.props.approveUser(id)  
+  }
     
 
   async componentDidMount() {
-    await this.props.getUserList();
-    console.log(this.props.users.userList)
-    let rowData = this.props.users.userList
-      this.setState({ rowData })
+    await this.props.getUnapproveUsers();
+    console.log(this.props)
+    let rowData = this.props.users
+    this.setState({ rowData })
   }
 
   onGridReady = params => {
@@ -507,7 +507,7 @@ class UsersList extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth.login,
-    users: state.userList
+    users: state.userList.unapproveUsers
   }
 }
-export default connect(mapStateToProps, { getUserList, deleteUser })(UsersList)
+export default connect(mapStateToProps, {getUnapproveUsers, approveUser })(UnapproveUsersList)

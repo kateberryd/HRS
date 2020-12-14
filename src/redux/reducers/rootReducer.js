@@ -11,6 +11,7 @@ import {userList} from "./user/userReducer"
 import {campusReducer} from "./campus/campusReducer"
 import {departmentReducer} from "./department/departmentReducer"
 import {groupReducer} from "./group/groupReducer"
+import {eventReducer} from "./event/eventReducer"
 
 const rootReducer = combineReducers({
   calendar: calenderReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   userList: userList,
   campus: campusReducer,
   department: departmentReducer,
-  group: groupReducer
+  group: groupReducer,
+  event: eventReducer
 })
 
 export default rootReducer
