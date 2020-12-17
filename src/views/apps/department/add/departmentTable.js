@@ -48,13 +48,13 @@ class departmentTable extends React.Component {
       {
         headerName: "Department",
         field: "name",
-        width: 180
+        width: 150
       },
       
       {
         headerName: "Country",
         field: "country",
-        width: 170
+        width: 150
       },
       
       
@@ -67,26 +67,37 @@ class departmentTable extends React.Component {
       {
         headerName: "Address",
         field: "address",
-        width: 200
+        width: 150
       },
      
      
       {
         headerName: "Actions",
         field: "_id",
-        width: 150,
+        width: 300,
         cellRendererFramework: params => {
           return (
             <div className="actions cursor-pointer">
-              <Edit
+            <Button.Ripple className="mr-1" color="primary" 
+               onClick={() => history.push(`/edit-department/${params.value}`)}
+              >
+               <Edit
                 className="mr-50"
                 size={15}
-                onClick={() => history.push(`/edit-department/${params.value}`)}
               />
+                 <span className="align-middle ml-50">Edit</span>
+              </Button.Ripple>
+             
+              <Button.Ripple color="danger"
+                onClick={ () => this.toggleModal(params.value)}
+              >
               <Trash2
+                className="mr-50"
                 size={15}
-                onClick={() => this.toggleModal(params.value)}
               />
+                 <span className="align-middle ml-50">Delete</span>
+              </Button.Ripple>
+             
             </div>
           )
         }

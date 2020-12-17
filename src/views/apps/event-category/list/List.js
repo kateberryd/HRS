@@ -15,27 +15,23 @@ import {
   ModalFooter,
 } from "reactstrap"
 import {
-  Edit,
   Trash2,
 } from "react-feather"
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
-import { history } from "../../../../history"
-import { connect } from "react-redux"
-import {store} from "../../../../redux/storeConfig/store"
-import { getGroupList, deleteGroup } from "../../../../redux/actions/group/groupActions"
 import { ChevronDown } from "react-feather"
-
-
+import {store} from "../../../../redux/storeConfig/store"
+import { connect } from "react-redux"
+import {getEventCategoryList, deleteEventCategory} from "../../../../redux/actions/event-category/event-categoryActions"
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 
-class GroupList extends React.Component {
+class CategoryList extends React.Component {
   state = {
     rowData: null,
+    deleteEventCategoryId: null,
     paginationPageSize: 20,
-    modal: false,
-    deleteGroupId: null,
     currenPageSize: "",
+    modal: false,
     getPageSize: "",
     defaultColDef: {
       sortable: true,
@@ -46,91 +42,50 @@ class GroupList extends React.Component {
     columnDefs: [
       
       {
-        headerName: "Group",
+        headerName: "Category",
         field: "name",
-        width: 150
-      },
-      
-      // {
-      //   headerName: "Department",
-      //   field: "department.name",
-      //   width: 150
-      // },
-      
-      {
-        headerName: "Country",
-        field: "country",
-        width: 150
-      },
-      
-      
-      {
-        headerName: "State",
-        field: "state",
-        width: 150
+        width: 300
       },
      
       {
-        headerName: "Address",
-        field: "address",
-        width: 150
+        headerName: "Icon Link",
+        field: "icon",
+        width: 300
       },
-     
      
       {
         headerName: "Actions",
         field: "_id",
         width: 300,
         cellRendererFramework: params => {
-          return (
-            <div className="actions cursor-pointer">
-            <Button.Ripple className="mr-1" color="primary" 
-               onClick={() => history.push(`/edit-group/${params.value}`)}
-              >
-              <Edit
-                className="mr-50"
-                size={15}
-              />
-                 <span className="align-middle ml-50">Edit</span>
-              </Button.Ripple>
-             
-              <Button.Ripple color="danger"
-                onClick={ () => this.toggleModal(params.value)}
-              >
-              <Trash2
-                className="mr-50"
-                size={15}
-              />
-                 <span className="align-middle ml-50">Delete</span>
-              </Button.Ripple>
-             
-            </div>
-          )
+            return (
+                <div className="actions cursor-pointer">
+                
+                  <Button.Ripple color="danger"
+                    onClick={() => this.toggleModal(params.value)}
+                  >
+                  <Trash2
+                    className="mr-50"
+                    size={15}
+                  />
+                     <span className="align-middle ml-50">Delete</span>
+                  </Button.Ripple>
+                 
+                </div>
+              )
         }
       }
     
     ]
   }
+
+  async componentDidMount() {
+    await this.props.getEventCategoryList();
+    const data = this.props.categories
+    this.setState({rowData: data})
+  }
   
-  async componentWillReceiveProps(nextProps){ 
-    if(nextProps.group != null){
-      await this.props.getGroupList();
-      this.setState({rowData: this.props.groups})
-      store.dispatch({
-        type:"CREATE_GROUP_SUCCESS",
-        payload: null
-    })
-    }
-  }
 
- async componentDidMount() {
-    await this.props.getGroupList();
-    let rowData = this.props.groups
-    this.setState({ rowData })
-  }
- 
-
- 
 
   onGridReady = params => {
     this.gridApi = params.api
@@ -141,8 +96,6 @@ class GroupList extends React.Component {
       totalPages: this.gridApi.paginationGetTotalPages()
     })
   }
-  
-  
 
   updateSearchQuery = val => {
     this.gridApi.setQuickFilter(val)
@@ -158,24 +111,35 @@ class GroupList extends React.Component {
     }
   }
   
-  toggleModal = id => {
+  async componentWillReceiveProps(nextProps){ 
+    if(nextProps.category != null){
+      await this.props.getEventCategoryList();
+      this.setState({rowData: this.props.categories})
+      store.dispatch({
+        type:"CREATE_CATEGORY_SUCCESS",
+        payload: null
+     })
+    }
+  }
+  
+  toggleModal = (id) => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      deleteGroupId: id
+      deleteEventCategoryId: id
     }))
   }
   
-
-  deleteGroup = async () => {
-    const {deleteGroupId} = this.state;
-    const {deleteGroup} = this.props;
-    await deleteGroup(deleteGroupId);
-    await this.props.getGroupList();
-    console.log(this.props.groups);
-    this.setState({rowData: this.props.groups})
+  
+  
+  deleteEventCategory = async () => {
+    const {deleteEventCategoryId} = this.state
+    const {deleteEventCategory} = this.props
+    await deleteEventCategory(deleteEventCategoryId)
+    await this.props.getEventCategoryList()
+    const data = this.props.categories;
+    this.setState({rowData: data})
     this.toggleModal();
   }
-  
 
   render() {
     const { rowData, columnDefs, defaultColDef } = this.state
@@ -184,7 +148,7 @@ class GroupList extends React.Component {
        
         <Card className="overflow-hidden agGrid-card">
           <CardBody className="py-0">
-            {this.state.rowData !== null ? (
+            {this.state.rowData === null ? null : (
               <div className="ag-theme-material w-100 my-2 ag-grid-table">
                 <div className="d-flex flex-wrap justify-content-between align-items-center">
                   <div className="mb-1">
@@ -269,11 +233,7 @@ class GroupList extends React.Component {
                   )}
                 </ContextLayout.Consumer>
               </div>
-            ): (
-              <div>
-                  Data loading
-              </div>
-            ) }
+            )}
           </CardBody>
           <Col>
             <Modal
@@ -285,15 +245,15 @@ class GroupList extends React.Component {
                 Delete
               </ModalHeader>
               <ModalBody>
-                <h5>Are you sure you want to delete this group?</h5>
+                <h5>Are you sure you want to delete this category?</h5>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger"onClick={this.deleteGroup} >
+                <Button color="danger"onClick={this.deleteEventCategory} >
                   Accept
                 </Button>{" "}
               </ModalFooter>
             </Modal>
-            </Col>
+          </Col>
         </Card>
       </React.Fragment>
     )
@@ -303,11 +263,9 @@ class GroupList extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth.login,
-    error: state.group.error,
-    group: state.group.group,
-    groups: state.group.groupList,
-    loading: state.group.loading,
+    category: state.category.category,
+    categories: state.category.categoryList
   }
 }
-export default connect(mapStateToProps, { getGroupList, deleteGroup })(GroupList)
+export default connect(mapStateToProps, { getEventCategoryList, deleteEventCategory })(CategoryList)
 

@@ -106,6 +106,11 @@ class EventList extends React.Component {
     ]
   }
   
+  
+formatDate = (string) => {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(string).toLocaleDateString([],options);
+}
 
  async componentDidMount() {
     await this.props.getEventList();

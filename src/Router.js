@@ -180,9 +180,20 @@ const eventAdd = lazy(() => import("./views/apps/event/add/Add"))
 const eventList = lazy(() => import("./views/apps/event/list/List"))
 const eventView = lazy(() => import("./views/apps/event/view/View"))
 
+const categories = lazy(() => import("./views/apps/event-category/index"));
+
+const sicknessList = lazy(() => import("./views/apps/sickness/list/List"))
+
+const conflictList = lazy(() => import("./views/apps/conflict/list/List"))
+
+const qualityAssuranceList = lazy(() => import("./views/apps/quality-assurance/list/List"))
+
+const score = lazy(() => import("./views/apps/score/list/List"))
 
 const roleAdd = lazy(() => import("./views/apps/role/add/Add"));
+
 const Login = lazy(() => import("./views/pages/authentication/login/Login"))
+
 const forgotPassword = lazy(() =>
   import("./views/pages/authentication/ForgotPassword")
 )
@@ -440,6 +451,11 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/add-event" component={eventAdd} />
           <PrivateRoute path="/events" component={eventList} />
           <PrivateRoute path="/event/:eventId" component={eventView} />
+          <PrivateRoute path="/categories" component={categories} />
+          <PrivateRoute path="/sicknesses" component={sicknessList} />
+          <PrivateRoute path="/conflicts" component={conflictList} />
+          <PrivateRoute path="/quality-assurances" component={ qualityAssuranceList} />
+          <PrivateRoute path="/score-setting" component={score} />
           <PrivateRoute path="/charts/chartjs" component={chartjs} />
           <PrivateRoute path="/charts/recharts" component={extreme} />
           <PrivateRoute path="/maps/leaflet" component={leafletMaps} />

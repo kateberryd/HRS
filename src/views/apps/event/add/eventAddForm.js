@@ -37,20 +37,15 @@ const formSchema = Yup.object().shape({
   .required("Required")
 })
 
-const categories = [
-  { value: "first", label: "First", color: "#7367f0" },
-  { value: "last", label: "Last", color: "#7367f0" },
-  { value: "second", label: "Second", color: "#7367f0" },
-  { value: "third", label: "Third", color: "#7367f0" },
-  { value: "fourth", label: "Fourth", color: "#7367f0" }
-]
 
 
 
 
-const EventForm = ({error, loading, createEvent})  => {
+
+const EventForm = ({error, loading, createEvent, categories})  => {
     return (
       <Card>
+      {console.log(categories)}
         <CardHeader>
           <Message message={error} />
           <CardTitle>Add Event</CardTitle>
@@ -97,13 +92,15 @@ const EventForm = ({error, loading, createEvent})  => {
               
               <Col md="6" sm="12">
                 <FormGroup>
-                  <Label className="mb-1" for="country">Category</Label>
+                  <Label className="mb-1" for="category">Category</Label>
                   <Select
                     options={categories}
                     className="React"
                     classNamePrefix="select"
                     id="category"
-                    onChange={value => setFieldValue('category', value.value)}
+                    getOptionLabel={option =>`${option.name}`}
+                    getOptionValue={option => `${option}`}
+                    onChange={value => setFieldValue('category', value._id)}
                   />
                   {errors.category && touched.category ? (
                     <div className="invalid-tooltip mt-25">{errors.category}</div>

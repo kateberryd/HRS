@@ -15,26 +15,26 @@ import {
   ModalFooter,
 } from "reactstrap"
 import {
-  Edit,
   Trash2,
 } from "react-feather"
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
 import { history } from "../../../../history"
 import { connect } from "react-redux"
-import {store} from "../../../../redux/storeConfig/store"
-import { getGroupList, deleteGroup } from "../../../../redux/actions/group/groupActions"
+import { getSicknessList, deleteSickness, closeSickness } from "../../../../redux/actions/sickness/sicknessActions"
 import { ChevronDown } from "react-feather"
 
 
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 
-class GroupList extends React.Component {
+class SicknessList extends React.Component {
   state = {
     rowData: null,
     paginationPageSize: 20,
     modal: false,
-    deleteGroupId: null,
+    modal2: false,
+    deleteSicknessId: null,
+    closeSicknessId: null,
     currenPageSize: "",
     getPageSize: "",
     defaultColDef: {
@@ -46,90 +46,71 @@ class GroupList extends React.Component {
     columnDefs: [
       
       {
-        headerName: "Group",
-        field: "name",
-        width: 150
+        headerName: "Title",
+        field: "title",
+        width: 300
       },
       
-      // {
-      //   headerName: "Department",
-      //   field: "department.name",
-      //   width: 150
-      // },
-      
-      {
-        headerName: "Country",
-        field: "country",
-        width: 150
-      },
-      
-      
-      {
-        headerName: "State",
-        field: "state",
-        width: 150
-      },
      
       {
-        headerName: "Address",
-        field: "address",
-        width: 150
+        headerName: "Description",
+        field: "description",
+        width: 300
+      },
+      
+      
+      {
+        headerName: "Reporter",
+        field: "user.name",
+        width: 300
       },
      
      
       {
         headerName: "Actions",
         field: "_id",
-        width: 300,
+        width: 500,
         cellRendererFramework: params => {
-          return (
-            <div className="actions cursor-pointer">
-            <Button.Ripple className="mr-1" color="primary" 
-               onClick={() => history.push(`/edit-group/${params.value}`)}
-              >
-              <Edit
-                className="mr-50"
-                size={15}
-              />
-                 <span className="align-middle ml-50">Edit</span>
-              </Button.Ripple>
-             
-              <Button.Ripple color="danger"
-                onClick={ () => this.toggleModal(params.value)}
-              >
-              <Trash2
-                className="mr-50"
-                size={15}
-              />
-                 <span className="align-middle ml-50">Delete</span>
-              </Button.Ripple>
-             
-            </div>
-          )
+            return (
+                <div className="actions cursor-pointer">
+                <Button.Ripple className="mr-1" color="primary" 
+                   onClick={() => this.toggleCloseSicknessModal(params.value)}
+                  >
+                     <span className="align-middle ml-50">Close Report</span>
+                  </Button.Ripple>
+                 
+                <Button.Ripple className="mr-1" color="primary" 
+                   onClick={() => history.push(`/event/${params.value}`)}
+                  >
+                     <span className="align-middle ml-50">View More</span>
+                  </Button.Ripple>
+                  
+              
+                  <Button.Ripple color="danger"
+                    onClick={ () => this.toggleModal(params.value)}
+                  >
+                  <Trash2
+                    className="mr-50"
+                    size={15}
+                  />
+                     <span className="align-middle ml-50">Delete</span>
+                  </Button.Ripple>
+                 
+                </div>
+              )
         }
       }
     
     ]
   }
   
-  async componentWillReceiveProps(nextProps){ 
-    if(nextProps.group != null){
-      await this.props.getGroupList();
-      this.setState({rowData: this.props.groups})
-      store.dispatch({
-        type:"CREATE_GROUP_SUCCESS",
-        payload: null
-    })
-    }
-  }
 
  async componentDidMount() {
-    await this.props.getGroupList();
-    let rowData = this.props.groups
+    await this.props.getSicknessList();
+    let rowData = this.props.sicknesses
+    console.log(this.props)
     this.setState({ rowData })
   }
- 
-
  
 
   onGridReady = params => {
@@ -161,19 +142,40 @@ class GroupList extends React.Component {
   toggleModal = id => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      deleteGroupId: id
+      deleteSicknessId: id
     }))
   }
   
 
-  deleteGroup = async () => {
-    const {deleteGroupId} = this.state;
-    const {deleteGroup} = this.props;
-    await deleteGroup(deleteGroupId);
-    await this.props.getGroupList();
-    console.log(this.props.groups);
-    this.setState({rowData: this.props.groups})
+  deleteSickness = async () => {
+    const {deleteSicknessId} = this.state;
+    const {deleteSickness} = this.props;
+    await deleteSickness(deleteSicknessId);
+    await this.props.getSicknessList();
+    console.log(this.props.sicknesses);
+    this.setState({rowData: this.props.sicknesses})
     this.toggleModal();
+  }
+  
+  
+  toggleCloseSicknessModal = id => {
+    this.setState(prevState => ({
+      modal2: !prevState.modal2,
+      closeSicknessId: id
+    }))
+  }
+  
+  
+  
+  closeSickness = async () => {
+    const {closeSicknessId} = this.state;
+    const {closeSickness} = this.props;
+    await closeSickness(closeSicknessId);
+    console.log(this.props)
+    await this.props.getSicknessList();
+    console.log(this.props.sicknesses);
+    this.setState({rowData: this.props.sicknesses})
+    this.toggleCloseSicknessModal();
   }
   
 
@@ -285,10 +287,28 @@ class GroupList extends React.Component {
                 Delete
               </ModalHeader>
               <ModalBody>
-                <h5>Are you sure you want to delete this group?</h5>
+                <h5>Are you sure you want to delete this incident?</h5>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger"onClick={this.deleteGroup} >
+                <Button color="danger"onClick={this.deleteSickness} >
+                  Accept
+                </Button>{" "}
+              </ModalFooter>
+            </Modal>
+            
+            <Modal
+              isOpen={this.state.modal2}
+              toggle={this.toggleCloseSicknessModal}
+              className={this.props.className}
+            >
+              <ModalHeader toggle={this.toggleCloseSicknessModal}>
+                Delete
+              </ModalHeader>
+              <ModalBody>
+                <h5>Are you sure you want to close this incident?</h5>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger"onClick={this.closeSickness} >
                   Accept
                 </Button>{" "}
               </ModalFooter>
@@ -303,11 +323,11 @@ class GroupList extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth.login,
-    error: state.group.error,
-    group: state.group.group,
-    groups: state.group.groupList,
-    loading: state.group.loading,
+    error: state.event.error,
+    sickness: state.sickness.sickness,
+    sicknesses: state.sickness.sicknessList,
+    loading: state.sickness.loading,
   }
 }
-export default connect(mapStateToProps, { getGroupList, deleteGroup })(GroupList)
+export default connect(mapStateToProps, { getSicknessList, deleteSickness, closeSickness })(SicknessList)
 

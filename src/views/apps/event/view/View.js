@@ -9,7 +9,7 @@ import {
   Col,
   Button,
 } from "reactstrap"
-import { Edit, Trash,} from "react-feather"
+import { Edit,} from "react-feather"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import { ToastContainer } from 'react-toastify';
@@ -64,7 +64,7 @@ editEvent = async () => {
                 <CardTitle> Event</CardTitle>
               </CardHeader>
               <CardBody>
-                <Row className="mx-0" col="12">
+                <Row className="mx-0" col="6">
                   <Col className="pl-0" sm="12" md="12">
                    
                       <Media className="mt-md-1 mt-0" left>
@@ -110,7 +110,7 @@ editEvent = async () => {
                                 <div className="user-info-title font-weight-bold">
                                     Category
                                 </div>
-                                <div>{event ? event.category.charAt(0).toUpperCase() + event.category.slice(1) : null}</div>
+                                <div>{event ? event.category.name.charAt(0).toUpperCase() + event.category.name.slice(1) : null}</div>
                             </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -137,7 +137,7 @@ editEvent = async () => {
               </CardBody>
             </Card>
           </Col>
-         
+         <ToastContainer />
       
         </Row>
       </React.Fragment>

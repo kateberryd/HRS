@@ -118,6 +118,7 @@ export const getSingleEvent = (id) => async dispatch => {
     await axios.get(`/event/single?id=${id}`)
        .then(res => {
         if(res.data){
+            console.log(res.data)
          dispatch({
              type:GET_SINGLE_EVENT_SUCCESS,
              payload: res.data.data

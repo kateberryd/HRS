@@ -96,6 +96,7 @@ const navigationConfig = [
   {
     id: "groups",
     title: "Groups",
+    icon: <Icon.GitMerge size={20} />,
     type: "collapse",
     children: [
       {
@@ -124,6 +125,7 @@ const navigationConfig = [
   {
     id: "Campus",
     title: "Campus",
+    icon: <Icon.StopCircle size={20} />,
     type: "collapse",
     children: [
       {
@@ -145,6 +147,7 @@ const navigationConfig = [
   {
     id: "Department",
     title: "Department",
+    icon: <Icon.List size={20} />,
     type: "collapse",
     children: [
       {
@@ -165,6 +168,7 @@ const navigationConfig = [
   {
     id: "Event",
     title: "Events",
+    icon: <Icon.Tablet size={20} />,
     type: "collapse",
     children: [
       {
@@ -186,8 +190,90 @@ const navigationConfig = [
         navLink: "/events"
       },
       
+      
+      {
+        id: "Category",
+        title: "Category",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/categories"
+      },
+      
     ]
   }, 
+  
+  {
+    id: "incident",
+    title: "Incidents",
+    icon: <Icon.List size={20} />,
+    type: "collapse",
+    children: [
+      {
+        id: "allSickness",
+        title: "Sicknesses",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/sicknesses",
+
+      },
+      
+      {
+        id: "allConflict",
+        title: "Conflicts",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/conflicts",
+
+      },
+      
+      
+       
+      {
+        id: "allAssurance",
+        title: "Quality Assurance",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/quality-assurances",
+
+      },
+      
+      
+      
+    ]
+  }, 
+  
+  
+  
+  
+  
+    
+  {
+    id: "settings",
+    title: "Settings",
+    icon: <Icon.Settings size={20} />,
+    type: "collapse",
+    children: [
+      {
+        id: "score",
+        title: "Score Management",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/score-setting",
+
+      },
+      
+      
+    ]
+  }, 
+  
+  
+ 
+  
   
   
    
