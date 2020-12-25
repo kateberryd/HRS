@@ -1,74 +1,72 @@
 import axios from "../../../utility/axios"
-import { toast } from 'react-toastify';
 import Axios from "axios"
+import { toast } from 'react-toastify';
 import {
-    CREATE_EVENT,
-    CREATE_EVENT_SUCCESS,
-    CREATE_EVENT_FAILED,
-    GET_EVENT_LIST,
-    GET_EVENT_LIST_SUCCESS,
-    GET_EVENT_LIST_FAILED,
-    GET_SINGLE_EVENT,
-    GET_SINGLE_EVENT_SUCCESS,
-    GET_SINGLE_EVENT_FAILED,
-    EDIT_EVENT,
-    EDIT_EVENT_SUCCESS,
-    EDIT_EVENT_FAILED,
-    DELETE_EVENT_SUCCESS,
-    DELETE_EVENT_FAILED,
-  } from '../../constants/event/index';
-  
- export const createEvent = (formData) => async dispatch => {
-       dispatch(setCreatEventLOading());
+    CREATE_CONTENT,
+    CREATE_CONTENT_SUCCESS,
+    CREATE_CONTENT_FAILED,
+    GET_CONTENT_LIST,
+    GET_CONTENT_LIST_SUCCESS,
+    GET_CONTENT_LIST_FAILED,
+    GET_SINGLE_CONTENT,
+    GET_SINGLE_CONTENT_SUCCESS,
+    GET_SINGLE_CONTENT_FAILED,
+    EDIT_CONTENT,
+    EDIT_CONTENT_SUCCESS,
+    EDIT_CONTENT_FAILED,
+    DELETE_CONTENT_SUCCESS,
+    DELETE_CONTENT_FAILED,
+  } from '../../constants/content/index';
+
+ export const createContent = (formData) => async dispatch => {
+       dispatch(setCreateContentLoading());
        let fd = new FormData()
-       fd.append("file", formData.image)
+       fd.append("file", formData.attachment)
        fd.append("upload_preset", "oebydoly")
        let uploadedImage = await Axios.post("https://api.cloudinary.com/v1_1/nhub-kate/image/upload",fd)
        await axios
-       .post("/event", {
-         title: formData.name,
-         category: formData.category,
-         date: formData.date,
-         time: formData.dateTime,
-         location: formData.location,
+       .post("/content", {
+         title: formData.title,
          description: formData.description,
-         coverImage: uploadedImage.data.url
+         attachment: uploadedImage.data.url
        }).then(res => {
            console.log(res.data)
            if(res.data){
             dispatch({
-                type:CREATE_EVENT_SUCCESS,
+                type:CREATE_CONTENT_SUCCESS,
                 payload: res.data.data
             })
+            toast.success(res.data.message)
            }
-           toast.success("Event created succesfuly")
           })
           .catch(err => {
               console.log(err.response)
              if(err){
               dispatch({
-                  type: CREATE_EVENT_FAILED,
+                  type: CREATE_CONTENT_FAILED,
                   payload: err.response
               })
              }
          })
    }
    
-   export const setCreatEventLOading = () => {
+   export const setCreateContentLoading = () => {
        return{
-           type: CREATE_EVENT,
+           type: CREATE_CONTENT,
        }
    }
    
    
-   export const getEventList = () => async dispatch => {
-    dispatch(getEventLoading());
-    await axios.get('/event')
+   export const getContentList = () => async dispatch => {
+ try{
+    console.log("sjjsjsh")
+    dispatch(getContentListLoading());
+    await axios.get('/content')
        .then(res => {
         if(res.data){
             console.log(res.data)
          dispatch({
-             type:GET_EVENT_LIST_SUCCESS,
+             type:GET_CONTENT_LIST_SUCCESS,
              payload: res.data.data
          })
         }
@@ -78,37 +76,42 @@ import {
            console.log(err.response)
           if(err){
            dispatch({
-               type: GET_EVENT_LIST_FAILED,
+               type: GET_CONTENT_LIST_FAILED,
                payload: err.response
            })
           }
       })
+ }
+ catch(error){
+     console.log(error)
+ }
 }
 
-export const getEventLoading = () => {
+export const getContentListLoading = () => {
     return{
-        type: GET_EVENT_LIST,
+        type: GET_CONTENT_LIST,
     }
 }
 
 
 
-export const deleteEvent = (id) => async dispatch => {
-    await axios.delete(`/event/single/?id=${id}`)
+export const deleteContent = (id) => async dispatch => {
+    console.log(id)
+    await axios.delete(`/content/single/?id=${id}`)
        .then(res => {
         if(res.data){
          dispatch({
-             type:DELETE_EVENT_SUCCESS,
+             type:DELETE_CONTENT_SUCCESS,
              payload: res.data.data
          })
-        //  history.push("/add-event")
+         toast.error(res.data.message)
         }
        })
        .catch(err => {
            console.log(err.response)
           if(err){
            dispatch({
-               type: DELETE_EVENT_FAILED,
+               type: DELETE_CONTENT_FAILED,
                payload: err.response
            })
           }
@@ -116,15 +119,14 @@ export const deleteEvent = (id) => async dispatch => {
 }
 
 
-export const getSingleEvent = (id) => async dispatch => {
+export const getSingleContent = (id) => async dispatch => {
     console.log(id)
-    dispatch(getSingleEventLoading());
-    await axios.get(`/event/single?id=${id}`)
+    dispatch(getSingleContentLoading());
+    await axios.get(`/content/single?id=${id}`)
        .then(res => {
         if(res.data){
-            console.log(res.data)
          dispatch({
-             type:GET_SINGLE_EVENT_SUCCESS,
+             type:GET_SINGLE_CONTENT_SUCCESS,
              payload: res.data.data
          })
         }
@@ -133,27 +135,27 @@ export const getSingleEvent = (id) => async dispatch => {
            console.log(err.response.data.error)
           if(err){
            dispatch({
-               type: GET_SINGLE_EVENT_FAILED,
+               type: GET_SINGLE_CONTENT_FAILED,
                payload: err.response.data.error
            })
           }
       })
 }
 
-export const getSingleEventLoading = () => {
+export const getSingleContentLoading = () => {
     return{
-        type: GET_SINGLE_EVENT,
+        type: GET_SINGLE_CONTENT,
     }
 }
 
 
-export const editEvent= (id) => async dispatch => {
-    dispatch(getEditEventLoading());
+export const editContent = (id) => async dispatch => {
+    dispatch(editContentLoading());
     await axios.get(`/user-management/get-single-user/${id}`)
        .then(res => {
         if(res.data){
          dispatch({
-             type:EDIT_EVENT_SUCCESS,
+             type:EDIT_CONTENT_SUCCESS,
              payload: res.data.data
          })
         }
@@ -162,15 +164,15 @@ export const editEvent= (id) => async dispatch => {
            console.log(err.response)
           if(err){
            dispatch({
-               type: EDIT_EVENT_FAILED,
+               type: EDIT_CONTENT_FAILED,
                payload: err.response
            })
           }
       })
 }
 
-export const getEditEventLoading = () => {
+export const editContentLoading = () => {
     return{
-        type: EDIT_EVENT,
+        type: EDIT_CONTENT,
     }
 }

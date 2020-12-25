@@ -48,32 +48,47 @@ class GroupList extends React.Component {
       {
         headerName: "Group",
         field: "name",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
-      // {
-      //   headerName: "Department",
-      //   field: "department.name",
-      //   width: 150
-      // },
+      {
+        headerName: "campus",
+        field: "campus.name",
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
+      },
       
       {
         headerName: "Country",
         field: "country",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
       
       {
         headerName: "State",
         field: "state",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
      
       {
         headerName: "Address",
         field: "address",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
      
      
@@ -143,6 +158,9 @@ class GroupList extends React.Component {
   }
   
   
+  capitilizeText = (text) => {
+    return text !== null ? text.charAt(0).toUpperCase() + text.slice(1) : null;
+   }
 
   updateSearchQuery = val => {
     this.gridApi.setQuickFilter(val)

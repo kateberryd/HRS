@@ -1,12 +1,20 @@
 import React from "react"
 import { Row, Col } from "reactstrap"
+import { connect } from "react-redux"
 import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb"
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { getGroupList} from "../../../../redux/actions/group/groupActions"
 import DepartmentForm from "./departmentForm"
 import DepartmentTable from "./departmentTable"
 class Add extends React.Component {
-
+  state = {
+    groups: null,
+  }
+  async componentDidMount() {
+    await this.props.getGroupList();
+    let groups = this.props.groups
+    this.setState({ groups })
+    console.log(this.state.groups)
+  }
   render() {
     return (
       <React.Fragment>
@@ -17,11 +25,10 @@ class Add extends React.Component {
         />
         <Row>
           <Col lg="4" md="12">
-            <ToastContainer />
-            <DepartmentForm />
+            <DepartmentForm  groups={this.state.groups}/>
           </Col>
           <Col lg="8" md="12">
-              <DepartmentTable />
+             <DepartmentTable  />
           </Col>
           
         </Row>
@@ -29,4 +36,9 @@ class Add extends React.Component {
     )
   }
 }
-export default Add;
+const mapStateToProps = state => {
+  return {
+    groups: state.group.groupList,
+  }
+}
+export default connect(mapStateToProps, { getGroupList })(Add)

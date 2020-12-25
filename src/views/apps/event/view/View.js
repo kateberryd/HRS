@@ -15,7 +15,6 @@ import { connect } from "react-redux"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import {getSingleEvent, editEvent} from "../../../.././redux/actions/event/eventActions"
-import userImg from "../../../../assets/img/portrait/small/avatar-s-18.jpg"
 import "../../../../assets/scss/pages/users.scss"
 
 class EventView extends React.Component {
@@ -71,10 +70,10 @@ editEvent = async () => {
                         <Media
                           className="rounded mr-2"
                           object
-                          src={userImg}
+                          src={event? event.coverImage : null}
                           alt="Generic placeholder image"
-                          height="112"
-                          width="112"
+                          height="300"
+                          width="300"
                         />
                     
                       

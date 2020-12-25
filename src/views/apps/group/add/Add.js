@@ -2,20 +2,20 @@ import React from "react"
 import { Row, Col } from "reactstrap"
 import { connect } from "react-redux"
 import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb"
-import { getDepartmentList} from "../../../../redux/actions/department/departmenentActions"
+import { getCampusList} from "../../../../redux/actions/campus/campusActions"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GroupForm from "./groupForm"
 import GroupList from "./groupList"
 class Add extends React.Component {
   state = {
-    departments: null,
+    campuses: null,
   }
   async componentDidMount() {
-    await this.props.getDepartmentList();
-    let departments = this.props.departments
-    this.setState({ departments })
-    console.log(this.state.departments)
+    await this.props.getCampusList();
+    let campuses = this.props.campuses
+    this.setState({ campuses })
+    console.log(this.state.campuses)
   }
   
   render() {
@@ -29,7 +29,7 @@ class Add extends React.Component {
         <Row>
           <Col lg="4" md="12">
             <ToastContainer />
-            <GroupForm departments={this.state.departments} />
+            <GroupForm campuses={this.state.campuses} />
           </Col>
           <Col lg="8" md="12">
               <GroupList />
@@ -43,8 +43,8 @@ class Add extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    departments: state.department.departmentList,
+    campuses: state.campus.campusList,
   }
 }
-export default connect(mapStateToProps, { getDepartmentList })(Add)
+export default connect(mapStateToProps, { getCampusList })(Add)
 

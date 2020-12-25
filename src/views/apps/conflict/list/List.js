@@ -73,10 +73,10 @@ class ConflictList extends React.Component {
         cellRendererFramework: params => {
             return (
                 <div className="actions cursor-pointer">
-                <Button.Ripple className="mr-1" color="primary" 
+                <Button.Ripple className="mr-1" color="primary" disabled={params.data.status === false ? "disabled" : null}
                    onClick={() => this.toggleCloseConflictModal(params.value)}
                   >
-                     <span className="align-middle ml-50">Close Report</span>
+                     <span className="align-middle ml-50">{params.data.status === false ? "Incident Closed" : "Close Incident"}</span>
                   </Button.Ripple>
                  
                 <Button.Ripple className="mr-1" color="primary" 

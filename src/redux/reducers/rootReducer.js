@@ -17,6 +17,10 @@ import {eventCategoryReducer} from "./event-category/event-categoryReducer"
 import {sicknessReducer} from "./sickness/sicknessReducer"
 import {conflictReducer} from "./conflict/conflictReducer"
 import {qualityAssuranceReducer} from "./quality-assurance/qualityAssuranceReducer"
+import {absenteeReducer} from "./absent/absenteeReducer"
+import {requestReducer} from "./request/requestReducer"
+import {contentReducer} from "./content/contentReducer"
+
 
 const rootReducer = combineReducers({
   calendar: calenderReducer,
@@ -36,7 +40,11 @@ const rootReducer = combineReducers({
   category: eventCategoryReducer,
   sickness: sicknessReducer,
   conflict:conflictReducer,
-  qualityAssurance: qualityAssuranceReducer
+  qualityAssurance: qualityAssuranceReducer,
+  absentee: absenteeReducer,
+  request: requestReducer,
+  content: contentReducer
+  
 })
 
 export default rootReducer

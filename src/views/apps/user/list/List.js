@@ -62,6 +62,7 @@ class UsersList extends React.Component {
         headerName: "ID",
         field: "_id",
         width: 150,
+        
       
       },
       {
@@ -101,7 +102,9 @@ class UsersList extends React.Component {
         width: 400,
         cellRendererFramework: params => {
           return (
+            
             <div className="actions cursor-pointer">
+            {console.log(params)}
             <Button.Ripple className="mr-1" color="primary" 
                onClick={() => history.push(`/users/${params.value}`)}
               >

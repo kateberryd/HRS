@@ -44,7 +44,11 @@ class CategoryList extends React.Component {
       {
         headerName: "Category",
         field: "name",
-        width: 300
+        width: 300,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
+        
       },
      
       {
@@ -84,6 +88,10 @@ class CategoryList extends React.Component {
     const data = this.props.categories
     this.setState({rowData: data})
   }
+  
+  capitilizeText = (text) => {
+    return text.charAt(0).toUpperCase() + text.slice(1)
+   }
   
 
 

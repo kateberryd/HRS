@@ -18,9 +18,6 @@ import { Formik, Field, Form } from "formik"
 import * as Yup from "yup"
 import { createEvent } from "../../../../redux/actions/event/eventActions"
 import {Message} from "../../../../components/setAlert/message"
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 import "flatpickr/dist/themes/light.css";
 import "../../../../assets/scss/plugins/forms/flatpickr/flatpickr.scss"
 
@@ -158,7 +155,7 @@ const EventForm = ({error, loading, createEvent, categories})  => {
                   name="image"
                   className="form-control"
                   onChange={(event) => {
-                    setFieldValue("image", event.currentTarget.files[0].name)  
+                    setFieldValue("image", event.currentTarget.files[0])  
                   }}
                   
                   
@@ -192,7 +189,6 @@ const EventForm = ({error, loading, createEvent, categories})  => {
                 </FormGroup>
               </Col>
             </Row>
-            <ToastContainer />
           </Form>
             )}
           </Formik>

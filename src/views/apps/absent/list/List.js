@@ -19,21 +19,21 @@ import {
 } from "react-feather"
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
+import { history } from "../../../../history"
 import { connect } from "react-redux"
-import { getQualityAssuranceList, deleteQualityAssurance, closeQualityAssurance } from "../../../../redux/actions/qaulity-assurance/qualityAssuranceActions"
+import { getAbsenteeList, deleteAbsentee, closeIncident } from "../../../../redux/actions/absent/absenteeActions"
 import { ChevronDown } from "react-feather"
 
 
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 
-class QualityAssurance extends React.Component {
+class AbsenteeList extends React.Component {
   state = {
     rowData: null,
     paginationPageSize: 20,
     modal: false,
     modal2: false,
-    deleteQualityAssuranceId: null,
-    closeQualityAssuranceId: null,
+    absenteeId: null,
     currenPageSize: "",
     getPageSize: "",
     defaultColDef: {
@@ -47,27 +47,27 @@ class QualityAssurance extends React.Component {
       {
         headerName: "Title",
         field: "title",
-        width: 300 
+        width: 200
       },
       
      
       {
         headerName: "Description",
         field: "description",
-        width: 350
+        width: 100
       },
       
       
       {
-        headerName: "Reporter",
-        field: "user.username",
-        width: 200
+        headerName: "Event",
+        field: "event.title",
+        width: 150
       },
+      
      
-          
       {
-        headerName: "Department",
-        field: "department.name",
+        headerName: "Absentee",
+        field: "user.username",
         width: 200
       },
      
@@ -78,19 +78,18 @@ class QualityAssurance extends React.Component {
         cellRendererFramework: params => {
             return (
                 <div className="actions cursor-pointer">
-                <Button.Ripple className="mr-1" color="primary" disabled={params.data.status === false ? "disabled" : null}
-                   onClick={() => this.toggleCloseQualityAssuranceModal(params.value)}
+                <Button.Ripple className="mr-1" color="primary" 
+                   onClick={() => history.push(`/absentee/${params.value}`)}
+                  >
+                     <span className="align-middle ml-50">View More</span>
+                  </Button.Ripple>
+                  
+                  <Button.Ripple className="mr-1" color="primary" disabled={params.data.status === false ? "disabled" : null}
+                   onClick={() => this.toggleCloseIncidentModal(params.value)}
                   >
                      <span className="align-middle ml-50">{params.data.status === false ? "Incident Closed" : "Close Incident"}</span>
                   </Button.Ripple>
                  
-                {/* <Button.Ripple className="mr-1" color="primary" 
-                   onClick={() => history.push(`/event/${params.value}`)}
-                  >
-                     <span className="align-middle ml-50">View More</span>
-                  </Button.Ripple>
-                   */}
-              
                   <Button.Ripple color="danger"
                     onClick={ () => this.toggleModal(params.value)}
                   >
@@ -109,10 +108,16 @@ class QualityAssurance extends React.Component {
     ]
   }
   
+  
+formatDate = (string) => {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(string).toLocaleDateString([],options);
+}
 
  async componentDidMount() {
-    await this.props.getQualityAssuranceList();
-    let rowData = this.props.qualityAssuranceList
+     console.log("hjhjshj")
+    await this.props.getAbsenteeList();
+    let rowData = this.props.absentees
     console.log(this.props)
     this.setState({ rowData })
   }
@@ -144,42 +149,43 @@ class QualityAssurance extends React.Component {
     }
   }
   
+  
+  toggleCloseIncidentModal = id => {
+    this.setState(prevState => ({
+      modal2: !prevState.modal2,
+      absenteeId: id
+    }))
+  }
+  
+  closeIncident = async () => {
+    const {absenteeId} = this.state;
+    console.log(absenteeId)
+    const {closeIncident} = this.props;
+    await closeIncident(absenteeId);
+    await this.props.getAbsenteeList();
+    this.setState({rowData: this.props.absentees})
+    this.toggleCloseIncidentModal();
+  }
+  
   toggleModal = id => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      deleteConflictId: id
+      absenteeId: id
     }))
   }
   
-  
 
-  deleteQualityAssurance = async () => {
-    const {deleteQualityAssuranceId} = this.state;
-    const {deleteQualityAssurance} = this.props;
-    await deleteQualityAssurance(deleteQualityAssuranceId);
-    await this.props.getQualityAssuranceList();
-    console.log(this.props.qualityAssuranceList);
-    this.setState({rowData: this.props.qualityAssuranceList})
+  deleteAbsentee = async () => {
+    
+    const {absenteeId} = this.state;
+    const {deleteAbsentee} = this.props;
+    await deleteAbsentee(absenteeId);
+    await this.props.getAbsenteeList();
+    console.log(this.props.absentees);
+    this.setState({rowData: this.props.absentees})
     this.toggleModal();
   }
   
-  
-  toggleCloseQualityAssuranceModal = id => {
-    this.setState(prevState => ({
-      modal2: !prevState.modal2,
-      deleteQualityAssuranceId: id
-    }))
-  }
-  
-  closeQualityAssurance = async () => {
-    const {closeQualityAssuranceId} = this.state;
-    const {closeQualityAssurance} = this.props;
-    await closeQualityAssurance(closeQualityAssuranceId);
-    await this.props.getQualityAssuranceList();
-    console.log(this.props.qualityAssuranceList);
-    this.setState({rowData: this.props.qualityAssuranceList})
-    this.toggleCloseQualityAssuranceModal();
-  }
 
   render() {
     const { rowData, columnDefs, defaultColDef } = this.state
@@ -289,27 +295,28 @@ class QualityAssurance extends React.Component {
                 Delete
               </ModalHeader>
               <ModalBody>
-                <h5>Are you sure you want to delete this conflict?</h5>
+                <h5>Are you sure you want to delete this incident?</h5>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger"onClick={this.deleteQualityAssurance} >
+                <Button color="danger"onClick={this.deleteAbsentee} >
                   Accept
                 </Button>{" "}
               </ModalFooter>
             </Modal>
+            
             <Modal
               isOpen={this.state.modal2}
               toggle={this.toggleModal}
               className={this.props.className}
             >
-              <ModalHeader toggle={this.toggleCloseQualityAssuranceModal}>
-                Delete
+            <ModalHeader toggle={this.toggleCloseIncidentModal}>
+                Close Incident
               </ModalHeader>
               <ModalBody>
                 <h5>Are you sure you want to close this incident ?</h5>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger"onClick={this.closeQualityAssurance} >
+                <Button color="danger"onClick={this.closeIncident} >
                   Accept
                 </Button>{" "}
               </ModalFooter>
@@ -324,11 +331,11 @@ class QualityAssurance extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth.login,
-    error: state.event.error,
-    qualityAssurance: state.qualityAssurance.qualityAssurance,
-    qualityAssuranceList: state.qualityAssurance.qualityAssuranceList,
-    loading: state.qualityAssurance.loading,
+    error: state.absentee.error,
+    absentee: state.absentee.absentee,
+    absentees: state.absentee.absenteeList,
+    loading: state.absentee.loading,
   }
 }
-export default connect(mapStateToProps, { getQualityAssuranceList, deleteQualityAssurance, closeQualityAssurance })(QualityAssurance)
+export default connect(mapStateToProps, { getAbsenteeList, deleteAbsentee, closeIncident })(AbsenteeList)
 

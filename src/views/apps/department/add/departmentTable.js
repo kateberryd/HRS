@@ -48,26 +48,48 @@ class departmentTable extends React.Component {
       {
         headerName: "Department",
         field: "name",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
+      },
+      
+      
+      {
+        headerName: "Group",
+        field: "group.name",
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
       {
         headerName: "Country",
         field: "country",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
       
       {
         headerName: "State",
         field: "state",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
      
       {
         headerName: "Address",
         field: "address",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
      
      
@@ -115,7 +137,9 @@ class departmentTable extends React.Component {
   }
  
 
- 
+  capitilizeText = (text) => {
+    return text !== null ? text.charAt(0).toUpperCase() + text.slice(1) : null;
+   }
 
   onGridReady = params => {
     this.gridApi = params.api

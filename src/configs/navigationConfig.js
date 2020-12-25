@@ -242,15 +242,76 @@ const navigationConfig = [
       },
       
       
+        
+      {
+        id: "absentee",
+        title: "Absentee",
+        icon: <Icon.Circle size={12} />,
+        type: "collapse",
+        children: [
+            {
+              id: "addAbsentee",
+              title: "Add Absentee",
+              type: "item",
+              icon: <Icon.Circle size={12} />,
+              permissions: ["admin", "editor"],
+              navLink: "/add-absentee",
+            },
+            
+            {
+              id: "allAbsentee",
+              title: "All Absentee",
+              type: "item",
+              icon: <Icon.Circle size={12} />,
+              permissions: ["admin", "editor"],
+              navLink: "/absentee",
+            },
+        ]
+
+      },
+      
+        
+      {
+        id: "request",
+        title: "Request",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/requests",
+
+      },
+       
       
     ]
   }, 
   
+  {
+    id: "content",
+    title: "contents",
+    icon: <Icon.Twitch size={20} />,
+    type: "collapse",
+    children: [
+        {
+          id: "addContent",
+          title: "Add Content",
+          type: "item",
+          icon: <Icon.Circle size={12} />,
+          permissions: ["admin", "editor"],
+          navLink: "/add-content",
+        },
+        
+        {
+          id: "allContent",
+          title: "All Content",
+          type: "item",
+          icon: <Icon.Circle size={12} />,
+          permissions: ["admin", "editor"],
+          navLink: "/contents",
+        },
+    ]
+
+  },
   
-  
-  
-  
-    
   {
     id: "settings",
     title: "Settings",

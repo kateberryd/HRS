@@ -40,7 +40,7 @@ class SicknessList extends React.Component {
     defaultColDef: {
       sortable: true,
       editable: true,
-      resizable: true,
+      resizable: false,
       suppressMenu: true
     },
     columnDefs: [
@@ -48,21 +48,30 @@ class SicknessList extends React.Component {
       {
         headerName: "Title",
         field: "title",
-        width: 300
+        width: 300,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
      
       {
         headerName: "Description",
         field: "description",
-        width: 300
+        width: 300,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
       
       {
         headerName: "Reporter",
         field: "user.name",
-        width: 300
+        width: 300,
+      //   cellRendererFramework: params => {
+      //     return this.capitilizeText(params.value)
+      //  }
       },
      
      
@@ -73,10 +82,12 @@ class SicknessList extends React.Component {
         cellRendererFramework: params => {
             return (
                 <div className="actions cursor-pointer">
-                <Button.Ripple className="mr-1" color="primary" 
+                <Button.Ripple  className="mr-1" color="primary"  disabled={params.data.status === false ? "disabled" : null}
                    onClick={() => this.toggleCloseSicknessModal(params.value)}
                   >
-                     <span className="align-middle ml-50">Close Report</span>
+                  
+                    {console.log(params)}
+                     <span className="align-middle ml-50">{params.data.status === false ? "Incident Closed" : "Close Incident"}</span>
                   </Button.Ripple>
                  
                 <Button.Ripple className="mr-1" color="primary" 
@@ -122,6 +133,13 @@ class SicknessList extends React.Component {
       totalPages: this.gridApi.paginationGetTotalPages()
     })
   }
+  
+  
+  
+  capitilizeText = (text) => {
+    return text.charAt(0).toUpperCase() + text.slice(1)
+   }
+  
   
   
 

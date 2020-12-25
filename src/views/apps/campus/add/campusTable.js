@@ -15,8 +15,6 @@ import {
   ModalFooter,
 } from "reactstrap"
 import {
-  Edit,
-  Eye,
   Trash2,
 } from "react-feather"
 import { AgGridReact } from "ag-grid-react"
@@ -47,7 +45,10 @@ class CampusTable extends React.Component {
       {
         headerName: "Campus",
         field: "name",
-        width: 300
+        width: 200,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
       // {
@@ -74,30 +75,32 @@ class CampusTable extends React.Component {
       {
         headerName: "Campus Coordinator",
         field: "firstname",
-        width: 200
+        width: 200,
       },
      
       {
         headerName: "Actions",
         field: "_id",
-        width: 300,
+        width: 4000,
         cellRendererFramework: params => {
           return (
             <div className="actions cursor-pointer">
-            <Eye
-                className="mr-50"
-                size={15}
-                onClick={() => history.push(`/edit-campus/${params.value}`)}
-              />
-              <Edit
-                className="mr-50"
-                size={15}
-                onClick={() => history.push(`/edit-campus/${params.value}`)}
-              />
+            <Button.Ripple className="mr-1" color="primary" 
+               onClick={() => history.push(`/event/${params.value}`)}
+              >
+                 <span className="align-middle ml-50">View More</span>
+              </Button.Ripple>
+             
+              <Button.Ripple color="danger"
+                onClick={ () => this.toggleModal(params.value)}
+              >
               <Trash2
+                className="mr-50"
                 size={15}
-                 onClick={() => this.toggleModal(params.value)}
               />
+                 <span className="align-middle ml-50">Delete</span>
+              </Button.Ripple>
+             
             </div>
           )
         }
@@ -148,6 +151,11 @@ class CampusTable extends React.Component {
     })
     }
   }
+  
+  capitilizeText = (text) => {
+    return text.charAt(0).toUpperCase() + text.slice(1)
+   }
+
   
   toggleModal = (id) => {
     this.setState(prevState => ({

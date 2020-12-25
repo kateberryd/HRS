@@ -25,7 +25,7 @@ import {
        await axios
        .post("/group", {
          name: formData.name,
-         department: formData.department,
+         campus: formData.campus,
          state: formData.state,
          country: formData.country,
          address: formData.address

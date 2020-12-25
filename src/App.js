@@ -9,6 +9,8 @@ import {setCurrentUser} from "./redux/actions/auth/loginActions";
 import {setAuthToken} from "./utility/setAuthToken"
 import {logout} from "./redux/actions/auth/loginActions"
 import jwt_decode from "jwt-decode"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 if(localStorage.jwtToken){
   setAuthToken(localStorage.jwtToken)
@@ -26,7 +28,12 @@ if(localStorage.jwtToken){
 }
 
 const App = props => {
-  return <Router />
+  return(
+      <div>
+          <Router />
+          <ToastContainer />
+      </div>
+  ) 
 }
 
 export default App

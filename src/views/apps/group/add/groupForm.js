@@ -46,7 +46,7 @@ const states = [
   { value: "kaduna", label: "Kaduna", color: "#7367f0" }
 ]
 
-const groupForm = ({error, loading, createGroup, departments})  => {
+const groupForm = ({error, loading, createGroup, campuses})  => {
     return (
       <Card>
         <CardHeader>
@@ -58,7 +58,7 @@ const groupForm = ({error, loading, createGroup, departments})  => {
             initialValues={{
               name: "",
               country: "",
-              department: "",
+              campus: "",
               state: "",
               address: "",
             }}
@@ -78,7 +78,7 @@ const groupForm = ({error, loading, createGroup, departments})  => {
                     type="text"
                     name="name"
                     id="nameVertical"
-                    placeholder="department"
+                    placeholder="campus"
                     className={`form-control ${errors.name &&
                       touched.name &&
                       "is-invalid"}`}
@@ -91,26 +91,26 @@ const groupForm = ({error, loading, createGroup, departments})  => {
               
               <Col md="12" sm="12">
                 <FormGroup>
-                  <Label for="department">Department</Label>
+                  <Label for="campus" className="mb-1">Campus</Label>
                   <Select
-                    options={departments}
+                    options={campuses}
                     className="React"
                     classNamePrefix="select"
-                    id="department"
-                    name="department"
+                    id="campus"
+                    name="campus"
                     getOptionLabel={option =>`${option.name}`}
                     getOptionValue={option => `${option}`}
-                    onChange={value => setFieldValue('department', value._id)}
+                    onChange={value => setFieldValue('campus', value._id)}
                   />
-                  {errors.department && touched.department ? (
-                    <div className="invalid-tooltip mt-25">{errors.department}</div>
+                  {errors.campus && touched.campus ? (
+                    <div className="invalid-tooltip mt-25">{errors.campus}</div>
                   ) : null}
                 </FormGroup>
               </Col>
               
               <Col md="12" sm="12">
                 <FormGroup>
-                  <Label for="country">Country</Label>
+                  <Label for="country" className="mb-1">Country</Label>
                   <Select
                     options={countries}
                     className="React"
@@ -126,7 +126,7 @@ const groupForm = ({error, loading, createGroup, departments})  => {
             
               <Col md="12" sm="12">
                 <FormGroup>
-                  <Label for="state">State / Province</Label>
+                  <Label for="state"className="mb-1">State / Province</Label>
                   <Select
                     options={states}
                     className="React"

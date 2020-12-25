@@ -19,56 +19,61 @@ import {
 } from "react-feather"
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
+import { history } from "../../../../history"
 import { connect } from "react-redux"
-import { getQualityAssuranceList, deleteQualityAssurance, closeQualityAssurance } from "../../../../redux/actions/qaulity-assurance/qualityAssuranceActions"
+import { getContentList, deleteContent,  } from "../../../../redux/actions/content/contentActions"
 import { ChevronDown } from "react-feather"
 
 
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 
-class QualityAssurance extends React.Component {
+class ContentList extends React.Component {
   state = {
     rowData: null,
     paginationPageSize: 20,
     modal: false,
-    modal2: false,
-    deleteQualityAssuranceId: null,
-    closeQualityAssuranceId: null,
+    contentId: null,
     currenPageSize: "",
     getPageSize: "",
     defaultColDef: {
-      sortable: true,
-      editable: true,
-      resizable: true,
-      suppressMenu: true
+      width: 50,
+      autoHeight: true,
     },
     columnDefs: [
       
       {
         headerName: "Title",
         field: "title",
-        width: 300 
+        width: 200,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
      
       {
         headerName: "Description",
         field: "description",
-        width: 350
+        width: 200,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
       
+      
+      
       {
-        headerName: "Reporter",
-        field: "user.username",
-        width: 200
-      },
-     
-          
-      {
-        headerName: "Department",
-        field: "department.name",
-        width: 200
+        headerName: "Attachment",
+        field: "attachment",
+        width: 200,
+        cellRendererFramework: params => {
+            return (
+                <div className="image">
+                  <img src={params.value} alt="" width="200" height="500" />
+                </div>
+              )
+        }
       },
      
       {
@@ -78,19 +83,13 @@ class QualityAssurance extends React.Component {
         cellRendererFramework: params => {
             return (
                 <div className="actions cursor-pointer">
-                <Button.Ripple className="mr-1" color="primary" disabled={params.data.status === false ? "disabled" : null}
-                   onClick={() => this.toggleCloseQualityAssuranceModal(params.value)}
-                  >
-                     <span className="align-middle ml-50">{params.data.status === false ? "Incident Closed" : "Close Incident"}</span>
-                  </Button.Ripple>
-                 
-                {/* <Button.Ripple className="mr-1" color="primary" 
-                   onClick={() => history.push(`/event/${params.value}`)}
+                <Button.Ripple className="mr-1" color="primary" 
+                   onClick={() => history.push(`/absentee/${params.value}`)}
                   >
                      <span className="align-middle ml-50">View More</span>
                   </Button.Ripple>
-                   */}
-              
+                  
+                 
                   <Button.Ripple color="danger"
                     onClick={ () => this.toggleModal(params.value)}
                   >
@@ -109,10 +108,16 @@ class QualityAssurance extends React.Component {
     ]
   }
   
+  
+
+capitilizeText = (text) => {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+ }
 
  async componentDidMount() {
-    await this.props.getQualityAssuranceList();
-    let rowData = this.props.qualityAssuranceList
+     console.log("hjhjshj")
+    await this.props.getContentList();
+    let rowData = this.props.contents
     console.log(this.props)
     this.setState({ rowData })
   }
@@ -129,6 +134,9 @@ class QualityAssurance extends React.Component {
   }
   
   
+  getRowHeight = (params) => {
+    return params.data.rowHeight;
+  };
 
   updateSearchQuery = val => {
     this.gridApi.setQuickFilter(val)
@@ -144,42 +152,29 @@ class QualityAssurance extends React.Component {
     }
   }
   
+  
+
+
+  
   toggleModal = id => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      deleteConflictId: id
+      contentId: id
     }))
   }
   
-  
 
-  deleteQualityAssurance = async () => {
-    const {deleteQualityAssuranceId} = this.state;
-    const {deleteQualityAssurance} = this.props;
-    await deleteQualityAssurance(deleteQualityAssuranceId);
-    await this.props.getQualityAssuranceList();
-    console.log(this.props.qualityAssuranceList);
-    this.setState({rowData: this.props.qualityAssuranceList})
+  deleteContent = async () => {
+    
+    const {contentId} = this.state;
+    const {deleteContent} = this.props;
+    await deleteContent(contentId);
+    await this.props.getContentList();
+    console.log(this.props.contents);
+    this.setState({rowData: this.props.contents})
     this.toggleModal();
   }
   
-  
-  toggleCloseQualityAssuranceModal = id => {
-    this.setState(prevState => ({
-      modal2: !prevState.modal2,
-      deleteQualityAssuranceId: id
-    }))
-  }
-  
-  closeQualityAssurance = async () => {
-    const {closeQualityAssuranceId} = this.state;
-    const {closeQualityAssurance} = this.props;
-    await closeQualityAssurance(closeQualityAssuranceId);
-    await this.props.getQualityAssuranceList();
-    console.log(this.props.qualityAssuranceList);
-    this.setState({rowData: this.props.qualityAssuranceList})
-    this.toggleCloseQualityAssuranceModal();
-  }
 
   render() {
     const { rowData, columnDefs, defaultColDef } = this.state
@@ -289,31 +284,16 @@ class QualityAssurance extends React.Component {
                 Delete
               </ModalHeader>
               <ModalBody>
-                <h5>Are you sure you want to delete this conflict?</h5>
+                <h5>Are you sure you want to delete this incident?</h5>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger"onClick={this.deleteQualityAssurance} >
+                <Button color="danger"onClick={this.deleteContent} >
                   Accept
                 </Button>{" "}
               </ModalFooter>
             </Modal>
-            <Modal
-              isOpen={this.state.modal2}
-              toggle={this.toggleModal}
-              className={this.props.className}
-            >
-              <ModalHeader toggle={this.toggleCloseQualityAssuranceModal}>
-                Delete
-              </ModalHeader>
-              <ModalBody>
-                <h5>Are you sure you want to close this incident ?</h5>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger"onClick={this.closeQualityAssurance} >
-                  Accept
-                </Button>{" "}
-              </ModalFooter>
-            </Modal>
+            
+           
             </Col>
         </Card>
       </React.Fragment>
@@ -324,11 +304,11 @@ class QualityAssurance extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth.login,
-    error: state.event.error,
-    qualityAssurance: state.qualityAssurance.qualityAssurance,
-    qualityAssuranceList: state.qualityAssurance.qualityAssuranceList,
-    loading: state.qualityAssurance.loading,
+    error: state.content.error,
+    content: state.content.content,
+    contents: state.content.contentList,
+    loading: state.content.loading,
   }
 }
-export default connect(mapStateToProps, { getQualityAssuranceList, deleteQualityAssurance, closeQualityAssurance })(QualityAssurance)
+export default connect(mapStateToProps, { getContentList, deleteContent, })(ContentList)
 

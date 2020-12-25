@@ -46,7 +46,7 @@ const states = [
   { value: "kaduna", label: "Kaduna", color: "#7367f0" }
 ]
 
-const departmentForm = ({error, loading, createDepartment})  => {
+const departmentForm = ({error, loading, createDepartment, groups})  => {
     return (
       <Card>
         <CardHeader>
@@ -59,6 +59,7 @@ const departmentForm = ({error, loading, createDepartment})  => {
               name: "",
               country: "",
               state: "",
+              group: "",
               address: "",
             }}
             validationSchema={formSchema}
@@ -83,6 +84,27 @@ const departmentForm = ({error, loading, createDepartment})  => {
                   />
                   {errors.name && touched.name ? (
                     <div className="invalid-tooltip mt-25">{errors.name}</div>
+                  ) : null}
+                </FormGroup>
+              </Col>
+              
+              
+              
+              <Col md="12" sm="12">
+                <FormGroup>
+                  <Label for="group" className="mb-1">Group</Label>
+                  <Select
+                    options={groups}
+                    className="React"
+                    classNamePrefix="select"
+                    id="group"
+                    name="group"
+                    getOptionLabel={option =>`${option.name}`}
+                    getOptionValue={option => `${option}`}
+                    onChange={value => setFieldValue('group', value._id)}
+                  />
+                  {errors.group && touched.group ? (
+                    <div className="invalid-tooltip mt-25">{errors.group}</div>
                   ) : null}
                 </FormGroup>
               </Col>

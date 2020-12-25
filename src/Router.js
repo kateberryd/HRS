@@ -188,6 +188,16 @@ const conflictList = lazy(() => import("./views/apps/conflict/list/List"))
 
 const qualityAssuranceList = lazy(() => import("./views/apps/quality-assurance/list/List"))
 
+const addAbsentee = lazy(() => import("./views/apps/absent/add/Add"))
+
+const absenteeList = lazy(() => import("./views/apps/absent/list/List"))
+
+const requestList = lazy(() => import("./views/apps/request/list/List"))
+
+const contentList = lazy(() => import("./views/apps/contents/list/List"))
+
+const addContent = lazy(() => import("./views/apps/contents/add/Add"))
+
 const score = lazy(() => import("./views/apps/score/list/List"))
 
 const roleAdd = lazy(() => import("./views/apps/role/add/Add"));
@@ -455,6 +465,11 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/sicknesses" component={sicknessList} />
           <PrivateRoute path="/conflicts" component={conflictList} />
           <PrivateRoute path="/quality-assurances" component={ qualityAssuranceList} />
+          <PrivateRoute path="/add-absentee" component={addAbsentee} />
+          <PrivateRoute path="/absentee" component={absenteeList} />
+          <PrivateRoute path="/requests" component={requestList} />
+          <PrivateRoute path="/contents" component={contentList} />
+          <PrivateRoute path="/add-content" component={addContent} />
           <PrivateRoute path="/score-setting" component={score} />
           <PrivateRoute path="/charts/chartjs" component={chartjs} />
           <PrivateRoute path="/charts/recharts" component={extreme} />

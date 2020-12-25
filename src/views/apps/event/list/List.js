@@ -46,32 +46,47 @@ class EventList extends React.Component {
       {
         headerName: "Title",
         field: "title",
-        width: 300
+        width: 200,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
       
       {
         headerName: "Date",
         field: "date",
-        width: 200
+        width: 200,
+        cellRendererFramework: params => {
+          return this.formatDate(params.value)
+       }
       },
       
       {
         headerName: "Time",
         field: "time",
-        width: 200
+        width: 200,
+        cellRendererFramework: params => {
+          return this.formatTime(params.value)
+       }
       },
       
       
       {
         headerName: "Loacation",
         field: "location",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
      
       {
         headerName: "Description",
         field: "description",
-        width: 150
+        width: 150,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
      
      
@@ -110,6 +125,15 @@ class EventList extends React.Component {
 formatDate = (string) => {
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(string).toLocaleDateString([],options);
+}
+
+
+formatTime = (string) => {
+  var options = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+  return new Date(string).toLocaleTimeString([],options);
+}
+capitilizeText = (text) => {
+ return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
  async componentDidMount() {

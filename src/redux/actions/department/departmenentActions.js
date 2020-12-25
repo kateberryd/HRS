@@ -26,6 +26,7 @@ import {
        .post("/department", {
          name: formData.name,
          state: formData.state,
+         group: formData.group,
          country: formData.country,
          address: formData.address
        }).then(res => {
