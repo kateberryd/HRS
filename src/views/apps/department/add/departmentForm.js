@@ -51,9 +51,9 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
       <Card>
         <CardHeader>
           <Message message={error} />
-          <CardTitle>Add Department</CardTitle>
+          <CardTitle className="mr-5 ml-5">Add Department</CardTitle>
         </CardHeader>
-        <CardBody>
+        <CardBody className="mr-5 ml-5">
         <Formik
             initialValues={{
               name: "",
@@ -69,8 +69,8 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
           >
           {({ errors, touched, setFieldValue,}) => (
           <Form>
-            <Row>
-              <Col sm="12">
+            <Row >
+              <Col lg="12" md="12" sm="12">
                 <FormGroup>
                   <Label className="mb-1" for="nameVertical">Department Name</Label>
                   <Field
@@ -90,9 +90,9 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
               
               
               
-              <Col md="12" sm="12">
+              <Col md="6" lg="6" sm="12">
                 <FormGroup>
-                  <Label for="group" className="mb-1">Group</Label>
+                  <Label className="mb-1" for="group" >Group</Label>
                   <Select
                     options={groups}
                     className="React"
@@ -110,9 +110,9 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
               </Col>
               
               
-              <Col md="12" sm="12">
+              <Col md="6" lg="6" sm="12">
                 <FormGroup>
-                  <Label for="country">Country</Label>
+                  <Label className="mb-1" for="country">Country</Label>
                   <Select
                     options={countries}
                     className="React"
@@ -126,9 +126,9 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
                 </FormGroup>
               </Col>
             
-              <Col md="12" sm="12">
+              <Col md="6" lg="6" sm="12">
                 <FormGroup>
-                  <Label for="state">State / Province</Label>
+                  <Label className="mb-1" for="state">State / Province</Label>
                   <Select
                     options={states}
                     className="React"
@@ -143,7 +143,7 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
               </Col>
             
               
-              <Col sm="12">
+              <Col md="6" lg="6" sm="12">
                 <FormGroup>
                   <Label className="mb-1" for="addressVertical"> Address</Label>
                   <Field

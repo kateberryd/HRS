@@ -20,6 +20,8 @@ import {qualityAssuranceReducer} from "./quality-assurance/qualityAssuranceReduc
 import {absenteeReducer} from "./absent/absenteeReducer"
 import {requestReducer} from "./request/requestReducer"
 import {contentReducer} from "./content/contentReducer"
+import {broadcastReducer} from "./broadcast/broadcastReducer"
+
 
 
 const rootReducer = combineReducers({
@@ -43,7 +45,8 @@ const rootReducer = combineReducers({
   qualityAssurance: qualityAssuranceReducer,
   absentee: absenteeReducer,
   request: requestReducer,
-  content: contentReducer
+  content: contentReducer,
+  broadcastReducer: broadcastReducer
   
 })
 

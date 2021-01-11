@@ -57,9 +57,8 @@ import {
    }
    
    
-   export const getContentList = () => async dispatch => {
+export const getContentList = () => async dispatch => {
  try{
-    console.log("sjjsjsh")
     dispatch(getContentListLoading());
     await axios.get('/content')
        .then(res => {

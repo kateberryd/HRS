@@ -22,14 +22,13 @@ import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
 import { history } from "../../../../history"
 import { connect } from "react-redux"
-import {store} from "../../../../redux/storeConfig/store"
 import { getGroupList, deleteGroup } from "../../../../redux/actions/group/groupActions"
 import { ChevronDown } from "react-feather"
 
 
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 
-class GroupList extends React.Component {
+class DepartmentList extends React.Component {
   state = {
     rowData: null,
     paginationPageSize: 20,
@@ -46,67 +45,28 @@ class GroupList extends React.Component {
     columnDefs: [
       
       {
-        headerName: "Group",
+        headerName: "Worker Name",
         field: "name",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
+        width: 300
       },
-      
-      {
-        headerName: "campus",
-        field: "campus.name",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
-      },
-      
-      {
-        headerName: "Country",
-        field: "country",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
-      },
-      
-      
-      {
-        headerName: "State",
-        field: "state",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
-      },
+   
      
-      {
-        headerName: "Address",
-        field: "address",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
-      },
-     
-     
+        
       {
         headerName: "Actions",
         field: "_id",
-        width: 300,
+        width: 500,
         cellRendererFramework: params => {
           return (
             <div className="actions cursor-pointer">
             <Button.Ripple className="mr-1" color="primary" 
-               onClick={() => history.push(`/edit-group/${params.value}`)}
+               onClick={() => history.push(`/group/${params.value}`)}
               >
               <Edit
                 className="mr-50"
                 size={15}
               />
-                 <span className="align-middle ml-50">Edit</span>
+                 <span className="align-middle ml-50">View More</span>
               </Button.Ripple>
              
               <Button.Ripple color="danger"
@@ -127,16 +87,7 @@ class GroupList extends React.Component {
     ]
   }
   
-  async componentWillReceiveProps(nextProps){ 
-    if(nextProps.group != null){
-      await this.props.getGroupList();
-      this.setState({rowData: this.props.groups})
-      store.dispatch({
-        type:"CREATE_GROUP_SUCCESS",
-        payload: null
-    })
-    }
-  }
+
 
  async componentDidMount() {
     await this.props.getGroupList();
@@ -158,9 +109,6 @@ class GroupList extends React.Component {
   }
   
   
-  capitilizeText = (text) => {
-    return text !== null ? text.charAt(0).toUpperCase() + text.slice(1) : null;
-   }
 
   updateSearchQuery = val => {
     this.gridApi.setQuickFilter(val)
@@ -188,10 +136,7 @@ class GroupList extends React.Component {
     const {deleteGroupId} = this.state;
     const {deleteGroup} = this.props;
     await deleteGroup(deleteGroupId);
-    await this.props.getGroupList();
-    console.log(this.props.groups);
-    this.setState({rowData: this.props.groups})
-    this.toggleModal();
+     this.toggleModal();
   }
   
 
@@ -322,10 +267,9 @@ const mapStateToProps = state => {
   return {
     auth: state.auth.login,
     error: state.group.error,
-    group: state.group.group,
     groups: state.group.groupList,
     loading: state.group.loading,
   }
 }
-export default connect(mapStateToProps, { getGroupList, deleteGroup })(GroupList)
+export default connect(mapStateToProps, { getGroupList, deleteGroup })(DepartmentList)
 

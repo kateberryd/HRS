@@ -51,6 +51,7 @@ class GroupList extends React.Component {
       },
    
      
+        
       {
         headerName: "Actions",
         field: "_id",
@@ -58,20 +59,26 @@ class GroupList extends React.Component {
         cellRendererFramework: params => {
           return (
             <div className="actions cursor-pointer">
-             {/* <Eye
-                className="mr-50"
-                size={15}
-                onClick={() => history.push(`/edit-group/${params.value}`)}
-              /> */}
+            <Button.Ripple className="mr-1" color="primary" 
+               onClick={() => history.push(`/group/${params.value}`)}
+              >
               <Edit
                 className="mr-50"
                 size={15}
-                onClick={() => history.push(`/edit-group/${params.value}`)}
               />
+                 <span className="align-middle ml-50">View More</span>
+              </Button.Ripple>
+             
+              <Button.Ripple color="danger"
+                onClick={ () => this.toggleModal(params.value)}
+              >
               <Trash2
+                className="mr-50"
                 size={15}
-                onClick={() => this.toggleModal(params.value)}
               />
+                 <span className="align-middle ml-50">Delete</span>
+              </Button.Ripple>
+             
             </div>
           )
         }
@@ -83,8 +90,8 @@ class GroupList extends React.Component {
 
 
  async componentDidMount() {
-    await this.props.getGroupList();
-    let rowData = this.props.groups
+    await this.props.rowData();
+    let rowData = this.props.rowData;
     this.setState({ rowData })
   }
  

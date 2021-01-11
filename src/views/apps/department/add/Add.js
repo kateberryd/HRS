@@ -4,7 +4,6 @@ import { connect } from "react-redux"
 import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb"
 import { getGroupList} from "../../../../redux/actions/group/groupActions"
 import DepartmentForm from "./departmentForm"
-import DepartmentTable from "./departmentTable"
 class Add extends React.Component {
   state = {
     groups: null,
@@ -24,13 +23,9 @@ class Add extends React.Component {
           breadCrumbActive="Add"
         />
         <Row>
-          <Col lg="4" md="12">
+          <Col lg="12" md="12">
             <DepartmentForm  groups={this.state.groups}/>
           </Col>
-          <Col lg="8" md="12">
-             <DepartmentTable  />
-          </Col>
-          
         </Row>
       </React.Fragment>
     )

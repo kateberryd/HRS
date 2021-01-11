@@ -28,22 +28,12 @@ class RoleForm extends React.Component {
             <Row>
               <Col sm="12">
                 <FormGroup>
-                  <Label for="nameVertical">Role Name</Label>
+                  <Label className="mb-2" for="nameVertical">Role Name</Label>
                   <Input
                     type="text"
                     name="name"
                     id="nameVertical"
-                    placeholder="First Name"
-                  />
-                </FormGroup>
-              </Col>
-                <Col sm="12">
-                <FormGroup>
-                  <Checkbox
-                    color="primary"
-                    icon={<Check className="vx-icon" size={16} />}
-                    label="Remember Me"
-                    defaultChecked={false}
+                    placeholder="Role Name"
                   />
                 </FormGroup>
               </Col>
@@ -57,14 +47,7 @@ class RoleForm extends React.Component {
                   >
                     Submit
                   </Button.Ripple>
-                  <Button.Ripple
-                    outline
-                    color="warning"
-                    type="reset"
-                    className="mb-1"
-                  >
-                    Reset
-                  </Button.Ripple>
+                  
                 </FormGroup>
               </Col>
             </Row>

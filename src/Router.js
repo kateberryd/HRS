@@ -160,22 +160,38 @@ const Export = lazy(() => import("./extensions/import-export/Export"))
 const ExportSelected = lazy(() =>
   import("./extensions/import-export/ExportSelected")
 )
+
+const forgotPassword = lazy(() =>
+  import("./views/pages/authentication/ForgotPassword")
+)
+const lockScreen = lazy(() => import("./views/pages/authentication/LockScreen"))
+const resetPassword = lazy(() =>
+  import("./views/pages/authentication/ResetPassword")
+)
+const register = lazy(() =>
+  import("./views/pages/authentication/register/Register")
+)
+const accessControl = lazy(() =>
+  import("./extensions/access-control/AccessControl")
+)
+
+
+
+
 const userList = lazy(() => import("./views/apps/user/list/List"))
 const userEdit = lazy(() => import("./views/apps/user/edit/Edit"))
 const userAdd = lazy(() => import("./views/apps/user/add/Add"))
 const userView = lazy(() => import("./views/apps/user/view/View"))
 const unApproveUsersList = lazy(() => import("./views/apps/user/unapprove-users/List"))
-
-
 const campusAdd = lazy(() => import("./views/apps/campus/add/Add"))
 const campusEdit = lazy(() => import("./views/apps/campus/edit/Edit"))
-
 const departmentAdd = lazy(() => import("./views/apps/department/add/Add"))
+const departmentList = lazy(() => import("./views/apps/department/list/List"))
 const departmentEdit = lazy(() => import("./views/apps/department/edit/Edit"))
-
 const groupAdd = lazy(() => import("./views/apps/group/add/Add"))
+const groupList = lazy(() => import("./views/apps/group/list/List"))
 const groupEdit = lazy(() => import("./views/apps/group/edit/Edit"))
-
+const groupView = lazy(() => import("./views/apps/group/view/View"))
 const eventAdd = lazy(() => import("./views/apps/event/add/Add"))
 const eventList = lazy(() => import("./views/apps/event/list/List"))
 const eventView = lazy(() => import("./views/apps/event/view/View"))
@@ -198,25 +214,13 @@ const contentList = lazy(() => import("./views/apps/contents/list/List"))
 
 const addContent = lazy(() => import("./views/apps/contents/add/Add"))
 
+const addBroadcast = lazy(() => import("./views/apps/broadcast/add/Add"))
+
 const score = lazy(() => import("./views/apps/score/list/List"))
 
 const roleAdd = lazy(() => import("./views/apps/role/add/Add"));
 
 const Login = lazy(() => import("./views/pages/authentication/login/Login"))
-
-const forgotPassword = lazy(() =>
-  import("./views/pages/authentication/ForgotPassword")
-)
-const lockScreen = lazy(() => import("./views/pages/authentication/LockScreen"))
-const resetPassword = lazy(() =>
-  import("./views/pages/authentication/ResetPassword")
-)
-const register = lazy(() =>
-  import("./views/pages/authentication/register/Register")
-)
-const accessControl = lazy(() =>
-  import("./extensions/access-control/AccessControl")
-)
 // Set Layout and Component Using App Route
 const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
   <Route
@@ -291,14 +295,63 @@ class AppRouter extends React.Component {
     return (
     
       // Set the directory path if you are deploying in sub-folder
+      
+      
       <Router history={history}>
         <Switch>
         
+           {/*BEGINING OF APP ROUTES */}
+           
           <PrivateRoute exact path="/" component={analyticsDashboard} />
           <PrivateRoute
             path="/ecommerce-dashboard"
             component={ecommerceDashboard}
           />
+        
+          
+
+          <PrivateRoute path="/all-users" component={userList} />
+          <PrivateRoute path="/edit-user" component={userEdit} />
+          <PrivateRoute path="/add-user" component={userAdd} />
+          <PrivateRoute path="/unapprove-users" component={unApproveUsersList} />
+          <PrivateRoute path="/users/:userId" component={userView} />
+          <PrivateRoute path="/add-roles" component={roleAdd} />
+          <PrivateRoute path="/add-campus" component={campusAdd} />
+          <PrivateRoute path="/edit-campus/:campusId" component={campusEdit} />
+          <PrivateRoute path="/add-department" component={departmentAdd} />
+          <PrivateRoute path="/all-departments" component={departmentList} />
+          <PrivateRoute path="/edit-department/:departmentId" component={departmentEdit} />
+          <PrivateRoute path="/add-group" component={groupAdd} />
+          <PrivateRoute path="/all-groups" component={groupList} />
+          <PrivateRoute path="/edit-group/:groupId" component={groupEdit} />
+          <PrivateRoute path="/group/:groupId" component={groupView} />
+          <PrivateRoute path="/add-event" component={eventAdd} />
+          <PrivateRoute path="/events" component={eventList} />
+          <PrivateRoute path="/event/:eventId" component={eventView} />
+          <PrivateRoute path="/categories" component={categories} />
+          <PrivateRoute path="/sicknesses" component={sicknessList} />
+          <PrivateRoute path="/conflicts" component={conflictList} />
+          <PrivateRoute path="/quality-assurances" component={ qualityAssuranceList} />
+          <PrivateRoute path="/add-absentee" component={addAbsentee} />
+          <PrivateRoute path="/absentee" component={absenteeList} />
+          <PrivateRoute path="/requests" component={requestList} />
+          <PrivateRoute path="/contents" component={contentList} />
+          <PrivateRoute path="/add-content" component={addContent} />
+          <PrivateRoute path="/add-broadcast" component={addBroadcast} />
+          <PrivateRoute path="/score-setting" component={score} />
+          
+          {/* END OF APP ROUTES */}
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          {/*BEGINING OF APP COMPONENTS ROUTES */}
           <PrivateRoute
             path="/email"
             exact
@@ -446,31 +499,6 @@ class AppRouter extends React.Component {
             component={maintenance}
             fullLayout
           />
-          <PrivateRoute path="/all-users" component={userList} />
-          <PrivateRoute path="/edit-user" component={userEdit} />
-          <PrivateRoute path="/add-user" component={userAdd} />
-          <PrivateRoute path="/unapprove-users" component={unApproveUsersList} />
-          <PrivateRoute path="/users/:userId" component={userView} />
-          <PrivateRoute path="/add-roles" component={roleAdd} />
-          <PrivateRoute path="/add-campus" component={campusAdd} />
-          <PrivateRoute path="/edit-campus/:campusId" component={campusEdit} />
-          <PrivateRoute path="/add-department" component={departmentAdd} />
-          <PrivateRoute path="/edit-department/:departmentId" component={departmentEdit} />
-          <PrivateRoute path="/add-group" component={groupAdd} />
-          <PrivateRoute path="/edit-group/:groupId" component={groupEdit} />
-          <PrivateRoute path="/add-event" component={eventAdd} />
-          <PrivateRoute path="/events" component={eventList} />
-          <PrivateRoute path="/event/:eventId" component={eventView} />
-          <PrivateRoute path="/categories" component={categories} />
-          <PrivateRoute path="/sicknesses" component={sicknessList} />
-          <PrivateRoute path="/conflicts" component={conflictList} />
-          <PrivateRoute path="/quality-assurances" component={ qualityAssuranceList} />
-          <PrivateRoute path="/add-absentee" component={addAbsentee} />
-          <PrivateRoute path="/absentee" component={absenteeList} />
-          <PrivateRoute path="/requests" component={requestList} />
-          <PrivateRoute path="/contents" component={contentList} />
-          <PrivateRoute path="/add-content" component={addContent} />
-          <PrivateRoute path="/score-setting" component={score} />
           <PrivateRoute path="/charts/chartjs" component={chartjs} />
           <PrivateRoute path="/charts/recharts" component={extreme} />
           <PrivateRoute path="/maps/leaflet" component={leafletMaps} />

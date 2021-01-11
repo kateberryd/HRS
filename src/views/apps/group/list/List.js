@@ -7,20 +7,34 @@ import {
   UncontrolledDropdown,
   DropdownMenu,
   DropdownItem,
-  DropdownToggle
+  DropdownToggle,
+  Col,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap"
+import {
+  Edit,
+  Trash2,
+} from "react-feather"
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
 import { history } from "../../../../history"
-import { ChevronDown, Trash2 } from "react-feather"
-import axios from "axios";
+import { connect } from "react-redux"
+import {store} from "../../../../redux/storeConfig/store"
+import { getGroupList, deleteGroup } from "../../../../redux/actions/group/groupActions"
+import { ChevronDown } from "react-feather"
+
 
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 
-class RoleTable extends React.Component {
+class GroupList extends React.Component {
   state = {
     rowData: null,
     paginationPageSize: 20,
+    modal: false,
+    deleteGroupId: null,
     currenPageSize: "",
     getPageSize: "",
     defaultColDef: {
@@ -32,28 +46,52 @@ class RoleTable extends React.Component {
     columnDefs: [
       
       {
-        headerName: "Role",
-        field: "lastname",
-        filter: true,
-        width: 300
+        headerName: "Group",
+        field: "name",
+        width: 200,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
       },
+      
+      {
+        headerName: "campus",
+        field: "campus.name",
+        width: 200,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
+      },
+     
+      {
+        headerName: "Address",
+        field: "address",
+        width: 200,
+        cellRendererFramework: params => {
+          return this.capitilizeText(params.value)
+       }
+      },
+     
+     
       {
         headerName: "Actions",
         field: "_id",
-        width: 400,
+        width: 500,
         cellRendererFramework: params => {
           return (
-            
             <div className="actions cursor-pointer">
-            {console.log(params)}
             <Button.Ripple className="mr-1" color="primary" 
-               onClick={() => history.push(`/users/${params.value}`)}
+               onClick={() => history.push(`/group/${params.value}`)}
               >
-                 <span className="align-middle ml-50">Edit</span>
+              <Edit
+                className="mr-50"
+                size={15}
+              />
+                 <span className="align-middle ml-50">View More</span>
               </Button.Ripple>
              
               <Button.Ripple color="danger"
-                onClick={this.toggleModal}
+                onClick={ () => this.toggleModal(params.value)}
               >
               <Trash2
                 className="mr-50"
@@ -66,19 +104,29 @@ class RoleTable extends React.Component {
           )
         }
       }
-   
     
     ]
   }
-
-  componentDidMount() {
-    axios.get("/api/aggrid/data").then(response => {
-      let rowData = response.data.data
-      console.log(rowData)
-      JSON.stringify(rowData)
-      this.setState({ rowData })
+  
+  async componentWillReceiveProps(nextProps){ 
+    if(nextProps.group != null){
+      await this.props.getGroupList();
+      this.setState({rowData: this.props.groups})
+      store.dispatch({
+        type:"CREATE_GROUP_SUCCESS",
+        payload: null
     })
+    }
   }
+
+ async componentDidMount() {
+    await this.props.getGroupList();
+    let rowData = this.props.groups
+    this.setState({ rowData })
+  }
+ 
+
+ 
 
   onGridReady = params => {
     this.gridApi = params.api
@@ -89,6 +137,11 @@ class RoleTable extends React.Component {
       totalPages: this.gridApi.paginationGetTotalPages()
     })
   }
+  
+  
+  capitilizeText = (text) => {
+    return text !== null ? text.charAt(0).toUpperCase() + text.slice(1) : null;
+   }
 
   updateSearchQuery = val => {
     this.gridApi.setQuickFilter(val)
@@ -103,6 +156,25 @@ class RoleTable extends React.Component {
       })
     }
   }
+  
+  toggleModal = id => {
+    this.setState(prevState => ({
+      modal: !prevState.modal,
+      deleteGroupId: id
+    }))
+  }
+  
+
+  deleteGroup = async () => {
+    const {deleteGroupId} = this.state;
+    const {deleteGroup} = this.props;
+    await deleteGroup(deleteGroupId);
+    await this.props.getGroupList();
+    console.log(this.props.groups);
+    this.setState({rowData: this.props.groups})
+    this.toggleModal();
+  }
+  
 
   render() {
     const { rowData, columnDefs, defaultColDef } = this.state
@@ -111,7 +183,7 @@ class RoleTable extends React.Component {
        
         <Card className="overflow-hidden agGrid-card">
           <CardBody className="py-0">
-            {this.state.rowData === null ? null : (
+            {this.state.rowData !== null ? (
               <div className="ag-theme-material w-100 my-2 ag-grid-table">
                 <div className="d-flex flex-wrap justify-content-between align-items-center">
                   <div className="mb-1">
@@ -196,11 +268,45 @@ class RoleTable extends React.Component {
                   )}
                 </ContextLayout.Consumer>
               </div>
-            )}
+            ): (
+              <div>
+                  Data loading
+              </div>
+            ) }
           </CardBody>
+          <Col>
+            <Modal
+              isOpen={this.state.modal}
+              toggle={this.toggleModal}
+              className={this.props.className}
+            >
+              <ModalHeader toggle={this.toggleModal}>
+                Delete
+              </ModalHeader>
+              <ModalBody>
+                <h5>Are you sure you want to delete this group?</h5>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger"onClick={this.deleteGroup} >
+                  Accept
+                </Button>{" "}
+              </ModalFooter>
+            </Modal>
+            </Col>
         </Card>
       </React.Fragment>
     )
   }
 }
-export default RoleTable
+
+const mapStateToProps = state => {
+  return {
+    auth: state.auth.login,
+    error: state.group.error,
+    group: state.group.group,
+    groups: state.group.groupList,
+    loading: state.group.loading,
+  }
+}
+export default connect(mapStateToProps, { getGroupList, deleteGroup })(GroupList)
+

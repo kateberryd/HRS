@@ -40,14 +40,6 @@ const navigationConfig = [
 
       },
       
-      {
-        id: "allRoles",
-        title: "All Roles",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/all-roles"
-      },
       
     ]
   },
@@ -152,11 +144,21 @@ const navigationConfig = [
     children: [
       {
         id: "addDepartment",
-        title: "Add Deparment",
+        title: "Add Department",
         type: "item",
         icon: <Icon.Circle size={12} />,
         permissions: ["admin", "editor"],
         navLink: "/add-department",
+
+      },
+      
+      {
+        id: "allDepartments",
+        title: "All Departments",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/all-departments",
 
       },
       
@@ -311,6 +313,38 @@ const navigationConfig = [
     ]
 
   },
+  
+  {
+    id: "notifications",
+    title: "Notifications",
+    icon: <Icon.Bell size={20} />,
+    type: "collapse",
+    children: [
+      {
+        id: "broadcast",
+        title: "Broadcast",
+        icon: <Icon.Circle size={12} />,
+        type: "collapse",
+        children: [
+          {
+            id: "addBroadcast",
+            title: "Add Broadcast",
+            type: "item",
+            icon: <Icon.Circle size={12} />,
+            permissions: ["admin", "editor"],
+            navLink: "/add-broadcast",
+
+          },
+      
+      
+    ]
+
+      },
+      
+      
+    ]
+  }, 
+  
   
   {
     id: "settings",

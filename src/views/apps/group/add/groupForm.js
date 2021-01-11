@@ -51,7 +51,7 @@ const groupForm = ({error, loading, createGroup, campuses})  => {
       <Card>
         <CardHeader>
           <Message message={error} />
-          <CardTitle>Add Group</CardTitle>
+          <CardTitle className="mr-5 ml-5">Add Group</CardTitle>
         </CardHeader>
         <CardBody>
         <Formik
@@ -69,9 +69,9 @@ const groupForm = ({error, loading, createGroup, campuses})  => {
             }}
           >
           {({ errors, touched, setFieldValue,}) => (
-          <Form>
+          <Form className="mr-5 ml-5">
             <Row>
-              <Col sm="12">
+              <Col sm="12" lg="12" md="12">
                 <FormGroup>
                   <Label className="mb-1" for="nameVertical">Group Name</Label>
                   <Field
@@ -89,7 +89,7 @@ const groupForm = ({error, loading, createGroup, campuses})  => {
                 </FormGroup>
               </Col>
               
-              <Col md="12" sm="12">
+              <Col sm="12" lg="6" md="6">
                 <FormGroup>
                   <Label for="campus" className="mb-1">Campus</Label>
                   <Select
@@ -108,7 +108,7 @@ const groupForm = ({error, loading, createGroup, campuses})  => {
                 </FormGroup>
               </Col>
               
-              <Col md="12" sm="12">
+              <Col lg="6" md="6" sm="12">
                 <FormGroup>
                   <Label for="country" className="mb-1">Country</Label>
                   <Select
@@ -124,7 +124,7 @@ const groupForm = ({error, loading, createGroup, campuses})  => {
                 </FormGroup>
               </Col>
             
-              <Col md="12" sm="12">
+              <Col lg="6" md="6" sm="12">
                 <FormGroup>
                   <Label for="state"className="mb-1">State / Province</Label>
                   <Select
@@ -141,7 +141,7 @@ const groupForm = ({error, loading, createGroup, campuses})  => {
               </Col>
             
               
-              <Col sm="12">
+              <Col lg="6" md="6" sm="12">
                 <FormGroup>
                   <Label className="mb-1" for="addressVertical"> Address</Label>
                   <Field

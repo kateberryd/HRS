@@ -6,7 +6,6 @@ import { getCampusList} from "../../../../redux/actions/campus/campusActions"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GroupForm from "./groupForm"
-import GroupList from "./groupList"
 class Add extends React.Component {
   state = {
     campuses: null,
@@ -27,12 +26,9 @@ class Add extends React.Component {
           breadCrumbActive="Add"
         />
         <Row>
-          <Col lg="4" md="12">
+          <Col lg="12" md="12">
             <ToastContainer />
-            <GroupForm campuses={this.state.campuses} />
-          </Col>
-          <Col lg="8" md="12">
-              <GroupList />
+             <GroupForm campuses={this.state.campuses} />
           </Col>
           
         </Row>
