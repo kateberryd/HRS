@@ -2,8 +2,10 @@ import React from "react"
 import { Row, Col } from "reactstrap"
 import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb"
 import RoleForm from "./roleForm"
-import RoleTable from "./roleTable"
+import RoleList from "../list/List"
 class Add extends React.Component {
+  
+  
   render() {
     return (
       <React.Fragment>
@@ -17,7 +19,7 @@ class Add extends React.Component {
             <RoleForm />
           </Col>
           <Col lg="8" md="12">
-              <RoleTable />
+              <RoleList  />
           </Col>
           
         </Row>
@@ -25,4 +27,6 @@ class Add extends React.Component {
     )
   }
 }
-export default Add;
+
+export default Add
+

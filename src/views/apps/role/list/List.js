@@ -7,19 +7,25 @@ import {
   UncontrolledDropdown,
   DropdownMenu,
   DropdownItem,
-  DropdownToggle
+  DropdownToggle,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap"
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
 import { history } from "../../../../history"
 import { ChevronDown, Trash2 } from "react-feather"
-import axios from "axios";
-
+import { getRoleList, deleteRole } from "../../../../redux/actions/role/roleActions"
+import { connect } from "react-redux"
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
 
-class RoleTable extends React.Component {
+class RoleList extends React.Component {
   state = {
     rowData: null,
+    modal: false,
+    roleId: null,
     paginationPageSize: 20,
     currenPageSize: "",
     getPageSize: "",
@@ -33,7 +39,7 @@ class RoleTable extends React.Component {
       
       {
         headerName: "Role",
-        field: "lastname",
+        field: "name",
         filter: true,
         width: 300
       },
@@ -45,7 +51,6 @@ class RoleTable extends React.Component {
           return (
             
             <div className="actions cursor-pointer">
-            {console.log(params)}
             <Button.Ripple className="mr-1" color="primary" 
                onClick={() => history.push(`/users/${params.value}`)}
               >
@@ -53,7 +58,7 @@ class RoleTable extends React.Component {
               </Button.Ripple>
              
               <Button.Ripple color="danger"
-                onClick={this.toggleModal}
+                onClick={() => this.toggleModal(params.id)}
               >
               <Trash2
                 className="mr-50"
@@ -71,15 +76,34 @@ class RoleTable extends React.Component {
     ]
   }
 
-  componentDidMount() {
-    axios.get("/api/aggrid/data").then(response => {
-      let rowData = response.data.data
-      console.log(rowData)
-      JSON.stringify(rowData)
-      this.setState({ rowData })
-    })
+  async componentDidMount() {
+    await this.props.getRoleList();
+    let rowData = await this.props.roles
+    this.setState({ rowData })
+    console.log(this.state)
+
+  }
+  
+  
+  toggleModal = id => {
+    this.setState(prevState => ({
+      modal: !prevState.modal,
+      roleId: id
+
+    }))
   }
 
+
+  deleteRole = async () => {
+    
+    const {roleId} = this.state;
+    const {deleteRole} = this.props;
+    await deleteRole(roleId);
+    await this.props.getRoleList();
+    console.log(this.props.roles);
+    this.setState({rowData: this.props.roles})
+    this.toggleModal();
+  }
   onGridReady = params => {
     this.gridApi = params.api
     this.gridColumnApi = params.columnApi
@@ -197,10 +221,38 @@ class RoleTable extends React.Component {
                 </ContextLayout.Consumer>
               </div>
             )}
+            
+            <Modal
+              isOpen={this.state.modal}
+              toggle={this.toggleModal}
+              className={this.props.className}
+            >
+              <ModalHeader toggle={this.toggleModal}>
+                Delete
+              </ModalHeader>
+              <ModalBody>
+                <h5>Are you sure you want to delete this role?</h5>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger"onClick={this.deleteRole} >
+                  Accept
+                </Button>{" "}
+              </ModalFooter>
+            </Modal>
           </CardBody>
         </Card>
       </React.Fragment>
     )
   }
 }
-export default RoleTable
+
+const mapStateToProps = state => {
+    return {
+      auth: state.auth.login,
+      error: state.role.error,
+      roles: state.role.roleList,
+      loading: state.role.loading,
+    }
+  }
+export default connect(mapStateToProps, { getRoleList, deleteRole })(RoleList)
+

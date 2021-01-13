@@ -9,6 +9,7 @@ import navbar from "./navbar/Index"
 import dataList from "./data-list/"
 import {userList} from "./user/userReducer"
 import {campusReducer} from "./campus/campusReducer"
+import {roleReducer} from "./role/roleReducer"
 import {departmentReducer} from "./department/departmentReducer"
 import {groupReducer} from "./group/groupReducer"
 import {eventReducer} from "./event/eventReducer"
@@ -46,7 +47,9 @@ const rootReducer = combineReducers({
   absentee: absenteeReducer,
   request: requestReducer,
   content: contentReducer,
-  broadcastReducer: broadcastReducer
+  broadcastReducer: broadcastReducer,
+  role: roleReducer
+
   
 })
 
