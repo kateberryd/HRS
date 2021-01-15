@@ -315,6 +315,24 @@ const navigationConfig = [
   },
   
   {
+    id: "KPI",
+    title: "KPI",
+    icon: <Icon.MoreHorizontal size={20} />,
+    type: "collapse",
+    children: [
+      {
+        id: "KPICategory",
+        title: "KPI Category",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/KPI-category",
+      },
+      
+    ]
+  }, 
+  
+  {
     id: "notifications",
     title: "Notifications",
     icon: <Icon.Bell size={20} />,
@@ -344,6 +362,10 @@ const navigationConfig = [
       
     ]
   }, 
+  
+  
+  
+ 
   
   
   {

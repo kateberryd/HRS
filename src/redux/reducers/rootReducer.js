@@ -22,6 +22,8 @@ import {absenteeReducer} from "./absent/absenteeReducer"
 import {requestReducer} from "./request/requestReducer"
 import {contentReducer} from "./content/contentReducer"
 import {broadcastReducer} from "./broadcast/broadcastReducer"
+import {KPICategoryReducer} from "./KPI-category/KPI-categoryReducer"
+
 
 
 
@@ -48,9 +50,8 @@ const rootReducer = combineReducers({
   request: requestReducer,
   content: contentReducer,
   broadcastReducer: broadcastReducer,
-  role: roleReducer
-
-  
+  role: roleReducer,
+  KPICategory: KPICategoryReducer,
 })
 
 export default rootReducer

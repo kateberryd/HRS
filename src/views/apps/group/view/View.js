@@ -14,7 +14,7 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import WorkerList from "../worker/workersList"
+// import WorkerList from "../worker/workersList"
 import DepartmentList  from "../department/departmentList"
 import {getSingleGroup, editSingleGroup} from "../../../.././redux/actions/group/groupActions"
 import "../../../../assets/scss/pages/users.scss"

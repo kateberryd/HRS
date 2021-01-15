@@ -220,6 +220,8 @@ const score = lazy(() => import("./views/apps/score/list/List"))
 
 const roleAdd = lazy(() => import("./views/apps/role/add/Add"));
 
+const KPICategory = lazy(() => import("./views/apps/KPI-category/index"));
+
 const Login = lazy(() => import("./views/pages/authentication/login/Login"))
 // Set Layout and Component Using App Route
 const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
@@ -337,6 +339,7 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/requests" component={requestList} />
           <PrivateRoute path="/contents" component={contentList} />
           <PrivateRoute path="/add-content" component={addContent} />
+          <PrivateRoute path="/KPI-category" component={KPICategory} />
           <PrivateRoute path="/add-broadcast" component={addBroadcast} />
           <PrivateRoute path="/score-setting" component={score} />
           
