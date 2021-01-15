@@ -19,6 +19,7 @@ import {
 } from "react-feather"
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
+import { history } from "../../../../history"
 import { connect } from "react-redux"
 import { getQualityAssuranceList, deleteQualityAssurance, closeQualityAssurance } from "../../../../redux/actions/qaulity-assurance/qualityAssuranceActions"
 import { ChevronDown } from "react-feather"
@@ -47,49 +48,37 @@ class QualityAssurance extends React.Component {
       {
         headerName: "Title",
         field: "title",
-        width: 300 
+        width: 200 
       },
       
      
       {
         headerName: "Description",
         field: "description",
-        width: 350
+        width: 300
       },
       
       
-      {
-        headerName: "Reporter",
-        field: "user.username",
-        width: 200
-      },
-     
-          
-      {
-        headerName: "Department",
-        field: "department.name",
-        width: 200
-      },
-     
       {
         headerName: "Actions",
         field: "_id",
-        width: 500,
+        width: 600,
         cellRendererFramework: params => {
             return (
                 <div className="actions cursor-pointer">
+                
+                <Button.Ripple className="mr-1" color="primary"
+                    onClick={() => history.push(`/quality-assurance/${params.value}`)}
+                  >
+                     <span className="align-middle ml-50">View More</span>
+                  </Button.Ripple>
+                  
                 <Button.Ripple className="mr-1" color="primary" disabled={params.data.status === false ? "disabled" : null}
                    onClick={() => this.toggleCloseQualityAssuranceModal(params.value)}
                   >
                      <span className="align-middle ml-50">{params.data.status === false ? "Incident Closed" : "Close Incident"}</span>
                   </Button.Ripple>
-                 
-                {/* <Button.Ripple className="mr-1" color="primary" 
-                   onClick={() => history.push(`/event/${params.value}`)}
-                  >
-                     <span className="align-middle ml-50">View More</span>
-                  </Button.Ripple>
-                   */}
+            
               
                   <Button.Ripple color="danger"
                     onClick={ () => this.toggleModal(params.value)}

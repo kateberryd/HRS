@@ -45,48 +45,21 @@ class CampusTable extends React.Component {
       {
         headerName: "Campus",
         field: "name",
-        width: 200,
+        width: 300,
         cellRendererFramework: params => {
           return this.capitilizeText(params.value)
        }
       },
       
-      // {
-      //   headerName: "Global senior pastor",
-      //   field: "firstname",
-      //   filter: true,
-      //   width: 200
-      // },
-      
-      // {
-      //   headerName: "SPM",
-      //   field: "firstname",
-      //   filter: true,
-      //   width: 150
-      // },
-      
-      // {
-      //   headerName: "Campus Pastor",
-      //   field: "firstname",
-      //   filter: true,
-      //   width: 150
-      // },
-      
-      {
-        headerName: "Campus Coordinator",
-        field: "firstname",
-        width: 200,
-      },
-     
       {
         headerName: "Actions",
         field: "_id",
-        width: 4000,
+        width: 400,
         cellRendererFramework: params => {
           return (
             <div className="actions cursor-pointer">
             <Button.Ripple className="mr-1" color="primary" 
-               onClick={() => history.push(`/event/${params.value}`)}
+               onClick={() => history.push(`/campus/${params.value}`)}
               >
                  <span className="align-middle ml-50">View More</span>
               </Button.Ripple>

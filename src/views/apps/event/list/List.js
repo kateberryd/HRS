@@ -71,24 +71,6 @@ class EventList extends React.Component {
       },
       
       
-      {
-        headerName: "Loacation",
-        field: "location",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
-      },
-     
-      {
-        headerName: "Description",
-        field: "description",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
-      },
-     
      
       {
         headerName: "Actions",

@@ -185,9 +185,11 @@ const userView = lazy(() => import("./views/apps/user/view/View"))
 const unApproveUsersList = lazy(() => import("./views/apps/user/unapprove-users/List"))
 const campusAdd = lazy(() => import("./views/apps/campus/add/Add"))
 const campusEdit = lazy(() => import("./views/apps/campus/edit/Edit"))
+const campusView = lazy(() => import("./views/apps/campus/view/View"))
 const departmentAdd = lazy(() => import("./views/apps/department/add/Add"))
 const departmentList = lazy(() => import("./views/apps/department/list/List"))
 const departmentEdit = lazy(() => import("./views/apps/department/edit/Edit"))
+const departmentView = lazy(() => import("./views/apps/department/view/View"))
 const groupAdd = lazy(() => import("./views/apps/group/add/Add"))
 const groupList = lazy(() => import("./views/apps/group/list/List"))
 const groupEdit = lazy(() => import("./views/apps/group/edit/Edit"))
@@ -200,19 +202,27 @@ const categories = lazy(() => import("./views/apps/event-category/index"));
 
 const sicknessList = lazy(() => import("./views/apps/sickness/list/List"))
 
+const sicknessView = lazy(() => import("./views/apps/sickness/view/View"))
+
 const conflictList = lazy(() => import("./views/apps/conflict/list/List"))
 
 const qualityAssuranceList = lazy(() => import("./views/apps/quality-assurance/list/List"))
 
+const qualityAssuranceView = lazy(() => import("./views/apps/quality-assurance/view/View"))
+
 const addAbsentee = lazy(() => import("./views/apps/absent/add/Add"))
 
 const absenteeList = lazy(() => import("./views/apps/absent/list/List"))
+
+const absenteeView = lazy(() => import("./views/apps/absent/View/View"))
 
 const requestList = lazy(() => import("./views/apps/request/list/List"))
 
 const contentList = lazy(() => import("./views/apps/contents/list/List"))
 
 const addContent = lazy(() => import("./views/apps/contents/add/Add"))
+
+const contentView = lazy(() => import("./views/apps/contents/View/View"))
 
 const addBroadcast = lazy(() => import("./views/apps/broadcast/add/Add"))
 
@@ -320,9 +330,11 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/add-roles" component={roleAdd} />
           <PrivateRoute path="/add-campus" component={campusAdd} />
           <PrivateRoute path="/edit-campus/:campusId" component={campusEdit} />
+          <PrivateRoute path="/campus/:campusId" component={campusView} />
           <PrivateRoute path="/add-department" component={departmentAdd} />
           <PrivateRoute path="/all-departments" component={departmentList} />
           <PrivateRoute path="/edit-department/:departmentId" component={departmentEdit} />
+          <PrivateRoute path="/department/:departmentId" component={departmentView} />
           <PrivateRoute path="/add-group" component={groupAdd} />
           <PrivateRoute path="/all-groups" component={groupList} />
           <PrivateRoute path="/edit-group/:groupId" component={groupEdit} />
@@ -332,13 +344,17 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/event/:eventId" component={eventView} />
           <PrivateRoute path="/categories" component={categories} />
           <PrivateRoute path="/sicknesses" component={sicknessList} />
+          <PrivateRoute path="/sickness/:sicknessId" component={sicknessView} />
           <PrivateRoute path="/conflicts" component={conflictList} />
           <PrivateRoute path="/quality-assurances" component={ qualityAssuranceList} />
+          <PrivateRoute path="/quality-assurance/:qualityAssuranceId" component={ qualityAssuranceView} />
           <PrivateRoute path="/add-absentee" component={addAbsentee} />
           <PrivateRoute path="/absentee" component={absenteeList} />
+          <PrivateRoute path="/single-absentee/:absenteeId" component={absenteeView} />
           <PrivateRoute path="/requests" component={requestList} />
           <PrivateRoute path="/contents" component={contentList} />
           <PrivateRoute path="/add-content" component={addContent} />
+          <PrivateRoute path="/content/:contentId" component={contentView} />
           <PrivateRoute path="/KPI-category" component={KPICategory} />
           <PrivateRoute path="/add-broadcast" component={addBroadcast} />
           <PrivateRoute path="/score-setting" component={score} />

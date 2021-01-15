@@ -1,12 +1,22 @@
 import React from "react"
 import { Row, Col } from "reactstrap"
 import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb"
+import { getUserList} from "../../../../redux/actions/user/userListActions"
+import { connect } from "react-redux"
 import CampusForm from "./campusForm"
-import CampusTable from "./campusTable"
+import CampusList from "../list/List"
 class Add extends React.Component {
-
- 
+  state = {
+    users: null,
+  }
+  async componentDidMount() {
+    await this.props.getUserList();
+    let users = this.props.users
+    this.setState({ users })
+    console.log(this.state.users)
+  }
   render() {
+   const {users} = this.state;
     return (
       <React.Fragment>
         <Breadcrumbs
@@ -16,10 +26,10 @@ class Add extends React.Component {
         />
         <Row>
           <Col lg="4" md="12">
-            <CampusForm />
+            <CampusForm users={users} />
           </Col>
           <Col lg="8" md="12">
-              <CampusTable />
+              <CampusList />
           </Col>
           
         </Row>
@@ -28,5 +38,11 @@ class Add extends React.Component {
   }
 }
 
-export default Add
+
+const mapStateToProps = state => {
+  return {
+    users: state.userList.userList,
+  }
+}
+export default connect(mapStateToProps, { getUserList })(Add)
 

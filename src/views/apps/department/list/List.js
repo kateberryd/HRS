@@ -101,13 +101,13 @@ class departmentTable extends React.Component {
           return (
             <div className="actions cursor-pointer">
             <Button.Ripple className="mr-1" color="primary" 
-               onClick={() => history.push(`/edit-department/${params.value}`)}
+               onClick={() => history.push(`/department/${params.value}`)}
               >
                <Edit
                 className="mr-50"
                 size={15}
               />
-                 <span className="align-middle ml-50">Edit</span>
+                 <span className="align-middle ml-50">View More</span>
               </Button.Ripple>
              
               <Button.Ripple color="danger"

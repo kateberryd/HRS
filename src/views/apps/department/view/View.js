@@ -14,10 +14,10 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import {getSingleGroup, } from "../../../.././redux/actions/group/groupActions"
+import {getSingleDepartment, } from "../../../.././redux/actions/department/departmenentActions"
 import "../../../../assets/scss/pages/users.scss"
 
-class GroupView extends React.Component {
+class DepartmentView extends React.Component {
   state = {
     activeTab: "1",
   }
@@ -44,15 +44,15 @@ formatTime = (string) => {
   
  async componentDidMount(){
     const { match: { params } } = this.props;
-    await this.props.getSingleGroup(params.groupId)
+    await this.props.getSingleDepartment(params.departmentId)
     console.log(this.props);
  }
   render() {
-    const {group} = this.props
-    console.log(group)
+    const {department} = this.props
+    console.log(department)
     return (
       <React.Fragment>
-       {group ? (
+       {department ? (
         <Row>
           <Col sm="12" md="6" lg="6">
             <Card>
@@ -74,7 +74,7 @@ formatTime = (string) => {
                                 <div className="user-info-title font-weight-bold">
                                   Title
                                 </div>
-                                <div>{group.name ? group.name.charAt(0).toUpperCase() + group.name.slice(1) : "No data found"}</div>
+                                <div>{department.name ? department.name.charAt(0).toUpperCase() + department.name.slice(1) : "No data found"}</div>
                               </div>
                               
                            
@@ -87,30 +87,35 @@ formatTime = (string) => {
                                 <div className="user-info-title font-weight-bold">
                                     State
                                 </div>
-                                <div>{group.state ? group.state.charAt(0).toUpperCase() + group.state.slice(1) : "No data found"}</div>
+                                <div>{department.state ? department.state.charAt(0).toUpperCase() + department.state.slice(1) : "No data found"}</div>
                             </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
                                     Country
                                 </div>
-                                <div>{group.country ? group.country.charAt(0).toUpperCase() + group.country.slice(1) : "NO data found"}</div>
+                                <div>{department.country ? department.country.charAt(0).toUpperCase() + department.country.slice(1) : "NO data found"}</div>
                               </div>
                               
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
                                     Address
                                 </div>
-                                <div>{group.address ? group.address.charAt(0).toUpperCase() + group.address.slice(1) : "no data found"}</div>
+                                <div>{department.address ? department.address.charAt(0).toUpperCase() + department.address.slice(1) : "no data found"}</div>
                               </div>
                               
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                    Campus
+                                    HOD
                                 </div>
-                                <div>{group.campus.name ? group.campus.name.charAt(0).toUpperCase() + group.campus.name.slice(1) : "no data found"}</div>
+                                <div>{department.HOD ? department.HOD.charAt(0).toUpperCase() + department.HOD.slice(1) : "No data found"}</div>
                               </div>
                               
-                             
+                              <div className="d-flex user-info">
+                                <div className="user-info-title font-weight-bold">
+                                   ASST HOD
+                                </div>
+                                <div>{department.asst_HOD ? department.asst_HOD.charAt(0).toUpperCase() + department.asst_HOD.slice(1) : "No data found"}</div>
+                              </div>
                             
                             </div>
                           </Col>
@@ -136,8 +141,6 @@ formatTime = (string) => {
           </Col>
           
           <Col sm="12" md="6" lg="6">
-          <Row>
-            <Col lg="12" md="12">
             <Card>
               <CardHeader>
                 <CardTitle>Workers</CardTitle>
@@ -149,59 +152,12 @@ formatTime = (string) => {
                       <Media className="mt-md-1 mt-0" left>
                         <Row>
                           <Col className="mt-2" sm="9" md="12" lg="12">
-                          {group.department.length !== 0 ?(
+                          {department.workers.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
                                     <div className="user-info-title font-weight-bold">
                                         
-                                        {group.department.map(element => (
-                                            element.title ? element.title.charAt(0).toUpperCase() + element.title.slice(1) : "No data found"                                        ))}                            
-                                        
-                                          </div>
-                                  </div>
-                                  
-                               
-                                </div>
-                          ): (
-                            <div className="users-page-view-table">
-                            <div className="d-flex user-info">
-                              <div className="user-info-title font-weight-bold">
-                              No worker Found
-                            </div>
-                         
-                          </div>
-                          </div>
-                          )}
-                          </Col>
-                        </Row>
-                        
-                      </Media>
-                      
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-            </Col>
-            </Row>
-            <Row>
-                <Col lg="12" md="12">
-                <Card>
-              <CardHeader>
-                <CardTitle>Departments</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Row className="mx-0" col="12">
-                  <Col className="pl-0" sm="12" md="12">
-                   
-                      <Media className="mt-md-1 mt-0" left>
-                        <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
-                          {group.workers.length !== 0 ?(
-                                  <div className="users-page-view-table">
-                                  <div className="d-flex user-info">
-                                    <div className="user-info-title font-weight-bold">
-                                        
-                                        {group.workers.map(element => (
+                                        {department.workers.map(element => (
                                             element.username ? element.username.charAt(0).toUpperCase() + element.username.slice(1) : "No data found"                                        ))}                            
                                         
                                           </div>
@@ -221,15 +177,12 @@ formatTime = (string) => {
                           )}
                           </Col>
                         </Row>
-                        
                       </Media>
                       
                   </Col>
                 </Row>
-                  </CardBody>
-                </Card>
-                </Col>
-            </Row>
+              </CardBody>
+            </Card>
           </Col>
          <ToastContainer />
         </Row>
@@ -241,7 +194,7 @@ formatTime = (string) => {
 const mapStateToProps = state => {
   return {
     auth: state.auth.login,
-    group: state.group.group
+    department: state.department.department
   }
 }
-export default connect(mapStateToProps, {getSingleGroup })(GroupView)
+export default connect(mapStateToProps, { getSingleDepartment })(DepartmentView)

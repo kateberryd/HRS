@@ -48,7 +48,7 @@ class SicknessList extends React.Component {
       {
         headerName: "Title",
         field: "title",
-        width: 300,
+        width: 200,
         cellRendererFramework: params => {
           return this.capitilizeText(params.value)
        }
@@ -58,7 +58,7 @@ class SicknessList extends React.Component {
       {
         headerName: "Description",
         field: "description",
-        width: 300,
+        width: 200,
         cellRendererFramework: params => {
           return this.capitilizeText(params.value)
        }
@@ -91,7 +91,7 @@ class SicknessList extends React.Component {
                   </Button.Ripple>
                  
                 <Button.Ripple className="mr-1" color="primary" 
-                   onClick={() => history.push(`/event/${params.value}`)}
+                   onClick={() => history.push(`/sickness/${params.value}`)}
                   >
                      <span className="align-middle ml-50">View More</span>
                   </Button.Ripple>

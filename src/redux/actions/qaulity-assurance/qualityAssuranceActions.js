@@ -49,7 +49,7 @@ export const getQualityAssuranceLoading = () => {
 
 export const deleteQualityAssurance = (id) => async dispatch => {
     console.log(id)
-    await axios.delete(`/conflict/single?id=${id}`)
+    await axios.delete(`/quality-assurance/single?id=${id}`)
        .then(res => {
         if(res.data){
          dispatch({
@@ -74,7 +74,7 @@ export const deleteQualityAssurance = (id) => async dispatch => {
 export const getSingleQaulityAssurance = (id) => async dispatch => {
     console.log(id)
     dispatch(getSingleQaulityAssuranceLoading());
-    await axios.get(`/conflict/single?id=${id}`)
+    await axios.get(`/quality-assurance/single?id=${id}`)
        .then(res => {
         if(res.data){
          dispatch({
@@ -105,7 +105,7 @@ export const getSingleQaulityAssuranceLoading = () => {
 export const closeQualityAssurance = (id) => async dispatch => {
     console.log(id)
     dispatch(getCloseQualityAssurnaceLoading());
-    await axios.get(`/conflict/close-conflict-inciden?id=${id}`)
+    await axios.get(`/quality-assurance/close-quality-assurance-inciden?id=${id}`)
        .then(res => {
         if(res.data){
          dispatch({

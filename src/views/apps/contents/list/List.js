@@ -84,7 +84,7 @@ class ContentList extends React.Component {
             return (
                 <div className="actions cursor-pointer">
                 <Button.Ripple className="mr-1" color="primary" 
-                   onClick={() => history.push(`/absentee/${params.value}`)}
+                   onClick={() => history.push(`/content/${params.value}`)}
                   >
                      <span className="align-middle ml-50">View More</span>
                   </Button.Ripple>

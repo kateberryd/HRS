@@ -14,10 +14,10 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import {getSingleGroup, } from "../../../.././redux/actions/group/groupActions"
+import {getSingleSickness, } from "../../../.././redux/actions/sickness/sicknessActions"
 import "../../../../assets/scss/pages/users.scss"
 
-class GroupView extends React.Component {
+class SicknessView extends React.Component {
   state = {
     activeTab: "1",
   }
@@ -44,15 +44,15 @@ formatTime = (string) => {
   
  async componentDidMount(){
     const { match: { params } } = this.props;
-    await this.props.getSingleGroup(params.groupId)
+    await this.props.getSingleSickness(params.sicknessId)
     console.log(this.props);
  }
   render() {
-    const {group} = this.props
-    console.log(group)
+    const {sickness} = this.props
+    console.log(sickness)
     return (
       <React.Fragment>
-       {group ? (
+       {sickness ? (
         <Row>
           <Col sm="12" md="6" lg="6">
             <Card>
@@ -74,7 +74,7 @@ formatTime = (string) => {
                                 <div className="user-info-title font-weight-bold">
                                   Title
                                 </div>
-                                <div>{group.name ? group.name.charAt(0).toUpperCase() + group.name.slice(1) : "No data found"}</div>
+                                <div>{sickness ? sickness.title.charAt(0).toUpperCase() + sickness.title.slice(1) : null}</div>
                               </div>
                               
                            
@@ -85,32 +85,16 @@ formatTime = (string) => {
                             <div className="users-page-view-table">
                             <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                    State
+                                    Description
                                 </div>
-                                <div>{group.state ? group.state.charAt(0).toUpperCase() + group.state.slice(1) : "No data found"}</div>
+                                <div>{sickness ? sickness.description.charAt(0).toUpperCase() + sickness.description.slice(1) : null}</div>
                             </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                    Country
+                                    User
                                 </div>
-                                <div>{group.country ? group.country.charAt(0).toUpperCase() + group.country.slice(1) : "NO data found"}</div>
+                                {/* <div>{sickness ? sickness.refer[0].username.charAt(0).toUpperCase() + sickness.refer[0].username.slice(1) : null}</div> */}
                               </div>
-                              
-                              <div className="d-flex user-info">
-                                <div className="user-info-title font-weight-bold">
-                                    Address
-                                </div>
-                                <div>{group.address ? group.address.charAt(0).toUpperCase() + group.address.slice(1) : "no data found"}</div>
-                              </div>
-                              
-                              <div className="d-flex user-info">
-                                <div className="user-info-title font-weight-bold">
-                                    Campus
-                                </div>
-                                <div>{group.campus.name ? group.campus.name.charAt(0).toUpperCase() + group.campus.name.slice(1) : "no data found"}</div>
-                              </div>
-                              
-                             
                             
                             </div>
                           </Col>
@@ -136,11 +120,9 @@ formatTime = (string) => {
           </Col>
           
           <Col sm="12" md="6" lg="6">
-          <Row>
-            <Col lg="12" md="12">
             <Card>
               <CardHeader>
-                <CardTitle>Workers</CardTitle>
+                <CardTitle>Comments</CardTitle>
               </CardHeader>
               <CardBody>
                 <Row className="mx-0" col="12">
@@ -149,13 +131,12 @@ formatTime = (string) => {
                       <Media className="mt-md-1 mt-0" left>
                         <Row>
                           <Col className="mt-2" sm="9" md="12" lg="12">
-                          {group.department.length !== 0 ?(
+                          {sickness.comments.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
                                     <div className="user-info-title font-weight-bold">
                                         
-                                        {group.department.map(element => (
-                                            element.title ? element.title.charAt(0).toUpperCase() + element.title.slice(1) : "No data found"                                        ))}                            
+                                        {sickness.comments}                            
                                         
                                           </div>
                                   </div>
@@ -166,7 +147,7 @@ formatTime = (string) => {
                             <div className="users-page-view-table">
                             <div className="d-flex user-info">
                               <div className="user-info-title font-weight-bold">
-                              No worker Found
+                              No Comments Found
                             </div>
                          
                           </div>
@@ -174,62 +155,12 @@ formatTime = (string) => {
                           )}
                           </Col>
                         </Row>
-                        
                       </Media>
                       
                   </Col>
                 </Row>
               </CardBody>
             </Card>
-            </Col>
-            </Row>
-            <Row>
-                <Col lg="12" md="12">
-                <Card>
-              <CardHeader>
-                <CardTitle>Departments</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Row className="mx-0" col="12">
-                  <Col className="pl-0" sm="12" md="12">
-                   
-                      <Media className="mt-md-1 mt-0" left>
-                        <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
-                          {group.workers.length !== 0 ?(
-                                  <div className="users-page-view-table">
-                                  <div className="d-flex user-info">
-                                    <div className="user-info-title font-weight-bold">
-                                        
-                                        {group.workers.map(element => (
-                                            element.username ? element.username.charAt(0).toUpperCase() + element.username.slice(1) : "No data found"                                        ))}                            
-                                        
-                                          </div>
-                                  </div>
-                                  
-                               
-                                </div>
-                          ): (
-                            <div className="users-page-view-table">
-                            <div className="d-flex user-info">
-                              <div className="user-info-title font-weight-bold">
-                              No worker Found
-                            </div>
-                         
-                          </div>
-                          </div>
-                          )}
-                          </Col>
-                        </Row>
-                        
-                      </Media>
-                      
-                  </Col>
-                </Row>
-                  </CardBody>
-                </Card>
-                </Col>
-            </Row>
           </Col>
          <ToastContainer />
         </Row>
@@ -241,7 +172,7 @@ formatTime = (string) => {
 const mapStateToProps = state => {
   return {
     auth: state.auth.login,
-    group: state.group.group
+    sickness: state.sickness.sickness
   }
 }
-export default connect(mapStateToProps, {getSingleGroup })(GroupView)
+export default connect(mapStateToProps, { getSingleSickness })(SicknessView)
