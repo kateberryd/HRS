@@ -21,7 +21,6 @@ import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
 import { history } from "../../../../history"
 import { ChevronDown } from "react-feather"
-import {store} from "../../../../redux/storeConfig/store"
 import { connect } from "react-redux"
 import {getCampusList, deleteCampus} from "../../../../redux/actions/campus/campusActions"
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss"
@@ -114,16 +113,6 @@ class CampusTable extends React.Component {
     }
   }
   
-  async componentWillReceiveProps(nextProps){ 
-    if(nextProps.campus != null){
-      await this.props.getCampusList();
-      this.setState({rowData: this.props.campusList})
-      store.dispatch({
-        type:"CREATE_CAMPUS_SUCCESS",
-        payload: null
-    })
-    }
-  }
   
   capitilizeText = (text) => {
     return text.charAt(0).toUpperCase() + text.slice(1)

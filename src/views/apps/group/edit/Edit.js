@@ -17,7 +17,6 @@ import {getSingleGroup} from "../../../../redux/actions/group/groupActions"
 import {getUserList} from "../../../../redux/actions/user/userListActions"
 import GroupForm from "./groupForm"
 import GroupWorkers from "../worker/addGroupWorkers"
-import WorkersList from "../worker/workersList"
 
 import "../../../../assets/scss/pages/users.scss"
 class GroupEdit extends React.Component {
@@ -36,7 +35,10 @@ class GroupEdit extends React.Component {
     const {getSingleGroup,getUserList,  match: { params: {groupId} }} = this.props;
     await getSingleGroup(groupId);
     await getUserList();
-    this.setState({group: this.props.group, users: this.props.users})
+    this.setState({
+      group: this.props.group, 
+      users: this.props.users
+      })
   }
   render() {
       const {group, users, activeTab} = this.state;
@@ -95,9 +97,6 @@ class GroupEdit extends React.Component {
                     <Row>
                     <Col lg="5">
                       <GroupWorkers users={users} group={group}/> 
-                    </Col>
-                    <Col lg="7">
-                      <WorkersList /> 
                     </Col>
                     </Row>
                 </TabPane>

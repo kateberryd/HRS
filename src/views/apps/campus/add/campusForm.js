@@ -23,14 +23,14 @@ const formSchema = Yup.object().shape({
     .required("This field required"),
 })
 
-const CampusForm = ({error, createCampus, setFieldValue, loading, users})  => {
+const CampusForm = ({error, createCampus, loading, users})  => {
     return (
       <Card>
         <CardHeader>
           <Message message={error} />
-          <CardTitle>Add Campus</CardTitle>
+          <CardTitle className="mr-5 ml-5">Add Campus</CardTitle>
         </CardHeader>
-        <CardBody>
+        <CardBody className="mr-5 ml-5">
         <Formik
             initialValues={{
               name: "",
@@ -39,18 +39,19 @@ const CampusForm = ({error, createCampus, setFieldValue, loading, users})  => {
               campus_pastor: "",
               group_head: "",
               hod: "",
-              asst_hod:""
+              asst_hod:"",
+              campus_coordinator: "",
             }}
             validationSchema={formSchema}
             onSubmit={(values, actions) => {
-                // createCampus(values);
+                createCampus(values);
                 console.log(values);
             }}
           >
-          {({ errors, touched }) => (
+          {({ errors, touched, setFieldValue }) => (
           <Form>
             <Row>
-              <Col sm="12">
+              <Col sm="12" lg="6">
                 <FormGroup>
                   <Label className="mb-1" for="nameVertical"> Name</Label>
                   <Field
@@ -88,6 +89,26 @@ const CampusForm = ({error, createCampus, setFieldValue, loading, users})  => {
                 </FormGroup>
               </Col>
               
+              
+              <Col md="6" lg="6" sm="12">
+                <FormGroup>
+                  <Label className="mb-1" for="senior_pastoe" >Campus Coordinator</Label>
+                  <Select
+                    options={users}
+                    className="React"
+                    classNamePrefix="select"
+                    id="campus_coordinator"
+                    name="campus_coordinator"
+                    getOptionLabel={option =>`${option.username}`}
+                    getOptionValue={option => `${option}`}
+                    onChange={value => setFieldValue('campus_coordinator', value._id)}
+                  />
+                  {errors.campus_coordinator && touched.campus_coordinator ? (
+                    <div className="invalid-tooltip mt-25">{errors.campus_coordinator}</div>
+                  ) : null}
+                </FormGroup>
+              </Col>
+              
               <Col md="6" lg="6" sm="12">
                 <FormGroup>
                   <Label className="mb-1" for="spmo" >SPMO</Label>
@@ -109,7 +130,7 @@ const CampusForm = ({error, createCampus, setFieldValue, loading, users})  => {
               
               <Col md="6" lg="6" sm="12">
                 <FormGroup>
-                  <Label className="mb-1" for="campus_coordinator" >Campus Pastor</Label>
+                  <Label className="mb-1" for="campus_pastor" >Campus Pastor</Label>
                   <Select
                     options={users}
                     className="React"

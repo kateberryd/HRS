@@ -4,7 +4,6 @@ import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb"
 import { getUserList} from "../../../../redux/actions/user/userListActions"
 import { connect } from "react-redux"
 import CampusForm from "./campusForm"
-import CampusList from "../list/List"
 class Add extends React.Component {
   state = {
     users: null,
@@ -25,11 +24,8 @@ class Add extends React.Component {
           breadCrumbActive="Add"
         />
         <Row>
-          <Col lg="4" md="12">
+          <Col lg="12" md="12">
             <CampusForm users={users} />
-          </Col>
-          <Col lg="8" md="12">
-              <CampusList />
           </Col>
           
         </Row>

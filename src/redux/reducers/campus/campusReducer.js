@@ -17,7 +17,7 @@ import {
   
   const INIT_STATE = {
     campus: null,
-    campusList: {},
+    campusList: null,
     error: false,
     loading: false,
   }

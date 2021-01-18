@@ -11,16 +11,19 @@ import {
   TabPane
 } from "reactstrap"
 import classnames from "classnames"
-import { User, Info, Share } from "react-feather"
+import { User, Info, } from "react-feather"
 import { connect } from "react-redux"
+import {getUserList} from "../../../../redux/actions/user/userListActions"
 import {getSingleCampus} from "../../../../redux/actions/campus/campusActions"
 import CampusForm from "./campusForm"
+import AddWorker from "../worker/addWorker"
 
 import "../../../../assets/scss/pages/users.scss"
 class CampusEdit extends React.Component {
   state = {
     activeTab: "1",
-    campus: null
+    campus: null,
+    users: null
   }
 
   toggle = tab => {
@@ -29,12 +32,13 @@ class CampusEdit extends React.Component {
     })
   }
   async componentDidMount (){
-    const {getSingleCampus,  match: { params: {campusId} }} = this.props;
+    const {getSingleCampus, getUserList,  match: { params: {campusId} }} = this.props;
     await getSingleCampus(campusId);
-    this.setState({campus: this.props.campus})
+    await getUserList();
+    this.setState({campus: this.props.campus, users:  this.props.users})
   }
   render() {
-      const {campus, activeTab} = this.state;
+      const {campus, users, activeTab} = this.state;
     return (
       <Row>
         <Col sm="12">
@@ -67,24 +71,18 @@ class CampusEdit extends React.Component {
                     <span className="align-middle ml-50">Workers</span>
                   </NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "3"
-                    })}
-                    onClick={() => {
-                      this.toggle("3")
-                    }}
-                  >
-                    <Share size={16} />
-                    <span className="align-middle ml-50">Department</span>
-                  </NavLink>
-                </NavItem>
+                
               </Nav>
               <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
                     <Col lg="7">
                         <CampusForm campus={campus}/> 
+                    </Col>
+                </TabPane>
+                
+                <TabPane tabId="2">
+                    <Col lg="7">
+                        <AddWorker users={users} campus={campus} /> 
                     </Col>
                 </TabPane>
               </TabContent>
@@ -102,7 +100,9 @@ const mapStateToProps = state => {
       auth: state.auth.login,
       error: state.campus.error,
       campus: state.campus.campus,
-      loading: state.campus.loading
+      loading: state.campus.loading,
+      users: state.userList.userList,
+
     }
   }
-  export default connect(mapStateToProps, { getSingleCampus })(CampusEdit)
+  export default connect(mapStateToProps, { getSingleCampus, getUserList })(CampusEdit)

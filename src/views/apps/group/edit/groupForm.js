@@ -49,6 +49,7 @@ const states = [
 const groupForm = ({error, loading, createGroup, group, departments})  => {
     return (
       <Card>
+      {console.log(group)}
         <CardHeader>
           <Message message={error} />
           <CardTitle>Edit Group</CardTitle>
@@ -62,6 +63,7 @@ const groupForm = ({error, loading, createGroup, group, departments})  => {
               state: "",
               address: "",
             }}
+            enableReinitialize={true}
             validationSchema={formSchema}
             onSubmit={(values, actions) => {
               console.log(values);
@@ -76,9 +78,10 @@ const groupForm = ({error, loading, createGroup, group, departments})  => {
                   <Label className="mb-1" for="nameVertical">Group Name</Label>
                   <Field
                     type="text"
-                    name={group}
+                    name="name"
                     id="nameVertical"
                     placeholder="group"
+                    value={group ? group.name : null}
                     className={`form-control ${errors.name &&
                       touched.name &&
                       "is-invalid"}`}
@@ -114,6 +117,7 @@ const groupForm = ({error, loading, createGroup, group, departments})  => {
                   <Select
                     options={countries}
                     className="React"
+                    value={group ? group.country : null}
                     classNamePrefix="select"
                     id="country"
                     onChange={value => setFieldValue('country', value.value)}
@@ -131,6 +135,7 @@ const groupForm = ({error, loading, createGroup, group, departments})  => {
                     options={states}
                     className="React"
                     classNamePrefix="select"
+                    value={group ? group.state : null}
                     onChange={value => setFieldValue('state', value.value)}
                     id="state"
                   />
@@ -149,6 +154,7 @@ const groupForm = ({error, loading, createGroup, group, departments})  => {
                     name="address"
                     id="addressVertical"
                     placeholder="address"
+                    value={group ? group : null}
                     className={`form-control ${errors.address &&
                       touched.address &&
                       "is-invalid"}`}

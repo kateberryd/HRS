@@ -9,9 +9,8 @@ import {
   Col,
   Button,
 } from "reactstrap"
-import { Edit,} from "react-feather"
-import { Link } from "react-router-dom"
 import { connect } from "react-redux"
+import { history } from "../../../../history"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import {getSingleGroup, } from "../../../.././redux/actions/group/groupActions"
@@ -114,21 +113,16 @@ formatTime = (string) => {
                             
                             </div>
                           </Col>
-                          
-                          
-                       
                         </Row>
                       </Media>
                       
                   </Col>
                   <Col className="mt-1 pl-0" sm="12">
-                    <Button.Ripple className="mr-1" color="primary" outline>
-                      <Link to="/app/user/edit">
-                        <Edit size={15} />
-                        <span className="align-middle ml-50">Edit</span>
-                      </Link>
-                    </Button.Ripple>
-                 
+                    <Button.Ripple color="primary" outline
+                          onClick={() => history.push(`/edit-group/${group._id}`)}
+                        >
+                          <span className="align-middle ml-50">Edit</span>
+                     </Button.Ripple>
                   </Col>
                 </Row>
               </CardBody>
@@ -140,15 +134,15 @@ formatTime = (string) => {
             <Col lg="12" md="12">
             <Card>
               <CardHeader>
-                <CardTitle>Workers</CardTitle>
+                <CardTitle>Departments</CardTitle>
               </CardHeader>
               <CardBody>
                 <Row className="mx-0" col="12">
                   <Col className="pl-0" sm="12" md="12">
                    
-                      <Media className="mt-md-1 mt-0" left>
+                      <Media  left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="mt-" sm="9" md="12" lg="12">
                           {group.department.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
@@ -166,7 +160,7 @@ formatTime = (string) => {
                             <div className="users-page-view-table">
                             <div className="d-flex user-info">
                               <div className="user-info-title font-weight-bold">
-                              No worker Found
+                                No data found
                             </div>
                          
                           </div>
@@ -187,26 +181,31 @@ formatTime = (string) => {
                 <Col lg="12" md="12">
                 <Card>
               <CardHeader>
-                <CardTitle>Departments</CardTitle>
+                <CardTitle>Workers</CardTitle>
               </CardHeader>
               <CardBody>
                 <Row className="mx-0" col="12">
                   <Col className="pl-0" sm="12" md="12">
                    
-                      <Media className="mt-md-1 mt-0" left>
+                      <Media  left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="" sm="9" md="12" lg="12">
                           {group.workers.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
                                     <div className="user-info-title font-weight-bold">
                                         
                                         {group.workers.map(element => (
-                                            element.username ? element.username.charAt(0).toUpperCase() + element.username.slice(1) : "No data found"                                        ))}                            
+                                            element.username ? element.username.charAt(0).toUpperCase() + element.username.slice(1) : "No data found"                               
+                                          ))}                            
                                         
                                           </div>
                                   </div>
-                                  
+                                  <Button.Ripple color="primary" className="mt-1"
+                                    onClick={() => history.push(`/edit-group/${group._id}`)}
+                                    >
+                                      <span className="align-middle ml-50">Add Worker</span>
+                                  </Button.Ripple>
                                
                                 </div>
                           ): (

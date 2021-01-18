@@ -1,4 +1,5 @@
 import axios from "../../../utility/axios"
+import { toast } from 'react-toastify';
 import { history } from "../../../history"
 import {
     CREATE_CAMPUS,
@@ -21,7 +22,14 @@ import {
        dispatch(setCampusLoading());
        await axios
        .post("/campus", {
-         name: formData.name
+         name: formData.name,
+         global_senior_pastor: formData.senior_pastor,
+         SPMO: formData.spmo,
+         campus_pastor: formData.campus_pastor,
+         group_head: formData.group_head,
+         HOD: formData.hod,
+         asst_HOD: formData.asst_hod,
+         campus_coordinator: formData.campus_coordinator
        }).then(res => {
            console.log(res.data)
            if(res.data){
@@ -30,8 +38,8 @@ import {
                 payload: res.data.data
             })
            }
-           history.push("/add-campus")
-          })
+           toast.success("Campus Created Successfully")
+        })
           .catch(err => {
               console.log(err.response)
              if(err){
@@ -118,11 +126,11 @@ export const getSingleCampus = (id) => async dispatch => {
         }
        })
        .catch(err => {
-           console.log(err.response.data.error)
+           console.log(err.response.data)
           if(err){
            dispatch({
                type: GET_SINGLE_CAMPUS_FAILED,
-               payload: err.response.data.error
+               payload: err.response.data
            })
           }
       })
@@ -161,4 +169,32 @@ export const getCampusLoading = () => {
     return{
         type: EDIT_CAMPUS,
     }
+}
+
+
+
+export const addCampusWorker = ({worker, campus}) => async dispatch => {
+    dispatch(setCampusLoading());
+    await axios
+    .put(`/campus/single?id=${campus}`, {
+      workers: worker[0]._id
+    }).then(res => {
+        if(res.data){
+         dispatch({
+             type:CREATE_CAMPUS_SUCCESS,
+             payload: res.data.data
+         })
+         toast.success("Worker Added Successfully")
+        }
+         console.log(res.data.data);
+       })
+       .catch(err => {
+           console.log(err.response)
+          if(err){
+           dispatch({
+               type: CREATE_CAMPUS_FAILED,
+               payload: err.response
+           })
+          }
+      })
 }

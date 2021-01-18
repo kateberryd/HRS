@@ -48,7 +48,7 @@ const CampusForm = ({error, createCampus, loading, campus})  => {
                   <Field
                     type="text"
                     name="name"
-                    value={campus.name}
+                    value={campus ? campus.name : null}
                     id="nameVertical"
                     placeholder="campus"
                     className={`form-control ${errors.name &&

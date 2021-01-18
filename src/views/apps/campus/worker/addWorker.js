@@ -14,7 +14,7 @@ import Select from "react-select"
 import { connect } from "react-redux"
 import { Formik, Form,  } from "formik"
 import * as Yup from "yup"
-import { addGroupWorker } from "../../../../redux/actions/group/groupActions"
+import { addCampusWorker } from "../../../../redux/actions/campus/campusActions"
 import {Message} from "../../../../components/setAlert/message"
 
 
@@ -25,25 +25,25 @@ const formSchema = Yup.object().shape({
 })
 
 
-const groupWorkers = ({error, loading, group, addGroupWorker, users, })  => {
+const CampusWorker = ({error, loading, campus, addCampusWorker, users, })  => {
     return (
       <Card>
      
         <CardHeader>
           <Message message={error} />
-          <CardTitle>Add Group Workers</CardTitle>
+          <CardTitle>Add Campus Workers</CardTitle>
         </CardHeader>
         <CardBody>
         <Formik
             initialValues={{
               worker: "",
-              group: group ? group._id : null
+              campus: campus ? campus._id : null
             }}
             validationSchema={formSchema}
             enableReinitialize={true}
             onSubmit={(values, actions) => {
               console.log(values);
-              addGroupWorker(values)
+              addCampusWorker(values)
             }}
           >
           {({ errors, touched, setFieldValue, values}) => (
@@ -101,4 +101,4 @@ const groupWorkers = ({error, loading, group, addGroupWorker, users, })  => {
       loading: state.group.loading,
     }
   }
-  export default connect(mapStateToProps, { addGroupWorker })(groupWorkers)
+  export default connect(mapStateToProps, { addCampusWorker })(CampusWorker)

@@ -130,6 +130,16 @@ const navigationConfig = [
 
       },
       
+      {
+        id: "addCompus",
+        title: "All Campuses",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/all-campuses",
+
+      },
+      
       
       
     ]

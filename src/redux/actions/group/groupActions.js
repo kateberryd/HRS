@@ -172,3 +172,30 @@ export const getSingleGroupLoading = () => {
         type: GET_SINGLE_GROUP,
     }
 }
+
+
+export const addGroupWorker = ({worker, group}) => async dispatch => {
+    dispatch(setGroupLoading());
+    await axios
+    .put(`/group/single?id=${group}`, {
+      workers: worker[0]._id
+    }).then(res => {
+        if(res.data){
+         dispatch({
+             type:CREATE_GROUP_SUCCESS,
+             payload: res.data.data
+         })
+         toast.success("Worker Added Successfully")
+        }
+         console.log(res.data.data);
+       })
+       .catch(err => {
+           console.log(err.response)
+          if(err){
+           dispatch({
+               type: CREATE_GROUP_FAILED,
+               payload: err.response
+           })
+          }
+      })
+}

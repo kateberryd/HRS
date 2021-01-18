@@ -46,7 +46,7 @@ const states = [
   { value: "kaduna", label: "Kaduna", color: "#7367f0" }
 ]
 
-const departmentForm = ({error, loading, createDepartment, groups})  => {
+const departmentForm = ({error, loading, createDepartment, groups, users})  => {
     return (
       <Card>
         <CardHeader>
@@ -61,6 +61,8 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
               state: "",
               group: "",
               address: "",
+              HOD: "",
+              asst_HOD: "",
             }}
             validationSchema={formSchema}
             onSubmit={(values, actions) => {
@@ -70,6 +72,7 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
           {({ errors, touched, setFieldValue,}) => (
           <Form>
             <Row >
+            {console.log(users)}
               <Col lg="12" md="12" sm="12">
                 <FormGroup>
                   <Label className="mb-1" for="nameVertical">Department Name</Label>
@@ -108,7 +111,41 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
                   ) : null}
                 </FormGroup>
               </Col>
+              <Col md="6" sm="12">
+                <FormGroup>
+                  <Label for="HOD">HOD</Label>
+                  <Select
+                    options={users}
+                    className="React"
+                    classNamePrefix="select"
+                    getOptionLabel={option =>`${option.username}`}
+                    getOptionValue={option => `${option}`}
+                    onChange={value => setFieldValue('HOD', value._id)}
+                    id="HOD"
+                  />
+                  {errors.HOD && touched.HOD ? (
+                    <div className="invalid-tooltip mt-25">{errors.HOD}</div>
+                  ) : null}
+                </FormGroup>
+              </Col>
               
+              <Col md="6" sm="12">
+                <FormGroup>
+                  <Label for="state">ASST HOD</Label>
+                  <Select
+                    options={users}
+                    className="React"
+                    classNamePrefix="select"
+                    getOptionLabel={option =>`${option.username}`}
+                    getOptionValue={option => `${option}`}
+                    onChange={value => setFieldValue('Asst_HOD', value._id)}
+                    id="asst_HOD"
+                  />
+                  {errors.asst_HOD && touched.asst_HOD ? (
+                    <div className="invalid-tooltip mt-25">{errors.asst_HOD}</div>
+                  ) : null}
+                </FormGroup>
+              </Col>
               
               <Col md="6" lg="6" sm="12">
                 <FormGroup>
@@ -160,6 +197,8 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
                   ) : null}
                 </FormGroup>
               </Col>
+              
+           
               <Col sm="12">
                 <FormGroup>
                   <Button.Ripple
@@ -188,4 +227,4 @@ const departmentForm = ({error, loading, createDepartment, groups})  => {
       loading: state.department.loading,
     }
   }
-  export default connect(mapStateToProps, { createDepartment })(departmentForm)
+  export default connect(mapStateToProps, { createDepartment,  })(departmentForm)

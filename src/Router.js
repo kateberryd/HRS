@@ -184,6 +184,7 @@ const userAdd = lazy(() => import("./views/apps/user/add/Add"))
 const userView = lazy(() => import("./views/apps/user/view/View"))
 const unApproveUsersList = lazy(() => import("./views/apps/user/unapprove-users/List"))
 const campusAdd = lazy(() => import("./views/apps/campus/add/Add"))
+const campusList = lazy(() => import("./views/apps/campus/list/List"))
 const campusEdit = lazy(() => import("./views/apps/campus/edit/Edit"))
 const campusView = lazy(() => import("./views/apps/campus/view/View"))
 const departmentAdd = lazy(() => import("./views/apps/department/add/Add"))
@@ -197,43 +198,24 @@ const groupView = lazy(() => import("./views/apps/group/view/View"))
 const eventAdd = lazy(() => import("./views/apps/event/add/Add"))
 const eventList = lazy(() => import("./views/apps/event/list/List"))
 const eventView = lazy(() => import("./views/apps/event/view/View"))
-
 const categories = lazy(() => import("./views/apps/event-category/index"));
-
 const sicknessList = lazy(() => import("./views/apps/sickness/list/List"))
-
 const sicknessView = lazy(() => import("./views/apps/sickness/view/View"))
-
 const conflictList = lazy(() => import("./views/apps/conflict/list/List"))
-
 const qualityAssuranceList = lazy(() => import("./views/apps/quality-assurance/list/List"))
-
 const qualityAssuranceView = lazy(() => import("./views/apps/quality-assurance/view/View"))
-
 const addAbsentee = lazy(() => import("./views/apps/absent/add/Add"))
-
 const absenteeList = lazy(() => import("./views/apps/absent/list/List"))
-
 const absenteeView = lazy(() => import("./views/apps/absent/View/View"))
-
 const requestList = lazy(() => import("./views/apps/request/list/List"))
-
 const contentList = lazy(() => import("./views/apps/contents/list/List"))
-
 const addContent = lazy(() => import("./views/apps/contents/add/Add"))
-
 const contentView = lazy(() => import("./views/apps/contents/View/View"))
-
 const addBroadcast = lazy(() => import("./views/apps/broadcast/add/Add"))
-
 const score = lazy(() => import("./views/apps/score/list/List"))
-
 const roleAdd = lazy(() => import("./views/apps/role/add/Add"));
-
 const KPICategory = lazy(() => import("./views/apps/KPI-category/index"));
-
 const Login = lazy(() => import("./views/pages/authentication/login/Login"))
-// Set Layout and Component Using App Route
 const RouteConfig = ({ component: Component, fullLayout, ...rest }) => (
   <Route
     {...rest}
@@ -329,6 +311,7 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/users/:userId" component={userView} />
           <PrivateRoute path="/add-roles" component={roleAdd} />
           <PrivateRoute path="/add-campus" component={campusAdd} />
+          <PrivateRoute path="/all-campuses" component={campusList} />
           <PrivateRoute path="/edit-campus/:campusId" component={campusEdit} />
           <PrivateRoute path="/campus/:campusId" component={campusView} />
           <PrivateRoute path="/add-department" component={departmentAdd} />
@@ -337,8 +320,8 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/department/:departmentId" component={departmentView} />
           <PrivateRoute path="/add-group" component={groupAdd} />
           <PrivateRoute path="/all-groups" component={groupList} />
-          <PrivateRoute path="/edit-group/:groupId" component={groupEdit} />
           <PrivateRoute path="/group/:groupId" component={groupView} />
+          <PrivateRoute path="/edit-group/:groupId" component={groupEdit} />
           <PrivateRoute path="/add-event" component={eventAdd} />
           <PrivateRoute path="/events" component={eventList} />
           <PrivateRoute path="/event/:eventId" component={eventView} />
@@ -360,12 +343,6 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/score-setting" component={score} />
           
           {/* END OF APP ROUTES */}
-          
-          
-          
-          
-          
-          
           
           
           

@@ -60,6 +60,8 @@ const departmentForm = ({error, loading, editSingleDepartment, department, })  =
               country: "",
               state: "",
               address: "",
+              asst_HOD: "",
+              HOD: "",
             }}
             validationSchema={formSchema}
             onSubmit={(values, actions) => {
@@ -137,6 +139,38 @@ const departmentForm = ({error, loading, editSingleDepartment, department, })  =
                   />
                   {errors.address && touched.address ? (
                     <div className="invalid-tooltip mt-25">{errors.address}</div>
+                  ) : null}
+                </FormGroup>
+              </Col>
+              
+              <Col md="12" sm="12">
+                <FormGroup>
+                  <Label for="HOD">HOD</Label>
+                  <Select
+                    options={states}
+                    className="React"
+                    classNamePrefix="select"
+                    onChange={value => setFieldValue('HOD', value.value)}
+                    id="HOD"
+                  />
+                  {errors.HOD && touched.HOD ? (
+                    <div className="invalid-tooltip mt-25">{errors.HOD}</div>
+                  ) : null}
+                </FormGroup>
+              </Col>
+              
+              <Col md="12" sm="12">
+                <FormGroup>
+                  <Label for="state">ASST HOD</Label>
+                  <Select
+                    options={states}
+                    className="React"
+                    classNamePrefix="select"
+                    onChange={value => setFieldValue('asst_HOD', value.value)}
+                    id="asst_HOD"
+                  />
+                  {errors.asst_HOD && touched.asst_HOD ? (
+                    <div className="invalid-tooltip mt-25">{errors.asst_HOD}</div>
                   ) : null}
                 </FormGroup>
               </Col>

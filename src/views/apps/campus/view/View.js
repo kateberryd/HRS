@@ -11,6 +11,7 @@ import {
 } from "reactstrap"
 import { Edit,} from "react-feather"
 import { Link } from "react-router-dom"
+import { history } from "../../../../history"
 import { connect } from "react-redux"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
@@ -165,9 +166,9 @@ formatTime = (string) => {
                 <Row className="mx-0" col="12">
                   <Col className="pl-0" sm="12" md="12">
                    
-                      <Media className="mt-md-1 mt-0" left>
+                      <Media  left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col  sm="9" md="12" lg="12">
                           {campus.group.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
@@ -212,9 +213,9 @@ formatTime = (string) => {
                 <Row className="mx-0" col="12">
                   <Col className="pl-0" sm="12" md="12">
                    
-                      <Media className="mt-md-1 mt-0" left>
+                      <Media  left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col  sm="9" md="12" lg="12">
                           {campus.department.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
@@ -257,27 +258,37 @@ formatTime = (string) => {
                 <CardBody>
                  <Row className="mx-0" col="12">
                   <Col className="pl-0" sm="12" md="12">
-                   
-                      <Media className="mt-md-1 mt-0" left>
+                      <Media left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col  sm="9" md="12" lg="12">
                           {campus.workers.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
                                     <div className="user-info-title font-weight-bold">
                                         
-                                        {campus.workers}                            
+                                    {campus.workers.map(element => (
+                                            element.username ? element.username.charAt(0).toUpperCase() + element.username.slice(1) : "No data found"                               
+                                          ))}                            
+                                                                   
                                         
                                           </div>
                                   </div>
-                                  
+                                  <Button.Ripple color="primary" className="mt-1"
+                                    onClick={() => history.push(`/edit-campus/${campus._id}`)}
+                                    >
+                                      <span className="align-middle ml-50">Add Worker</span>
+                                  </Button.Ripple>
                                
                                 </div>
                           ): (
                             <div className="users-page-view-table">
                             <div className="d-flex user-info">
                               <div className="user-info-title font-weight-bold">
-                              No Worker Found
+                              <Button.Ripple color="primary" className="mt-1"
+                                    onClick={() => history.push(`/edit-campus/${campus._id}`)}
+                                    >
+                                      <span className="align-middle ml-50">Add Worker</span>
+                                  </Button.Ripple>
                             </div>
                          
                           </div>
