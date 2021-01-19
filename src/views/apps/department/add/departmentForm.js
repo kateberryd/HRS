@@ -72,7 +72,6 @@ const departmentForm = ({error, loading, createDepartment, groups, users})  => {
           {({ errors, touched, setFieldValue,}) => (
           <Form>
             <Row >
-            {console.log(users)}
               <Col lg="12" md="12" sm="12">
                 <FormGroup>
                   <Label className="mb-1" for="nameVertical">Department Name</Label>
@@ -138,7 +137,7 @@ const departmentForm = ({error, loading, createDepartment, groups, users})  => {
                     classNamePrefix="select"
                     getOptionLabel={option =>`${option.username}`}
                     getOptionValue={option => `${option}`}
-                    onChange={value => setFieldValue('Asst_HOD', value._id)}
+                    onChange={value => setFieldValue('asst_HOD', value._id)}
                     id="asst_HOD"
                   />
                   {errors.asst_HOD && touched.asst_HOD ? (

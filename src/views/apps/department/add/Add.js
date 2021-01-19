@@ -16,7 +16,6 @@ class Add extends React.Component {
     let groups = this.props.groups
     let users = this.props.users
     this.setState({ groups, users })
-    console.log(this.state.users)
   }
   render() {
     return (

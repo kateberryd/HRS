@@ -72,7 +72,7 @@ formatTime = (string) => {
                             <div className="users-page-view-table">
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                  Title
+                                  Name
                                 </div>
                                 <div>{department.name ? department.name.charAt(0).toUpperCase() + department.name.slice(1) : "No data found"}</div>
                               </div>
@@ -149,9 +149,9 @@ formatTime = (string) => {
                 <Row className="mx-0" col="12">
                   <Col className="pl-0" sm="12" md="12">
                    
-                      <Media className="mt-md-1 mt-0" left>
+                      <Media className=" mt-0" left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col  sm="9" md="12" lg="12">
                           {department.workers.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">

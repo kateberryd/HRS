@@ -28,7 +28,9 @@ import {
          state: formData.state,
          group: formData.group,
          country: formData.country,
-         address: formData.address
+         address: formData.address,
+         HOD: formData.HOD,
+         asst_HOD: formData.asst_HOD
        }).then(res => {
            console.log(res.data)
            if(res.data){
