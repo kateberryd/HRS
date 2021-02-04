@@ -21,12 +21,12 @@ const Footer = props => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Pixinvent,
+            skillseed,
           </a>
           All rights reserved
         </span>
         <span className="float-md-right d-none d-md-block">
-          <span className="align-middle">Hand-crafted & Made with</span>{" "}
+          <span className="align-middle">Made with</span>{" "}
           <Heart className="text-danger" size={15} />
         </span>
       </p>
