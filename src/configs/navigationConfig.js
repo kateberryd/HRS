@@ -73,15 +73,6 @@ const navigationConfig = [
     icon: <Icon.StopCircle size={20} />,
     type: "collapse",
     children: [
-      {
-        id: "addCompus",
-        title: "Add Campus",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/add-campus",
-
-      },
       
       {
         id: "addCompus",
@@ -92,6 +83,17 @@ const navigationConfig = [
         navLink: "/all-campuses",
 
       },
+      {
+        id: "addCompus",
+        title: "Add Campus",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/add-campus",
+
+      },
+      
+     
       
       
       
@@ -295,6 +297,14 @@ const navigationConfig = [
     icon: <Icon.Twitch size={20} />,
     type: "collapse",
     children: [
+      {
+        id: "allContent",
+        title: "All Content",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/contents",
+      },
         {
           id: "addContent",
           title: "Add Content",
@@ -304,14 +314,7 @@ const navigationConfig = [
           navLink: "/add-content",
         },
         
-        {
-          id: "allContent",
-          title: "All Content",
-          type: "item",
-          icon: <Icon.Circle size={12} />,
-          permissions: ["admin", "editor"],
-          navLink: "/contents",
-        },
+       
     ]
 
   },

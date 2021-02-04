@@ -13,11 +13,7 @@ import { ContextLayout } from "./utility/context/Layout"
 const analyticsDashboard = lazy(() =>
   import("./views/dashboard/analytics/AnalyticsDashboard")
 )
-const ecommerceDashboard = lazy(() =>
-  import("./views/dashboard/ecommerce/EcommerceDashboard")
-)
-const email = lazy(() => import("./views/apps/email/Email"))
-const chat = lazy(() => import("./views/apps/chat/Chat"))
+
 const todo = lazy(() => import("./views/apps/todo/Todo"))
 const calendar = lazy(() => import("./views/apps/calendar/Calendar"))
 const shop = lazy(() => import("./views/apps/ecommerce/shop/Shop"))

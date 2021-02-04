@@ -7,11 +7,9 @@ import {
   Media,
   Row,
   Col,
-  Button,
   Spinner,
 } from "reactstrap"
-import { Edit,} from "react-feather"
-import { Link } from "react-router-dom"
+
 import { connect } from "react-redux"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
