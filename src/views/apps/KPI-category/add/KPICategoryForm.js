@@ -8,7 +8,8 @@ import {
   Row,
   Col,
   Button,
-  Label
+  Label, 
+  Spinner
 } from "reactstrap"
 import { connect } from "react-redux"
 import { Formik, Field, Form } from "formik"
@@ -68,7 +69,15 @@ const EventCategoryForm = ({error, createKPICategory, loading})  => {
                     type="submit"
                     className="mr-1 mb-1"
                   >
-                   {loading ? "Loading..." : "Submit"}
+                                      {
+                      loading ?  
+                    <div>
+                     <Spinner color="white" size="sm" type="grow" />  
+                     <span className="ml-50">Loading...</span>
+                    </div>
+                     : "Submit"
+                
+                    }
                   </Button.Ripple>
                 
                 </FormGroup>

@@ -3,24 +3,13 @@ import * as Icon from "react-feather"
 const navigationConfig = [
   
   
-  
   {
-    id: "dashboard",
+    id: "Dasboard",
     title: "Dashboard",
-    type: "collapse",
+    type: "item",
     icon: <Icon.Home size={20} />,
-    badge: "warning",
-    children: [
-      {
-        id: "analyticsDash",
-        title: "Analytics",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/"
-      },
-      
-    ]
+    permissions: ["admin", "editor"],
+    navLink: "/"
   },
   
   
@@ -51,14 +40,7 @@ const navigationConfig = [
     icon: <Icon.Users size={20} />,
     badge: "warning",
     children: [
-      {
-        id: "addUser",
-        title: "Add Users",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/add-user"
-      },
+     
       
       {
         id: "allUser",
@@ -84,35 +66,6 @@ const navigationConfig = [
     
     
   },
-  
-  {
-    id: "groups",
-    title: "Groups",
-    icon: <Icon.GitMerge size={20} />,
-    type: "collapse",
-    children: [
-      {
-        id: "addGroup",
-        title: "Add Group",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/add-group",
-
-      },
-      
-      {
-        id: "allGroups",
-        title: "All Groups",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/all-groups"
-      },
-      
-    ]
-  },
-  
   
   {
     id: "Campus",
@@ -145,6 +98,39 @@ const navigationConfig = [
     ]
   },
   
+  {
+    id: "groups",
+    title: "Groups",
+    icon: <Icon.GitMerge size={20} />,
+    type: "collapse",
+    children: [
+     
+      {
+        id: "allGroups",
+        title: "All Groups",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/all-groups"
+      },
+      
+      {
+        id: "addGroup",
+        title: "Add Group",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/add-group",
+
+      },
+      
+      
+    ]
+  },
+  
+  
+
+  
   
   {
     id: "Department",
@@ -152,15 +138,6 @@ const navigationConfig = [
     icon: <Icon.List size={20} />,
     type: "collapse",
     children: [
-      {
-        id: "addDepartment",
-        title: "Add Department",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/add-department",
-
-      },
       
       {
         id: "allDepartments",
@@ -171,6 +148,17 @@ const navigationConfig = [
         navLink: "/all-departments",
 
       },
+      {
+        id: "addDepartment",
+        title: "Add Department",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/add-department",
+
+      },
+      
+     
       
     ]
   },
@@ -183,15 +171,6 @@ const navigationConfig = [
     icon: <Icon.Tablet size={20} />,
     type: "collapse",
     children: [
-      {
-        id: "allEvent",
-        title: "Add Event",
-        type: "item",
-        icon: <Icon.Circle size={12} />,
-        permissions: ["admin", "editor"],
-        navLink: "/add-event",
-
-      },
       
       {
         id: "allEvents",
@@ -202,6 +181,17 @@ const navigationConfig = [
         navLink: "/events"
       },
       
+      {
+        id: "allEvent",
+        title: "Add Event",
+        type: "item",
+        icon: <Icon.Circle size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/add-event",
+
+      },
+      
+     
       
       {
         id: "Category",
@@ -223,11 +213,11 @@ const navigationConfig = [
     children: [
       {
         id: "allSickness",
-        title: "Sicknesses",
+        title: "Sickness",
         type: "item",
         icon: <Icon.Circle size={12} />,
         permissions: ["admin", "editor"],
-        navLink: "/sicknesses",
+        navLink: "/sickness-incidents",
 
       },
       
@@ -261,6 +251,15 @@ const navigationConfig = [
         icon: <Icon.Circle size={12} />,
         type: "collapse",
         children: [
+          
+          {
+            id: "allAbsentee",
+            title: "All Absentee",
+            type: "item",
+            icon: <Icon.Circle size={12} />,
+            permissions: ["admin", "editor"],
+            navLink: "/absentee",
+          },
             {
               id: "addAbsentee",
               title: "Add Absentee",
@@ -270,14 +269,7 @@ const navigationConfig = [
               navLink: "/add-absentee",
             },
             
-            {
-              id: "allAbsentee",
-              title: "All Absentee",
-              type: "item",
-              icon: <Icon.Circle size={12} />,
-              permissions: ["admin", "editor"],
-              navLink: "/absentee",
-            },
+          
         ]
 
       },

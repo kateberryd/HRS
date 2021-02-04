@@ -12,6 +12,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Spinner
 } from "reactstrap"
 import { AgGridReact } from "ag-grid-react"
 import { ContextLayout } from "../../../../utility/context/Layout"
@@ -132,7 +133,7 @@ class RoleList extends React.Component {
     const { rowData, columnDefs, defaultColDef } = this.state
     return (
       <React.Fragment>
-       
+         {rowData != null ? (
         <Card className="overflow-hidden agGrid-card">
           <CardBody className="py-0">
             {this.state.rowData === null ? null : (
@@ -241,6 +242,10 @@ class RoleList extends React.Component {
             </Modal>
           </CardBody>
         </Card>
+         ):(   
+          <div className="text-center">
+            <Spinner color="primary" size="lg" />
+          </div>) }
       </React.Fragment>
     )
   }

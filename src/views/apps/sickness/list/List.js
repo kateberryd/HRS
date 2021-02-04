@@ -13,6 +13,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Spinner
 } from "reactstrap"
 import {
   Trash2,
@@ -201,7 +202,7 @@ class SicknessList extends React.Component {
     const { rowData, columnDefs, defaultColDef } = this.state
     return (
       <React.Fragment>
-       
+        {rowData != null ? (
         <Card className="overflow-hidden agGrid-card">
           <CardBody className="py-0">
             {this.state.rowData !== null ? (
@@ -333,6 +334,10 @@ class SicknessList extends React.Component {
             </Modal>
             </Col>
         </Card>
+        ):(   
+          <div className="text-center">
+            <Spinner color="primary" size="lg" />
+          </div>) }
       </React.Fragment>
     )
   }

@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Button,
+  Spinner
 } from "reactstrap"
 import { Edit,} from "react-feather"
 import { Link } from "react-router-dom"
@@ -20,6 +21,7 @@ import "../../../../assets/scss/pages/users.scss"
 class EventView extends React.Component {
   state = {
     activeTab: "1",
+    event: null
   }
 
   toggleTab = tab => {
@@ -49,10 +51,10 @@ editEvent = async () => {
  async componentDidMount(){
     const { match: { params } } = this.props;
     await this.props.getSingleEvent(params.eventId)
-    console.log(this.props);
+    this.setState({event: this.props.event})
  }
   render() {
-    const {event} = this.props
+    const {event} = this.state
     console.log(event)
     return (
       <React.Fragment>
@@ -63,6 +65,11 @@ editEvent = async () => {
                 <CardTitle> Event</CardTitle>
               </CardHeader>
               <CardBody>
+              {event == null ? (   
+                    <div className="text-center">
+                      <Spinner color="primary" size="lg" />
+                    </div>) 
+               :(
                 <Row className="mx-0" col="6">
                   <Col className="pl-0" sm="12" md="12">
                    
@@ -94,10 +101,19 @@ editEvent = async () => {
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                    Event Time
+                                    Event Start Time
                                 </div>
                                 <div className="text-truncate">
-                                  <span>{event ? this.formatTime(event.time) : null}</span>
+                                  <span>{event ? this.formatTime(event.startTime) : null}</span>
+                                </div>
+                              </div>
+                              
+                              <div className="d-flex user-info">
+                                <div className="user-info-title font-weight-bold">
+                                    Event End Time
+                                </div>
+                                <div className="text-truncate">
+                                  <span>{event ? this.formatTime(event.endTime) : null}</span>
                                 </div>
                               </div>
                             </div>
@@ -132,8 +148,10 @@ editEvent = async () => {
                     </Button.Ripple>
                  
                   </Col>
-                </Row>
+                </Row> 
+                )}
               </CardBody>
+         
             </Card>
           </Col>
          <ToastContainer />
@@ -146,7 +164,8 @@ editEvent = async () => {
 const mapStateToProps = state => {
   return {
     auth: state.auth.login,
-    event: state.event.event
+    event: state.event.event,
+    loading: state.event.loading
   }
 }
 export default connect(mapStateToProps, { getSingleEvent, editEvent })(EventView)

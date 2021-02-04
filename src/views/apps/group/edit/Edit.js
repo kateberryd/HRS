@@ -11,12 +11,11 @@ import {
   TabPane
 } from "reactstrap"
 import classnames from "classnames"
-import { User, Info} from "react-feather"
+import {  Edit} from "react-feather"
 import { connect } from "react-redux"
 import {getSingleGroup} from "../../../../redux/actions/group/groupActions"
 import {getUserList} from "../../../../redux/actions/user/userListActions"
 import GroupForm from "./groupForm"
-import GroupWorkers from "../worker/addGroupWorkers"
 
 import "../../../../assets/scss/pages/users.scss"
 class GroupEdit extends React.Component {
@@ -41,7 +40,7 @@ class GroupEdit extends React.Component {
       })
   }
   render() {
-      const {group, users, activeTab} = this.state;
+      const {group,  activeTab} = this.state;
     return (
       <Row>
         <Col sm="12">
@@ -57,23 +56,11 @@ class GroupEdit extends React.Component {
                       this.toggle("1")
                     }}
                   >
-                    <Info size={16} />
+                    <Edit size={16} />
                     <span className="align-middle ml-50">Group</span>
                   </NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "2"
-                    })}
-                    onClick={() => {
-                      this.toggle("2")
-                    }}
-                  >
-                    <User size={16} />
-                    <span className="align-middle ml-50">Group Workers</span>
-                  </NavLink>
-                </NavItem>
+             
                 <NavItem>
                   <NavLink
                     className={classnames({
@@ -93,13 +80,7 @@ class GroupEdit extends React.Component {
                     </Col>
                 </TabPane>
                 
-                <TabPane tabId="2">
-                    <Row>
-                    <Col lg="5">
-                      <GroupWorkers users={users} group={group}/> 
-                    </Col>
-                    </Row>
-                </TabPane>
+               
               </TabContent>
             </CardBody>
           </Card>

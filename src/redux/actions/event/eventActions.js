@@ -19,20 +19,21 @@ import {
   } from '../../constants/event/index';
   
  export const createEvent = (formData) => async dispatch => {
-       dispatch(setCreatEventLOading());
+       dispatch(setCreateEventLoading());
        let fd = new FormData()
        fd.append("file", formData.image)
        fd.append("upload_preset", "oebydoly")
        let uploadedImage = await Axios.post("https://api.cloudinary.com/v1_1/nhub-kate/image/upload",fd)
        await axios
        .post("/event", {
-         title: formData.name,
-         category: formData.category,
-         date: formData.date,
-         time: formData.dateTime,
-         location: formData.location,
-         description: formData.description,
-         coverImage: uploadedImage.data.url
+            title: formData.name,
+            category: formData.category,
+            date: formData.date,
+            startTime: formData.startTime,
+            endTime: formData.endTime,
+            location: formData.location,
+            description: formData.description,
+            coverImage: uploadedImage.data.url
        }).then(res => {
            console.log(res.data)
            if(res.data){
@@ -54,7 +55,7 @@ import {
          })
    }
    
-   export const setCreatEventLOading = () => {
+   export const setCreateEventLoading = () => {
        return{
            type: CREATE_EVENT,
        }

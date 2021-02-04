@@ -13,6 +13,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Spinner
 } from "reactstrap"
 import {
   Trash2,
@@ -191,7 +192,7 @@ formatDate = (string) => {
     const { rowData, columnDefs, defaultColDef } = this.state
     return (
       <React.Fragment>
-       
+          {rowData != null ? (
         <Card className="overflow-hidden agGrid-card">
           <CardBody className="py-0">
             {this.state.rowData !== null ? (
@@ -323,6 +324,10 @@ formatDate = (string) => {
             </Modal>
             </Col>
         </Card>
+          ):(   
+            <div className="text-center">
+              <Spinner color="primary" size="lg" />
+            </div>) }
       </React.Fragment>
     )
   }

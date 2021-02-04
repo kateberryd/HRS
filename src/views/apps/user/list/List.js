@@ -35,6 +35,7 @@ import {
   Download,
   RotateCw,
   X
+  
 } from "react-feather"
 import classnames from "classnames"
 import { history } from "../../../../history"
@@ -67,28 +68,14 @@ class UsersList extends React.Component {
       {
         headerName: "Email",
         field: "email",
-        width: 250
+        width: 300
       },
-      
-      // {
-      //   headerName: "Department",
-      //   field: "department",
-      //   filter: true,
-      //   width: 160
-      // },
   
       {
         headerName: "Role",
         field: "role.name",
-        width: 250
+        width: 200
       },
-      {
-        headerName: "Status",
-        field: "active",
-        width: 150,
-        
-      },
-     
 
       {
         headerName: "Actions",
@@ -215,7 +202,10 @@ class UsersList extends React.Component {
   render() {
     const { rowData, columnDefs, defaultColDef, pageSize } = this.state
     return (
+     
       <Row className="app-user-list">
+       {rowData !== null ? (
+         <Col>
         <Col sm="12">
           <Card
             className={classnames("card-action card-reload", {
@@ -226,25 +216,7 @@ class UsersList extends React.Component {
               refreshing: this.state.reload
             })}
           >
-            <CardHeader>
-              <CardTitle>Filters</CardTitle>
-              <div className="actions">
-                <ChevronDown
-                  className="collapse-icon mr-50"
-                  size={15}
-                  onClick={this.toggleCollapse}
-                />
-                <RotateCw
-                  className="mr-50"
-                  size={15}
-                  onClick={() => {
-                    this.refreshCard()
-                    this.gridApi.setFilterModel(null)
-                  }}
-                />
-                <X size={15} onClick={this.removeCard} />
-              </div>
-            </CardHeader>
+           
             <Collapse
               isOpen={this.state.collapse}
               onExited={this.onExited}
@@ -252,126 +224,7 @@ class UsersList extends React.Component {
               onExiting={this.onExiting}
               onEntering={this.onEntering}
             >
-              <CardBody>
-                {this.state.reload ? (
-                  <Spinner color="primary" className="reload-spinner" />
-                ) : (
-                  ""
-                )}
-                <Row>
-                  <Col lg="3" md="6" sm="12">
-                    <FormGroup className="mb-0">
-                      <Label for="role">Role</Label>
-                      <Input
-                        type="select"
-                        name="role"
-                        id="role"
-                        value={this.state.role}
-                        onChange={e => {
-                          this.setState(
-                            {
-                              role: e.target.value
-                            },
-                            () =>
-                              this.filterData(
-                                "role",
-                                this.state.role.toLowerCase()
-                              )
-                          )
-                        }}
-                      >
-                        <option value="All">All</option>
-                        <option value="User">User</option>
-                        <option value="Staff">Staff</option>
-                        <option value="Admin">Admin</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col lg="3" md="6" sm="12">
-                    <FormGroup className="mb-0">
-                      <Label for="status">Status</Label>
-                      <Input
-                        type="select"
-                        name="status"
-                        id="status"
-                        value={this.state.selectStatus}
-                        onChange={e => {
-                          this.setState(
-                            {
-                              selectStatus: e.target.value
-                            },
-                            () =>
-                              this.filterData(
-                                "status",
-                                this.state.selectStatus.toLowerCase()
-                              )
-                          )
-                        }}
-                      >
-                        <option value="All">All</option>
-                        <option value="Active">Active</option>
-                        <option value="Blocked">Blocked</option>
-                        <option value="Deactivated">Deactivated</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col lg="3" md="6" sm="12">
-                    <FormGroup className="mb-0">
-                      <Label for="verified">Verified</Label>
-                      <Input
-                        type="select"
-                        name="verified"
-                        id="verified"
-                        value={this.state.verified}
-                        onChange={e => {
-                          this.setState(
-                            {
-                              verified: e.target.value
-                            },
-                            () =>
-                              this.filterData(
-                                "is_verified",
-                                this.state.verified.toLowerCase()
-                              )
-                          )
-                        }}
-                      >
-                        <option value="All">All</option>
-                        <option value="True">True</option>
-                        <option value="False">False</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                  <Col lg="3" md="6" sm="12">
-                    <FormGroup className="mb-0">
-                      <Label for="department">Department</Label>
-                      <Input
-                        type="select"
-                        name="department"
-                        id="department"
-                        value={this.state.department}
-                        onChange={e => {
-                          this.setState(
-                            {
-                              department: e.target.value
-                            },
-                            () =>
-                              this.filterData(
-                                "department",
-                                this.state.department.toLowerCase()
-                              )
-                          )
-                        }}
-                      >
-                        <option value="All">All</option>
-                        <option value="Sales">Sales</option>
-                        <option value="Development">Development</option>
-                        <option value="Management">Management</option>
-                      </Input>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </CardBody>
+             
             </Collapse>
           </Card>
         </Col>
@@ -494,8 +347,14 @@ class UsersList extends React.Component {
                     </Button>{" "}
                   </ModalFooter>
                 </Modal>
-                
-        </Col>
+             
+         </Col>
+         </Col>
+            ):(   
+              <div className="text-center">
+                <Spinner color="primary" size="lg" />
+             </div>) 
+      }
       </Row>
     )
   }

@@ -13,6 +13,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Spinner
 } from "reactstrap"
 import {
   Trash2,
@@ -127,12 +128,16 @@ formatDate = (string) => {
 }
 
 capitilizeText = (text) => {
-  return text.charAt(0).toUpperCase() + text.slice(1)
+    if(text){
+      return text.charAt(0).toUpperCase() + text.slice(1)
+    }
+    else{
+      return null
+    }
  }
 
 
  async componentDidMount() {
-     console.log("hjhjshj")
     await this.props.getRequestList();
     let rowData = this.props.requests
     console.log(this.props)
@@ -208,7 +213,7 @@ capitilizeText = (text) => {
     const { rowData, columnDefs, defaultColDef } = this.state
     return (
       <React.Fragment>
-       
+        {rowData != null ? (
         <Card className="overflow-hidden agGrid-card">
           <CardBody className="py-0">
             {this.state.rowData !== null ? (
@@ -340,6 +345,10 @@ capitilizeText = (text) => {
             </Modal>
             </Col>
         </Card>
+           ):(   
+          <div className="text-center">
+            <Spinner color="primary" size="lg" />
+          </div>) }
       </React.Fragment>
     )
   }

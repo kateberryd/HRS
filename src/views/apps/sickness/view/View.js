@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Button,
+  Spinner
 } from "reactstrap"
 import { Edit,} from "react-feather"
 import { Link } from "react-router-dom"
@@ -52,7 +53,11 @@ formatTime = (string) => {
     console.log(sickness)
     return (
       <React.Fragment>
-       {sickness ? (
+       {sickness == null ? (   
+            <div className="text-center">
+              <Spinner color="primary" size="lg" />
+            </div>) 
+         :(
         <Row>
           <Col sm="12" md="6" lg="6">
             <Card>
@@ -68,7 +73,7 @@ formatTime = (string) => {
                     
                       
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="" sm="9" md="12" lg="12">
                             <div className="users-page-view-table">
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -106,12 +111,7 @@ formatTime = (string) => {
                       
                   </Col>
                   <Col className="mt-1 pl-0" sm="12">
-                    <Button.Ripple className="mr-1" color="primary" outline>
-                      <Link to="/app/user/edit">
-                        <Edit size={15} />
-                        <span className="align-middle ml-50">Edit</span>
-                      </Link>
-                    </Button.Ripple>
+                   
                  
                   </Col>
                 </Row>
@@ -128,9 +128,9 @@ formatTime = (string) => {
                 <Row className="mx-0" col="12">
                   <Col className="pl-0" sm="12" md="12">
                    
-                      <Media className="mt-md-1 mt-0" left>
+                      <Media className=" mt-0" left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="" sm="9" md="12" lg="12">
                           {sickness.comments.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
@@ -164,7 +164,7 @@ formatTime = (string) => {
           </Col>
          <ToastContainer />
         </Row>
-         ):null}
+         )}
       </React.Fragment>
     )
   }

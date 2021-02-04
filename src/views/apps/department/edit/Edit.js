@@ -14,13 +14,17 @@ import classnames from "classnames"
 import { User, Info} from "react-feather"
 import { connect } from "react-redux"
 import {getSingleDepartment} from "../../../../redux/actions/department/departmenentActions"
+import { getGroupList} from "../../../../redux/actions/group/groupActions"
+import {getUserList} from "../../../../redux/actions/user/userListActions"
 import DepartmentForm from "./departmentForm"
-
+import AddWorker from "./addWorker"
 import "../../../../assets/scss/pages/users.scss"
 class DepartmentEdit extends React.Component {
   state = {
     activeTab: "1",
-    department: null
+    department: null,
+    groups: null,
+    users: null,
   }
 
   toggle = tab => {
@@ -29,12 +33,14 @@ class DepartmentEdit extends React.Component {
     })
   }
   async componentDidMount (){
-    const {getSingleDepartment,  match: { params: {departmentId} }} = this.props;
+    const {getSingleDepartment, getGroupList, getUserList,  match: { params: {departmentId} }} = this.props;
     await getSingleDepartment(departmentId);
-    this.setState({department: this.props.department})
+    await getUserList();
+    await getGroupList();
+    this.setState({department: this.props.department, users: this.props.users, groups: this.props.groups})
   }
   render() {
-      const {department, activeTab} = this.state;
+      const {department, activeTab, groups, users} = this.state;
     return (
       <Row>
         <Col sm="12">
@@ -82,8 +88,14 @@ class DepartmentEdit extends React.Component {
               </Nav>
               <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
-                    <Col lg="7">
-                      <DepartmentForm department={department}/> 
+                    <Col lg="12">
+                      <DepartmentForm department={department} users={users} groups={groups}/> 
+                    </Col>
+                </TabPane>
+                
+                <TabPane tabId="2">
+                    <Col lg="12">
+                      <AddWorker department={department} users={users} groups={groups}/> 
                     </Col>
                 </TabPane>
               </TabContent>
@@ -102,6 +114,8 @@ const mapStateToProps = state => {
         error: state.department.error,
         department: state.department.department,
         loading: state.department.loading,
+        groups: state.group.groupList,
+        users: state.userList.userList
       }
   }
-  export default connect(mapStateToProps, { getSingleDepartment })(DepartmentEdit)
+  export default connect(mapStateToProps, { getSingleDepartment, getUserList, getGroupList })(DepartmentEdit)

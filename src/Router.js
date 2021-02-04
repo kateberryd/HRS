@@ -297,10 +297,7 @@ class AppRouter extends React.Component {
            {/*BEGINING OF APP ROUTES */}
            
           <PrivateRoute exact path="/" component={analyticsDashboard} />
-          <PrivateRoute
-            path="/ecommerce-dashboard"
-            component={ecommerceDashboard}
-          />
+       
         
           
 
@@ -326,7 +323,7 @@ class AppRouter extends React.Component {
           <PrivateRoute path="/events" component={eventList} />
           <PrivateRoute path="/event/:eventId" component={eventView} />
           <PrivateRoute path="/categories" component={categories} />
-          <PrivateRoute path="/sicknesses" component={sicknessList} />
+          <PrivateRoute path="/sickness-incidents" component={sicknessList} />
           <PrivateRoute path="/sickness/:sicknessId" component={sicknessView} />
           <PrivateRoute path="/conflicts" component={conflictList} />
           <PrivateRoute path="/quality-assurances" component={ qualityAssuranceList} />
@@ -353,13 +350,7 @@ class AppRouter extends React.Component {
             exact
             component={() => <Redirect to="/email/inbox" />}
           />
-          <PrivateRoute path="/email/:filter" component={email} />
-          <PrivateRoute path="/chat" component={chat} />
-          <PrivateRoute
-            path="/todo"
-            exact
-            component={() => <Redirect to="/todo/all" />}
-          />
+         
           <PrivateRoute path="/todo/:filter" component={todo} />
           <PrivateRoute path="/calendar" component={calendar} />
           <PrivateRoute path="/ecommerce/shop" component={shop} />

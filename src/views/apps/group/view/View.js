@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Button,
+  Spinner
 } from "reactstrap"
 import { connect } from "react-redux"
 import { history } from "../../../../history"
@@ -51,7 +52,11 @@ formatTime = (string) => {
     console.log(group)
     return (
       <React.Fragment>
-       {group ? (
+       {group == null ? (   
+            <div className="text-center">
+              <Spinner color="primary" size="lg" />
+            </div>) 
+         :(
         <Row>
           <Col sm="12" md="6" lg="6">
             <Card>
@@ -64,10 +69,8 @@ formatTime = (string) => {
                    
                       <Media className="mt-md-1 mt-0" left>
                       
-                    
-                      
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="" sm="9" md="12" lg="12">
                             <div className="users-page-view-table">
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -177,62 +180,13 @@ formatTime = (string) => {
             </Card>
             </Col>
             </Row>
-            <Row>
-                <Col lg="12" md="12">
-                <Card>
-              <CardHeader>
-                <CardTitle>Workers</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Row className="mx-0" col="12">
-                  <Col className="pl-0" sm="12" md="12">
-                   
-                      <Media  left>
-                        <Row>
-                          <Col className="" sm="9" md="12" lg="12">
-                          {group.workers.length !== 0 ?(
-                                  <div className="users-page-view-table">
-                                  <div className="d-flex user-info">
-                                    <div className="user-info-title font-weight-bold">
-                                        
-                                        {group.workers.map(element => (
-                                            element.username ? element.username.charAt(0).toUpperCase() + element.username.slice(1) : "No data found"                               
-                                          ))}                            
-                                        
-                                          </div>
-                                  </div>
-                                  <Button.Ripple color="primary" className="mt-1"
-                                    onClick={() => history.push(`/edit-group/${group._id}`)}
-                                    >
-                                      <span className="align-middle ml-50">Add Worker</span>
-                                  </Button.Ripple>
-                               
-                                </div>
-                          ): (
-                            <div className="users-page-view-table">
-                            <div className="d-flex user-info">
-                              <div className="user-info-title font-weight-bold">
-                              No worker Found
-                            </div>
-                         
-                          </div>
-                          </div>
-                          )}
-                          </Col>
-                        </Row>
-                        
-                      </Media>
-                      
-                  </Col>
-                </Row>
-                  </CardBody>
-                </Card>
-                </Col>
-            </Row>
+
+               
           </Col>
          <ToastContainer />
+           
         </Row>
-         ):null}
+         )}
       </React.Fragment>
     )
   }

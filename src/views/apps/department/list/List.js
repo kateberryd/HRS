@@ -13,6 +13,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Spinner
 } from "reactstrap"
 import {
   Edit,
@@ -58,45 +59,32 @@ class departmentTable extends React.Component {
       {
         headerName: "Group",
         field: "group.name",
-        width: 150,
+        width: 200,
         cellRendererFramework: params => {
           return this.capitilizeText(params.value)
        }
       },
       
       {
-        headerName: "Country",
-        field: "country",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
+        headerName: "Head of Dept.",
+        field: "HOD",
+        width: 200,
+       
       },
       
       
       {
-        headerName: "State",
-        field: "state",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
+        
+        headerName: "Asst. Head f Dept.",
+        field: "asst_HOD",
+        width: 200,
+       
       },
-     
-      {
-        headerName: "Address",
-        field: "address",
-        width: 150,
-        cellRendererFramework: params => {
-          return this.capitilizeText(params.value)
-       }
-      },
-     
      
       {
         headerName: "Actions",
         field: "_id",
-        width: 300,
+        width: 400,
         cellRendererFramework: params => {
           return (
             <div className="actions cursor-pointer">
@@ -200,7 +188,8 @@ async componentWillReceiveProps(nextProps){
     const { rowData, columnDefs, defaultColDef } = this.state
     return (
       <React.Fragment>
-       
+       {rowData != null ? (
+
         <Card className="overflow-hidden agGrid-card">
           <CardBody className="py-0">
             {this.state.rowData !== null ? (
@@ -314,6 +303,10 @@ async componentWillReceiveProps(nextProps){
             </Modal>
             </Col>
         </Card>
+          ):(   
+            <div className="text-center">
+              <Spinner color="primary" size="lg" />
+            </div>) }
       </React.Fragment>
     )
   }

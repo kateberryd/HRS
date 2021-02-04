@@ -65,7 +65,7 @@ formatTime = (string) => {
                     
                       
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="" sm="9" md="12" lg="12">
                             <div className="users-page-view-table">
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -90,7 +90,7 @@ formatTime = (string) => {
                                 <div className="user-info-title font-weight-bold">
                                     Department
                                 </div>
-                                <div>{qaulityAssurance ? qaulityAssurance.department.name.charAt(0).toUpperCase() + qaulityAssurance.department.name.slice(1) : null}</div>
+                                <div>{qaulityAssurance.department ? qaulityAssurance.department.name.charAt(0).toUpperCase() + qaulityAssurance.department.name.slice(1) : null}</div>
                             </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -125,7 +125,7 @@ formatTime = (string) => {
                    
                       <Media className="mt-md-1 mt-0" left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="" sm="9" md="12" lg="12">
                           {qaulityAssurance.comments.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">

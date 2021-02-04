@@ -13,6 +13,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Spinner
 } from "reactstrap"
 import {
   Trash2,
@@ -62,8 +63,19 @@ class EventList extends React.Component {
       },
       
       {
-        headerName: "Time",
-        field: "time",
+        headerName: "Start Time",
+        field: "startTime",
+        width: 200,
+        cellRendererFramework: params => {
+          return this.formatTime(params.value)
+       }
+      },
+      
+      
+          
+      {
+        headerName: "End Time",
+        field: "endTime",
         width: 200,
         cellRendererFramework: params => {
           return this.formatTime(params.value)
@@ -111,9 +123,11 @@ formatDate = (string) => {
 
 
 formatTime = (string) => {
+  console.log(string);
   var options = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
   return new Date(string).toLocaleTimeString([],options);
 }
+
 capitilizeText = (text) => {
  return text.charAt(0).toUpperCase() + text.slice(1)
 }
@@ -176,7 +190,7 @@ capitilizeText = (text) => {
     const { rowData, columnDefs, defaultColDef } = this.state
     return (
       <React.Fragment>
-       
+       {rowData != null ? (
         <Card className="overflow-hidden agGrid-card">
           <CardBody className="py-0">
             {this.state.rowData !== null ? (
@@ -290,6 +304,10 @@ capitilizeText = (text) => {
             </Modal>
             </Col>
         </Card>
+       ):(   
+        <div className="text-center">
+          <Spinner color="primary" size="lg" />
+        </div>) }
       </React.Fragment>
     )
   }

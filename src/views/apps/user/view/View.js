@@ -12,9 +12,9 @@ import {
   Row,
   Col,
   Button,
+  Spinner
 } from "reactstrap"
 import { Edit, Trash,} from "react-feather"
-import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
@@ -48,6 +48,11 @@ class UserView extends React.Component {
     }))
   }
   
+  
+  formatDate = (string) => {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(string).toLocaleDateString([],options);
+  }
   
   suspendUser = async () => {
    await this.toggleModal();
@@ -85,6 +90,11 @@ deleteUser = async () => {
     console.log(user)
     return (
       <React.Fragment>
+       {user == null ? (   
+            <div className="text-center">
+              <Spinner color="primary" size="lg" />
+            </div>) 
+         :(
         <Row>
           <Col sm="12">
             <Card>
@@ -117,9 +127,9 @@ deleteUser = async () => {
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                  Name
+                                  Full Name
                                 </div>
-                                <div>Crystal Hamilton</div>
+                               <div>{user ? user.fullName : null}</div>
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -141,9 +151,9 @@ deleteUser = async () => {
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                  Role
+                                  Score Point
                                 </div>
-                                <div>{user.role}</div>
+                                <div>{user.score}</div>
                               </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -160,12 +170,7 @@ deleteUser = async () => {
                     </Media>
                   </Col>
                   <Col className="mt-1 pl-0" sm="12">
-                    <Button.Ripple className="mr-1" color="primary" outline>
-                      <Link to="/app/user/edit">
-                        <Edit size={15} />
-                        <span className="align-middle ml-50">Edit</span>
-                      </Link>
-                    </Button.Ripple>
+                    
                     <Button.Ripple className="mr-1" color="danger" outline
                         onClick={this.toggleModalThree}
                     >
@@ -202,23 +207,15 @@ deleteUser = async () => {
                     <div className="user-info-title font-weight-bold">
                       Date of Birth
                     </div>
-                    <div> {user.dateOfBirthday}</div>
+                    <div> {this.formatDate(user.dateOfBirthday)}</div>
                   </div>
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Mobile
+                      Phone Number
                     </div>
                     <div>{user.phoneNumber}</div>
                   </div>
-                 
-                  <div className="d-flex user-info">
-                    <div className="user-info-title font-weight-bold">
-                     Department
-                    </div>
-                    <div className="text-truncate">
-                      <span>{user.department}</span>
-                    </div>
-                  </div>
+             
                   <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
                       Gender
@@ -235,14 +232,7 @@ deleteUser = async () => {
                       <span>{user.maritalStatus}</span>
                     </div>
                   </div>
-                  <div className="d-flex user-info">
-                    <div className="user-info-title font-weight-bold">
-                      Notification counter
-                    </div>
-                    <div className="text-truncate">
-                      <span>{user.notificationCounter}</span>
-                    </div>
-                  </div>
+               
                 </div>
               </CardBody>
             </Card>
@@ -254,36 +244,28 @@ deleteUser = async () => {
               </CardHeader>
               <CardBody>
                 <div className="users-page-view-table">
-                  <div className="d-flex user-info">
+                <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Secret Token
+                     State of origin
                     </div>
                     <div className="text-truncate">
-                      <span>{user.secretToken}</span>
+                      <span>{user.stateOfOrigin}</span>
                     </div>
                   </div>
-                  <div className="d-flex user-info">
+                 <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                      Device Token
+                     Occupation
                     </div>
                     <div className="text-truncate">
-                        <span>{user.deviceToken}</span>
+                      <span>{user.occupation}</span>
                     </div>
                   </div>
-                  <div className="d-flex user-info">
+                <div className="d-flex user-info">
                     <div className="user-info-title font-weight-bold">
-                        Device Registered
+                     Department
                     </div>
                     <div className="text-truncate">
-                      <span>{user.deviceRegistered}</span>
-                    </div>
-                  </div>
-                  <div className="d-flex user-info">
-                    <div className="user-info-title font-weight-bold">
-                        Profile Status
-                    </div>
-                    <div className="text-truncate">
-                        <span>{user.profileStatus}</span>
+                      <span>{user.department}</span>
                     </div>
                   </div>
                   <div className="d-flex user-info">
@@ -291,17 +273,10 @@ deleteUser = async () => {
                         Registration Date
                     </div>
                     <div className="text-truncate">
-                      <span>{user.date}</span>
+                      <span>{this.formatDate(user.date)}</span>
                     </div>
                   </div>
-                  <div className="d-flex user-info">
-                    <div className="user-info-title font-weight-bold">
-                      Slack
-                    </div>
-                    <div className="text-truncate">
-                      <span>@crystal</span>
-                    </div>
-                  </div>
+                
                 </div>
                 <ToastContainer />
               </CardBody>
@@ -366,6 +341,7 @@ deleteUser = async () => {
                 </Modal>
           </Col>
         </Row>
+         )}
       </React.Fragment>
     )
   }

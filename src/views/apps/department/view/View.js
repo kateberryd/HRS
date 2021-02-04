@@ -8,9 +8,10 @@ import {
   Row,
   Col,
   Button,
+  Spinner
 } from "reactstrap"
 import { Edit,} from "react-feather"
-import { Link } from "react-router-dom"
+import { history } from "../../../../history"
 import { connect } from "react-redux"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
@@ -52,7 +53,11 @@ formatTime = (string) => {
     console.log(department)
     return (
       <React.Fragment>
-       {department ? (
+       {department == null ? (   
+            <div className="text-center">
+              <Spinner color="primary" size="lg" />
+            </div>) 
+         :(
         <Row>
           <Col sm="12" md="6" lg="6">
             <Card>
@@ -63,18 +68,23 @@ formatTime = (string) => {
                 <Row className="mx-0" col="12">
                   <Col className="pl-0" sm="12" md="12">
                    
-                      <Media className="mt-md-1 mt-0" left>
-                      
-                    
-                      
+                      <Media className="mt-md-1 mt-0" left>  
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="" sm="9" md="12" lg="12">
                             <div className="users-page-view-table">
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
                                   Name
                                 </div>
                                 <div>{department.name ? department.name.charAt(0).toUpperCase() + department.name.slice(1) : "No data found"}</div>
+                              </div>
+                              
+                              
+                              <div className="d-flex user-info">
+                                <div className="user-info-title font-weight-bold">
+                                  Group
+                                </div>
+                                <div>{department.group ? department.group.name.charAt(0).toUpperCase() + department.group.name.slice(1) : "No data found"}</div>
                               </div>
                               
                            
@@ -105,14 +115,14 @@ formatTime = (string) => {
                               
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                    HOD
+                                    Head of Dept.
                                 </div>
                                 <div>{department.HOD ? department.HOD.charAt(0).toUpperCase() + department.HOD.slice(1) : "No data found"}</div>
                               </div>
                               
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                   ASST HOD
+                                   ASST. Head of Dept.
                                 </div>
                                 <div>{department.asst_HOD ? department.asst_HOD.charAt(0).toUpperCase() + department.asst_HOD.slice(1) : "No data found"}</div>
                               </div>
@@ -127,11 +137,15 @@ formatTime = (string) => {
                       
                   </Col>
                   <Col className="mt-1 pl-0" sm="12">
-                    <Button.Ripple className="mr-1" color="primary" outline>
-                      <Link to="/app/user/edit">
-                        <Edit size={15} />
+                    <Button.Ripple className="mr-1" color="primary" outline
+                       onClick={() => history.push(`/edit-department/${department._id}`)}
+                    >
+   
+                        <Edit size={15}
+                          
+                         />
                         <span className="align-middle ml-50">Edit</span>
-                      </Link>
+                      
                     </Button.Ripple>
                  
                   </Col>
@@ -186,7 +200,7 @@ formatTime = (string) => {
           </Col>
          <ToastContainer />
         </Row>
-         ):null}
+         )}
       </React.Fragment>
     )
   }

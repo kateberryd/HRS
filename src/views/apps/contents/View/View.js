@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Button,
+  Spinner
 } from "reactstrap"
 import { Edit,} from "react-feather"
 import { Link } from "react-router-dom"
@@ -46,7 +47,11 @@ editContent = async () => {
     console.log(content)
     return (
       <React.Fragment>
-       {content ? (
+      {content == null ? (   
+            <div className="text-center">
+              <Spinner color="primary" size="lg" />
+            </div>) 
+         :(
         <Row>
           <Col sm="12" md="6" lg="6">
             <Card>
@@ -108,12 +113,7 @@ editContent = async () => {
                       
                   </Col>
                   <Col className="mt-1 pl-0" sm="12">
-                    <Button.Ripple className="mr-1" color="primary" outline>
-                      <Link to="/app/user/edit">
-                        <Edit size={15} />
-                        <span className="align-middle ml-50">Edit</span>
-                      </Link>
-                    </Button.Ripple>
+                   
                  
                   </Col>
                 </Row>
@@ -132,7 +132,7 @@ editContent = async () => {
                    
                       <Media className="mt-md-1 mt-0" left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="" sm="9" md="12" lg="12">
                           {content.comments.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
@@ -166,7 +166,7 @@ editContent = async () => {
           </Col>
          <ToastContainer />
         </Row>
-         ):null}
+         )}
       </React.Fragment>
     )
   }

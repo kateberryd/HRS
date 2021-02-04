@@ -9,7 +9,8 @@ import {
   Col,
   Button,
   Label,
-  Input
+  Input,
+  Spinner
 } from "reactstrap"
 import Select from "react-select"
 import { connect } from "react-redux"
@@ -124,7 +125,15 @@ const AbsenteeForm = ({error, loading, createAbsentee, events, users})  => {
                     type="submit"
                     className="mr-1 mb-1"
                   >
-                    {loading ? "Loading..." : "Submit"}
+                                      {
+                      loading ?  
+                    <div>
+                     <Spinner color="white" size="sm" type="grow" />  
+                     <span className="ml-50">Loading...</span>
+                    </div>
+                     : "Submit"
+                
+                    }
                   </Button.Ripple>
                 
                 </FormGroup>

@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Button,
+  Spinner
 } from "reactstrap"
 import { Edit,} from "react-feather"
 import { Link } from "react-router-dom"
@@ -41,8 +42,6 @@ formatTime = (string) => {
 }
  
  
-
-  
  async componentDidMount(){
     const { match: { params } } = this.props;
     await this.props.getSingleCampus(params.campusId)
@@ -53,7 +52,11 @@ formatTime = (string) => {
     console.log(campus)
     return (
       <React.Fragment>
-       {campus ? (
+       {campus == null ? (   
+            <div className="text-center">
+              <Spinner color="primary" size="lg" />
+            </div>) 
+         :(
         <Row>
           <Col sm="12" md="6" lg="6">
             <Card>
@@ -65,11 +68,8 @@ formatTime = (string) => {
                   <Col className="pl-0" sm="12" md="12">
                    
                       <Media className="mt-md-1 mt-0" left>
-                      
-                    
-                      
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col  sm="9" md="12" lg="12">
                             <div className="users-page-view-table">
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
@@ -121,14 +121,14 @@ formatTime = (string) => {
                               
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                    HOD
+                                    Head of Dept.
                                 </div>
                                 <div>{campus.HOD ? campus.HOD : "No data found"}</div>
                               </div>
                               
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                    ASST HOD
+                                    ASST Head of Dept.
                                 </div>
                                 <div>{campus.asst_HOD ? campus.asst_HOD : "No data found"}</div>
                               </div>
@@ -142,11 +142,14 @@ formatTime = (string) => {
                       
                   </Col>
                   <Col className="mt-1 pl-0" sm="12">
-                    <Button.Ripple className="mr-1" color="primary" outline>
-                      <Link to="/app/user/edit">
+                    <Button.Ripple className="mr-1" color="primary" outline
+                       onClick={() => history.push(`/edit-campus/${campus._id}`)}
+                    >
+                      <Link to="">
                         <Edit size={15} />
                         <span className="align-middle ml-50">Edit</span>
                       </Link>
+                      
                     </Button.Ripple>
                  
                   </Col>
@@ -249,65 +252,10 @@ formatTime = (string) => {
                 </Col>
             </Row>
             
-            <Row lg="12" md="12">
-            <Col lg="12" md="12">
-                <Card>
-                <CardHeader>
-                    <CardTitle>Workers</CardTitle>
-                </CardHeader>
-                <CardBody>
-                 <Row className="mx-0" col="12">
-                  <Col className="pl-0" sm="12" md="12">
-                      <Media left>
-                        <Row>
-                          <Col  sm="9" md="12" lg="12">
-                          {campus.workers.length !== 0 ?(
-                                  <div className="users-page-view-table">
-                                  <div className="d-flex user-info">
-                                    <div className="user-info-title font-weight-bold">
-                                        
-                                    {campus.workers.map(element => (
-                                            element.username ? element.username.charAt(0).toUpperCase() + element.username.slice(1) : "No data found"                               
-                                          ))}                            
-                                                                   
-                                        
-                                          </div>
-                                  </div>
-                                  <Button.Ripple color="primary" className="mt-1"
-                                    onClick={() => history.push(`/edit-campus/${campus._id}`)}
-                                    >
-                                      <span className="align-middle ml-50">Add Worker</span>
-                                  </Button.Ripple>
-                               
-                                </div>
-                          ): (
-                            <div className="users-page-view-table">
-                            <div className="d-flex user-info">
-                              <div className="user-info-title font-weight-bold">
-                              <Button.Ripple color="primary" className="mt-1"
-                                    onClick={() => history.push(`/edit-campus/${campus._id}`)}
-                                    >
-                                      <span className="align-middle ml-50">Add Worker</span>
-                                  </Button.Ripple>
-                            </div>
-                         
-                          </div>
-                          </div>
-                          )}
-                            </Col>
-                            </Row>
-                        </Media>
-                        
-                    </Col>
-                    </Row>
-                </CardBody>
-                </Card>
-                </Col>
-            </Row>
           </Col>
          <ToastContainer />
         </Row>
-         ):null}
+         )}
       </React.Fragment>
     )
   }

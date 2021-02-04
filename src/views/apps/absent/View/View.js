@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Button,
+  Spinner,
 } from "reactstrap"
 import { Edit,} from "react-feather"
 import { Link } from "react-router-dom"
@@ -56,7 +57,11 @@ editAbsentee = async () => {
     console.log(absentee)
     return (
       <React.Fragment>
-       {absentee ? (
+      {absentee == null ? (   
+            <div className="text-center">
+              <Spinner color="primary" size="lg" />
+            </div>) 
+         :(
         <Row>
           <Col sm="12" md="6" lg="6">
             <Card>
@@ -95,7 +100,7 @@ editAbsentee = async () => {
                             </div>
                               <div className="d-flex user-info">
                                 <div className="user-info-title font-weight-bold">
-                                    User
+                                    Person
                                 </div>
                                 <div>{absentee ? absentee.user.username.charAt(0).toUpperCase() + absentee.user.username.slice(1) : null}</div>
                               </div>
@@ -110,12 +115,7 @@ editAbsentee = async () => {
                       
                   </Col>
                   <Col className="mt-1 pl-0" sm="12">
-                    <Button.Ripple className="mr-1" color="primary" outline>
-                      <Link to="/app/user/edit">
-                        <Edit size={15} />
-                        <span className="align-middle ml-50">Edit</span>
-                      </Link>
-                    </Button.Ripple>
+                  
                  
                   </Col>
                 </Row>
@@ -132,9 +132,9 @@ editAbsentee = async () => {
                 <Row className="mx-0" col="12">
                   <Col className="pl-0" sm="12" md="12">
                    
-                      <Media className="mt-md-1 mt-0" left>
+                      <Media className=" mt-0" left>
                         <Row>
-                          <Col className="mt-2" sm="9" md="12" lg="12">
+                          <Col className="" sm="9" md="12" lg="12">
                           {absentee.comments.length !== 0 ?(
                                   <div className="users-page-view-table">
                                   <div className="d-flex user-info">
@@ -168,7 +168,7 @@ editAbsentee = async () => {
           </Col>
          <ToastContainer />
         </Row>
-         ):null}
+         )}
       </React.Fragment>
     )
   }

@@ -18,6 +18,7 @@ import { Formik, Field, Form } from "formik"
 import * as Yup from "yup"
 import { createEvent } from "../../../../redux/actions/event/eventActions"
 import {Message} from "../../../../components/setAlert/message"
+import {Spinner} from "reactstrap"
 import "flatpickr/dist/themes/light.css";
 import "../../../../assets/scss/plugins/forms/flatpickr/flatpickr.scss"
 
@@ -56,7 +57,8 @@ const EventForm = ({error, loading, createEvent, categories})  => {
               image: null,
               location: "",
               date: new Date(),
-              dateTime: new Date(),
+              startTime: new Date(),
+              endTime: new Date(),
               
             }}
             validationSchema={formSchema}
@@ -91,7 +93,7 @@ const EventForm = ({error, loading, createEvent, categories})  => {
                 <FormGroup>
                   <Label className="mb-1" for="category">Category</Label>
                   <Select
-                    options={categories}
+                    options={categories ? categories: null}
                     className="React"
                     classNamePrefix="select"
                     id="category"
@@ -116,23 +118,38 @@ const EventForm = ({error, loading, createEvent, categories})  => {
             </Col>
             
             <Col className="mb-3" md="6" sm="12">
-              <Label className="mb-1">Time</Label>
+              <Label className="mb-1">Start Time</Label>
               <Flatpickr
                 className="form-control"
-                name="dateTime"
-                value={values.dateTime}
+                name="startTime"
+                value={values.startTime}
                 options={{
                   enableTime: true,
                   noCalendar: true,
                   dateFormat: "H:i",
                 }}
-                onChange={value => setFieldValue('dateTime', value)}
+                onChange={value => setFieldValue('startTime', value)}
+              />
+            </Col>
+            
+            <Col className="mb-3" md="6" sm="12">
+              <Label className="mb-1">End Time</Label>
+              <Flatpickr
+                className="form-control"
+                name="endTime"
+                value={values.endTime}
+                options={{
+                  enableTime: true,
+                  noCalendar: true,
+                  dateFormat: "H:i",
+                }}
+                onChange={value => setFieldValue('endTime', value)}
               />
             </Col>
                 
               <Col sm="6">
                 <FormGroup>
-                  <Label className="mb-1" for="addressVertical">Location</Label>
+                  <Label className="mb-1" for="addressVertical">Venue</Label>
                   <Field
                     type="text"
                     name="location"
@@ -183,7 +200,15 @@ const EventForm = ({error, loading, createEvent, categories})  => {
                     type="submit"
                     className="mr-1 mb-1"
                   >
-                    {loading ? "Loading..." : "Submit"}
+                    {
+                      loading ?  
+                    <div>
+                     <Spinner color="white" size="sm" type="grow" />  
+                     <span className="ml-50">Loading...</span>
+                    </div>
+                     : "Submit"
+                
+                    }
                   </Button.Ripple>
                 
                 </FormGroup>

@@ -173,28 +173,3 @@ export const getCampusLoading = () => {
 
 
 
-export const addCampusWorker = ({worker, campus}) => async dispatch => {
-    dispatch(setCampusLoading());
-    await axios
-    .put(`/campus/single?id=${campus}`, {
-      workers: worker[0]._id
-    }).then(res => {
-        if(res.data){
-         dispatch({
-             type:CREATE_CAMPUS_SUCCESS,
-             payload: res.data.data
-         })
-         toast.success("Worker Added Successfully")
-        }
-         console.log(res.data.data);
-       })
-       .catch(err => {
-           console.log(err.response)
-          if(err){
-           dispatch({
-               type: CREATE_CAMPUS_FAILED,
-               payload: err.response
-           })
-          }
-      })
-}

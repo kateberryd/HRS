@@ -11,12 +11,11 @@ import {
   TabPane
 } from "reactstrap"
 import classnames from "classnames"
-import { User, Info, } from "react-feather"
+import { Edit2,  } from "react-feather"
 import { connect } from "react-redux"
 import {getUserList} from "../../../../redux/actions/user/userListActions"
 import {getSingleCampus} from "../../../../redux/actions/campus/campusActions"
 import CampusForm from "./campusForm"
-import AddWorker from "../worker/addWorker"
 
 import "../../../../assets/scss/pages/users.scss"
 class CampusEdit extends React.Component {
@@ -38,7 +37,7 @@ class CampusEdit extends React.Component {
     this.setState({campus: this.props.campus, users:  this.props.users})
   }
   render() {
-      const {campus, users, activeTab} = this.state;
+      const {campus,  activeTab} = this.state;
     return (
       <Row>
         <Col sm="12">
@@ -54,23 +53,11 @@ class CampusEdit extends React.Component {
                       this.toggle("1")
                     }}
                   >
-                    <User size={16} />
+                    <Edit2 size={16} />
                     <span className="align-middle ml-50">Account</span>
                   </NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({
-                      active: this.state.activeTab === "2"
-                    })}
-                    onClick={() => {
-                      this.toggle("2")
-                    }}
-                  >
-                    <Info size={16} />
-                    <span className="align-middle ml-50">Workers</span>
-                  </NavLink>
-                </NavItem>
+              
                 
               </Nav>
               <TabContent activeTab={activeTab}>
@@ -80,11 +67,7 @@ class CampusEdit extends React.Component {
                     </Col>
                 </TabPane>
                 
-                <TabPane tabId="2">
-                    <Col lg="7">
-                        <AddWorker users={users} campus={campus} /> 
-                    </Col>
-                </TabPane>
+                
               </TabContent>
             </CardBody>
           </Card>

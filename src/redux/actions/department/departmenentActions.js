@@ -117,15 +117,25 @@ export const deleteDepartment = (id) => async dispatch => {
 }
 
 
-export const EditSingleDepartment = (id) => async dispatch => {
+export const EditSingleDepartment = (formData) => async dispatch => {
     dispatch(editSingleDepartment());
-    await axios.get(`/user-management/get-single-user/${id}`)
+    await axios.put(`/department/single?=${formData.id}`,
+    {
+        name: formData.name,
+        state: formData.state,
+        group: formData.group,
+        country: formData.country,
+        address: formData.address,
+        HOD: formData.HOD,
+        asst_HOD: formData.asst_HOD
+      })
        .then(res => {
         if(res.data){
          dispatch({
              type:EDIT_DEPARTMENT_SUCCESS,
              payload: res.data.data
          })
+         toast.success("Department Updated Successfully")
         }
        })
        .catch(err => {
@@ -174,4 +184,25 @@ export const getSingleDepartmentLoading = () => {
     return{
         type: GET_SINGLE_DEPARTMENT,
     }
+}
+
+
+export const addWorker = ({worker, department}) => async dispatch => {
+    dispatch(setDepartmentLoading());
+    let workerId = [];
+    workerId.push(worker[0]._id)
+    console.log(workerId)
+    await axios
+    .post(`/department/add-worker?id=${department}`, {
+      workers: workerId
+    }).then(res => {
+        if(res.data){
+      
+         toast.success("Worker Added Successfully")
+        }
+         console.log(res.data.data);
+       })
+       .catch(err => {
+           console.log(err.response)
+      })
 }
